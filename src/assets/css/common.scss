@@ -43,7 +43,11 @@ height: 100%;
 }
 
 .ba-shadow {
-	box-shadow: 0 0 100px 0 $shadow-color;
+	box-shadow: 0 20px 50px 0px $shadow-color;
+}
+
+.ba-shadow-btm {
+	box-shadow: 0 20px 50px 0px #5c6783a3;
 }
 
 .ba-basic-color {
@@ -56,4 +60,34 @@ height: 100%;
 
 .fr {
 	float: right;
+}
+
+.mar-top-20 {
+	margin-top: 20px;
+}
+
+.mar-top-30 {
+	margin-top: 30px;
+}
+
+.param-name-color {
+	font-size: 20px !important;
+	color: $param-color;
+}
+
+.el-input__inner {
+	border: 0px;
+	background: $panel-bg-color;
+	border-radius: 0;
+	border-bottom: 1px solid #b9beda;
+	transition: all .3s;
+	padding: 0;
+}
+
+.el-input__inner:focus {
+	border-color: $basic-color;
+}
+
+.el-input__inner:hover {
+	border-color: $basic-color;
 }
