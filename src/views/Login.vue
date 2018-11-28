@@ -1,5 +1,6 @@
 <template>
-	<div class="login-wapper vertical-center">
+	<div class="wapper vertical-center">
+		<div class="bg-cover"></div>
 		<div class="login-container">
 			<div class="login-banner ba-shadow">
 				<div class="banner-bg">
@@ -39,7 +40,7 @@
 								<span class="param-name-color">密 码</span>
 							</el-form-item>
 							<el-form-item prop="password">
-								<el-input type="text" v-model="loginForm.password" autocomplete="off"></el-input>
+								<el-input type="password" v-model="loginForm.password" autocomplete="off" @keyup.enter.native="login('loginForm')"></el-input>
 							</el-form-item>
 							<el-form-item class="mar-top-30">
 								<el-button @click="login('loginForm')">登 录</el-button>
@@ -69,13 +70,13 @@
 								<span class="param-name-color">密 码</span>
 							</el-form-item>
 							<el-form-item prop="password">
-								<el-input v-model="registerForm.password" autocomplete="off"></el-input>
+								<el-input type="password" v-model="registerForm.password" autocomplete="off"></el-input>
 							</el-form-item>
 							<el-form-item class="mar-top-20">
 								<span class="param-name-color">确认密码</span>
 							</el-form-item>
 							<el-form-item prop="comfirmPwd">
-								<el-input v-model="registerForm.comfirmPwd" autocomplete="off"></el-input>
+								<el-input type="password" v-model="registerForm.comfirmPwd" autocomplete="off" @keyup.enter.native="register('registerForm')"></el-input>
 							</el-form-item>
 							<el-form-item class="mar-top-30">
 								<el-button @click="register('registerForm')">注 册</el-button>
@@ -122,9 +123,12 @@ export default {
 		},
 		login(form) {
 			let self = this
+			let param = self.loginForm
 			self.$refs[form].validate((valid) => {
 				if (valid) {
-					console.log('验证成功')
+					if( param.stuId === 'admin' && param.password === '123456') {
+						self.$router.push('/home')
+					}
 				} else {
 					console.log('验证失败')
 				}
@@ -144,9 +148,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-	.login-wapper {
-		width: 100%;
-		height: 100%;
+	.wapper {
 		.login-container {
 			position: relative;
 			width: 998px;
@@ -154,7 +156,7 @@ export default {
 			.login-banner {
 				position: absolute;
 				width: 100%;
-				height: 564px;
+				height: 500px;
 				z-index: 9;
 				top: 50%;
 				-webkit-transform: translateY(-50%);
