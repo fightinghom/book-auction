@@ -11,6 +11,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 //引入fontawesome图标库
 import '@fortawesome/fontawesome-free/css/all.css'
+import '@fortawesome/fontawesome-free/js/all.js'
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
