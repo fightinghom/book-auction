@@ -1,34 +1,34 @@
 <template>
 	<div class="menu ba-basic-color-aph" :style="{'width': firstMenu ? '200px' : '50px'}">
-		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu">
+		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu" @click="routeTo('/auction')">
 			<div class="vertical-center menu-icon fl"><i class="fas fa-shopping-bag "></i></div>
 			<div class="menu-name fl">
-				<span>拍卖会</span>
+				<span>正在拍卖</span>
 				<div class="vertical-center menu-icon fr"><i class="fas fa-angle-right "></i></div>
 			</div>
 		</div>
-		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu">
-			<div class="vertical-center menu-icon fl"><i class="fas fa-book "></i></div>
+		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu"  @click="routeTo('/sell')">
+			<div class="vertical-center menu-icon fl"><i class="fas fa-box-open "></i></div>
 			<div class="menu-name fl">
 				<span>我的竞卖</span>
 				<div class="vertical-center menu-icon fr"><i class="fas fa-angle-right "></i></div>
 			</div>
 		</div>
-		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu">
+		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu"  @click="routeTo('/purchase')">
 			<div class="vertical-center menu-icon fl"><i class="fas fa-shopping-cart "></i></div>
 			<div class="menu-name fl">
 				<span>我的竞购</span>
 				<div class="vertical-center menu-icon fr"><i class="fas fa-angle-right "></i></div>
 			</div>
 		</div>
-		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu">
+		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu" @click="routeTo('/feedback')">
 			<div class="vertical-center menu-icon fl"><i class="fas fa-comments "></i></div>
 			<div class="menu-name fl">
 				<span>互评记录</span>
 				<div class="vertical-center menu-icon fr"><i class="fas fa-angle-right "></i></div>
 			</div>
 		</div>
-		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu">
+		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu" @click="routeTo('/forum')">
 			<div class="vertical-center menu-icon fl"><i class="fas fa-users "></i></div>
 			<div class="menu-name fl">
 				<span>用户论坛</span>
@@ -42,6 +42,11 @@ export default {
 	data() {
 		return {
 			firstMenu: false
+		}
+	},
+	methods: {
+		routeTo(rn) {
+			this.$router.push(rn)
 		}
 	}
 }
