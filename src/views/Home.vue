@@ -26,14 +26,17 @@
 			</el-container>
 		</el-container>
 		<el-dialog
-		width="80%"
+		width="100%"
 		:visible.sync="userInfo"
-		title="个人资料">
+		title="个人资料"
+		custom-class="ba-bg-color max-w-600">
+			<ba-user-info></ba-user-info>
 		</el-dialog>
 	</div>
 </template>
 <script>
 import Menu from '@/components/Menu.vue'
+import UserInfo from '@/components/UserInfo.vue'
 export default {
 	data() {
 		return {
@@ -43,7 +46,8 @@ export default {
 		}
 	},
 	components: {
-		BaMenu: Menu
+		BaMenu: Menu,
+		BaUserInfo: UserInfo
 	},
 	methods: {
 		logout() {
@@ -106,12 +110,6 @@ export default {
 			padding-bottom: 0;
 			padding-right: 0;
 			overflow-y: scroll;
-		}
-	}
-	.wapper {
-		.el-dialog__header {
-			color: #eaedfa;
-			background: #002aff;
 		}
 	}
 </style>

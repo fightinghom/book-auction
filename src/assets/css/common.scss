@@ -13,6 +13,14 @@ height: 100%;
   overflow: hidden;
 }
 
+a {
+	text-decoration-line: none;
+	color: #383b4a;
+	&:hover {
+		color: #002aff;
+	}
+}
+
 #app {
 	font-family: 'Avenir', Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
@@ -58,7 +66,14 @@ height: 100%;
 }
 
 .ba-basic-color {
-	background-color: $basic-color;
+	background-color: $basic-color !important;
+}
+.ba-bg-color {
+	background-color: $panel-bg-color;
+}
+
+.ba-panel-color {
+	background-color: #ecf5ff !important;
 }
 
 .ba-basic-color-aph {
@@ -90,9 +105,17 @@ height: 100%;
 	margin-top: 30px;
 }
 
+.pad-0 {
+	padding: 0;
+}
+
 .param-name-color {
 	font-size: 20px !important;
 	color: $param-color;
+}
+
+.max-w-600 {
+	max-width: 600px
 }
 
 .el-input__inner {
