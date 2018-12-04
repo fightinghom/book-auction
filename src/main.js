@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Vuex from 'vuex'
+import store from './vuex/store'
 
 //引用element-ui
 import ElementUI from 'element-ui';
@@ -17,9 +18,26 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(Vuex)
 /* eslint-disable no-new */
+
+router.beforeEach((to, from, next) => {
+	/* store.getters.getLoginStatus ? next() : next('/') */
+	/* if ( store.getters.getLoginStatus) {
+		next()
+	} else {
+		next({path: '/'})
+	} */
+	if (to.path === '/login' || to.path === '/') {
+		next()
+		//return
+	} else {
+		store.getters.getLoginStatus ? next() : next('/')
+	}
+})
+
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App),
   components: { App },
   template: '<App/>'

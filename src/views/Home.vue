@@ -7,9 +7,9 @@
 				<div class="plafrom-title fl">攀枝花学院二手图书拍卖平台</div>
 				<div class="fr personal-info" @mouseout="userFunc = !userFunc"  @mouseover="userFunc = !userFunc" :style="{'height': userFunc ? '150px' : '50px'}">
 					<div class="user-account">
-						<div class="user-name fl">冲儿子是个大傻逼</div>
+						<div class="user-name fl">{{displayName}}</div>
 						<div class="user-image fl">
-							<img :src="defaultImg" alt="">
+							<img :src="displayImg" alt="">
 						</div>
 					</div>
 					<div class="user-account ba-basic-color-aph" @click="userInfo = true">个人资料</div>
@@ -30,29 +30,66 @@
 		:visible.sync="userInfo"
 		title="个人资料"
 		custom-class="ba-bg-color max-w-600">
-			<ba-user-info></ba-user-info>
+			<ba-user-info @closeDialog="closeDialog"></ba-user-info>
 		</el-dialog>
 	</div>
 </template>
 <script>
 import Menu from '@/components/Menu.vue'
 import UserInfo from '@/components/UserInfo.vue'
+import {mapActions, mapGetters} from 'vuex'
 export default {
 	data() {
 		return {
 			userFunc: false,
 			defaultImg: require('@/assets/image/default.gif'),
-			userInfo: false
+			userInfo: false,
+			user: {}
 		}
 	},
 	components: {
 		BaMenu: Menu,
 		BaUserInfo: UserInfo
 	},
-	methods: {
-		logout() {
-			this.$router.push('/')
+	computed: {
+		...mapGetters(['getUserinfo']),
+		displayName() {
+			let self = this
+			let name = self.user.name
+			let nickname = self.user.nickname
+			let stuId = self.user.stuId
+			if (nickname) {
+				return nickname
+			}
+			if (name) {
+				return name
+			}
+			if (stuId) {
+				return stuId
+			}
+
+		},
+		displayImg() {
+			let self = this
+			let img = self.user.img
+			return img ? img : self.defaultImg
 		}
+	},
+	methods: {
+		...mapActions(['setUserinfo', 'setLoginStatus']),
+		logout() {
+			this.setUserinfo({})
+			this.setLoginStatus(false)
+			this.$router.push('/')
+		},
+		closeDialog(val) {
+			if (val) {
+				this.userInfo = false
+			}
+		}
+	},
+	mounted() {
+		this.user = this.getUserinfo
 	}
 }
 </script>

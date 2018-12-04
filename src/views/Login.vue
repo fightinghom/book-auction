@@ -90,6 +90,7 @@
 </template>
 <script>
 import {validate} from '@/utils/validate.js'
+import {mapActions, mapGetters} from 'vuex'
 export default {
 	data() {
 		return {
@@ -116,7 +117,11 @@ export default {
 			}
 		}
 	},
+	computed: {
+		...mapGetters(['getUserinfo', 'getLoginStatus'])
+	},
 	methods: {
+		...mapActions(['setUserinfo', 'setLoginStatus']),
 		change(form) {
 			this.isLogin = !this.isLogin
 			this.$refs[form].resetFields()
@@ -126,7 +131,15 @@ export default {
 			let param = self.loginForm
 			self.$refs[form].validate((valid) => {
 				if (valid) {
-					if( param.stuId === 'admin' && param.password === '123456') {
+					if( param.stuId === '201510801007' && param.password === '123456') {
+						self.setUserinfo({
+							stuId: '201510801007',
+							name: '杨皓',
+							nickname: '闲云逸鹤',
+							phone: '15208441727',
+							img: ''
+						})
+						self.setLoginStatus(true)
 						self.$router.push('/home')
 					}
 				} else {

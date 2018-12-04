@@ -1,12 +1,12 @@
 <template>
 	<div class="user">
 		<div class="info-back">
-			<div class="info-name">冲儿子是个大傻逼</div>
+			<div class="info-name">{{displayName}}</div>
 		</div>
 		<div class="info-panel">
 			<div class="photo vertical-center">
 				<div class="info-image">
-					<img :src="defaultImg" alt="">
+					<img :src="userinfo.img ? userinfo.img : defaultImg" alt="">
 					<input ref="imgInput" type="file" accept="image/*"/>
 				</div>
 			</div>
@@ -16,39 +16,60 @@
 					<div>{{userinfo.stuId}}</div>
 				</el-form-item>
 				<el-form-item label="姓名:">
-					<el-input></el-input>
+					<el-input v-model="userinfo.name"></el-input>
 				</el-form-item>
 				<el-form-item label="昵称:">
-					<el-input></el-input>
+					<el-input v-model="userinfo.nickname"></el-input>
 				</el-form-item>
 				<el-form-item label="手机:">
-					<el-input></el-input>
+					<el-input v-model="userinfo.phone"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button>保存修改</el-button>
+					<el-button @click="saveInfo">保存修改</el-button>
 				</el-form-item>
 			</el-form>
 		</div>
 	</div>
 </template>
 <script>
+import {mapActions, mapGetters} from 'vuex'
 export default {
 	data() {
 		return {
 			defaultImg: require('@/assets/image/default.gif'),
-			userinfo: {
-				stuId: '201510801007',
-				name: '',
-				nickname: '',
-				phone: '',
-				img: ''
+			userinfo: {}
+		}
+	},
+	computed: {
+		...mapGetters(['getUserinfo']),
+		displayName() {
+			let self = this
+			let name = self.userinfo.name
+			let nickname = self.userinfo.nickname
+			let stuId = self.userinfo.stuId
+			if (nickname) {
+				return nickname
+			}
+			if (name) {
+				return name
+			}
+			if (stuId) {
+				return stuId
 			}
 		}
 	},
 	methods: {
+		...mapActions(['setUserinfo']),
 		imageUp() {
 			this.$refs.imgInput.click()
+		},
+		saveInfo() {
+			this.setUserinfo(this.userinfo)
+			this.$emit('closeDialog', true)
 		}
+	},
+	mounted() {
+		this.userinfo = this.getUserinfo
 	}
 }
 </script>
