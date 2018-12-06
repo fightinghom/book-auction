@@ -146,7 +146,7 @@ export default {
 		.el-main {
 			padding-bottom: 0;
 			padding-right: 0;
-			overflow-y: scroll;
+			overflow-y: auto;
 		}
 	}
 </style>

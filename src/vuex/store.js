@@ -6,10 +6,14 @@ import * as types from './mutations'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
+	//状态值
 	state: {
 		userinfo: JSON.parse(sessionStorage.getItem('user')),
 		loginStatus: sessionStorage.getItem('loginStatus')
 	},
+
+
+	//获取状态值
 	getters: {
 		getUserinfo: ({userinfo}) => {
 			return userinfo
@@ -18,6 +22,9 @@ const store = new Vuex.Store({
 			return loginStatus
 		}
 	},
+
+
+	//改变状态值
 	mutations: {
 		[types.User_Info](state, userinfo) {
 			state.userinfo = userinfo
@@ -28,6 +35,9 @@ const store = new Vuex.Store({
 			sessionStorage.setItem('loginStatus', status)
 		}
 	},
+
+
+	//调用改变状态值方法
 	actions: {
 		setUserinfo: ({commit}, info) => {
 			return commit(types.User_Info, info)

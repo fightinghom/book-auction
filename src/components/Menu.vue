@@ -57,6 +57,7 @@ export default {
 		position: absolute;
 		overflow: hidden;
 		transition: all 0.5s;
+		//border-right: #eaedfa 1px solid;
 		.menu-item {
 			height: 50px;
 			width: 200px;

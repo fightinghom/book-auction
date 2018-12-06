@@ -1,0 +1,134 @@
+<template>
+	<div class="auction-main">
+		<!-- <el-carousel :interval="4000" indicator-position="outside" height="300px">
+			<el-carousel-item v-for="item in 6" :key="item">
+				<h3>{{ item }}</h3>
+			</el-carousel-item>
+		</el-carousel> -->
+		<!-- 按分类推荐 -->
+		<div class="recommend" v-for="item of categoryList" :key="item.id">
+			<!-- 分类名称 -->
+			<div class="rec-title">
+				<div class="line fl"></div>
+				<div class="rec-name fl">{{item.name}}</div>
+				<div class="line fl"></div>
+			</div>
+			<!-- 推荐图书 -->
+			<div class="rec-book">
+				<div class="book fl ba-bg-color" v-for="item of 4" :key="item">
+					<!-- 图书照片 -->
+					<div class="book-img"></div>
+					<!-- 图书名称 -->
+					<p class="book-name">书的名字</p>
+					<!-- 图书当前最高价 -->
+					<div class="book-price">书的价格</div>
+					<!-- 剩余拍卖时间 -->
+					<div class="book-time">3天1时20分20秒</div>
+				</div>
+				<!-- 更多同类图书 -->
+				<div class="book fl vertical-center ba-bg-color">
+					<div class="more">
+						<p class="fl">更多</p>
+						<div class="more-icon vertical-center fr"><i class="fas fa-chevron-circle-right fa-4x"></i></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+<script>
+import { list } from '@/utils/category.js'
+export default {
+	data() {
+		return {
+			categoryList: list
+		}
+	}
+}
+</script>
+<style lang="scss" scoped>
+	.auction-main {
+		width: 100%;
+		.el-carousel__item h3 {
+			color: #475669;
+			opacity: 0.75;
+			line-height: 300px;
+			margin: 0;
+		}
+
+		.el-carousel__item:nth-child(2n) {
+			background-color: #99a9bf;
+		}
+
+		.el-carousel__item:nth-child(2n+1) {
+			background-color: #d3dce6;
+		}
+		.recommend {
+			width: 100%;
+			.rec-title {
+				display: block;
+				font-size: 30px;
+				margin: 0 auto;
+				width: 250px;
+				height: 50px;
+				padding: 10px 0;
+				.rec-name {
+					width: 150px;
+					height: 50px;
+					line-height: 50px;
+				}
+				.line {
+					width: 50px;
+					height: 24px;
+					border-bottom: 2px #383b4a solid;
+				}
+			}
+			.rec-book {
+				height: 275px;
+				//padding: 0 10px;
+				.book {
+					width: calc(20% - 1px);
+					height: 100%;
+					border-right: 1px #99a9bf solid;
+					transition: all 0.3s;
+					&:hover {
+						box-shadow: 0 0 20px 2px #5c6783a3;
+						cursor: pointer;
+						position: relative;
+					}
+					&:last-child {
+						width: 20%;
+						border-right: 0px;
+					}
+					.book-img {
+						width: 150px;
+						height: 150px;
+						background: #666;
+						margin: 20px auto;
+					}
+					.book-name {
+						padding: 0 20px;
+						margin-bottom: 10px;
+					}
+					.book-price {
+						padding: 0 20px;
+						margin-bottom: 10px;
+					}
+					.more {
+						width: 150px;
+						p {
+							height: 80px;
+							line-height: 80px;
+							font-size: 30px;
+							padding: 0 10px;
+						}
+						.more-icon {
+							height: 80px;
+							color: #002aff;
+						}
+					}
+				}
+			}
+		}
+	}
+</style>
