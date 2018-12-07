@@ -1,10 +1,12 @@
 <template>
 	<div class="auction-main">
+		<!-- 轮播图 -->
 		<!-- <el-carousel :interval="4000" indicator-position="outside" height="300px">
 			<el-carousel-item v-for="item in 6" :key="item">
 				<h3>{{ item }}</h3>
 			</el-carousel-item>
 		</el-carousel> -->
+		<ba-slider></ba-slider>
 		<!-- 按分类推荐 -->
 		<div class="recommend" v-for="item of categoryList" :key="item.id">
 			<!-- 分类名称 -->
@@ -38,11 +40,15 @@
 </template>
 <script>
 import { list } from '@/utils/category.js'
+import Slider from '@/components/auction/Slider'
 export default {
 	data() {
 		return {
 			categoryList: list
 		}
+	},
+	components: {
+		BaSlider: Slider
 	}
 }
 </script>
