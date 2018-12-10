@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Home from '@/views/Home'
 import Login from '@/views/Login'
 import Auction from '@/views/auction/Index'
+	import AuctionMain from '@/views/auction/Main'
+	import AuctionCategory from '@/views/auction/Category'
 import Sell from '@/views/sell/Index'
 import Purchase from '@/views/purchase/Index'
 import Evaluate from '@/views/evaluate/Index'
@@ -30,7 +32,22 @@ export default new Router({
 			{
 				path: '/auction',
 				name: 'Auction',
-				component: Auction
+				component: Auction,
+				redirect: '/auction_main',
+				children: [
+					{
+						path: '/auction_main',
+						name: 'AuctionMain',
+						component: AuctionMain,
+					},
+					{
+						path: '/auction/:cid',
+						component: AuctionCategory
+					},
+					/* {
+						path: '/auction/:bid',
+					} */
+				]
 			},
 
 			{

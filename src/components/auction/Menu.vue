@@ -31,7 +31,7 @@ export default {
 	},
 	methods: {
 		showById(id) {
-			console.log(id)
+			this.$router.push('/auction/' + id)
 		}
 	}
 }

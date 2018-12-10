@@ -142,6 +142,8 @@ export default {
 		}
 		.el-aside {
 			height: 100%;
+			/* position: relative;
+			z-index: 999; */
 		}
 		.el-main {
 			padding-bottom: 0;

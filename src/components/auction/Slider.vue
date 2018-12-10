@@ -59,6 +59,9 @@ export default {
 	mounted() {
 		this.move(0)
 		this.timer = setInterval(this.setFocus, 2000)
+	},
+	beforeDestroy() {
+		clearInterval(this.timer)
 	}
 }
 </script>
@@ -82,10 +85,11 @@ export default {
 					width: 600px;
 					height: 100%;
 					float: left;
+					opacity: 0;
 					transition: all 1.5s;
-					&:nth-child(odd) {
+					/* &:nth-child(odd) {
 						background: #999;
-					}
+					} */
 				}
 			}
 		}

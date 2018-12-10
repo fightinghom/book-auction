@@ -1,11 +1,6 @@
 <template>
 	<div class="auction-main">
 		<!-- 轮播图 -->
-		<!-- <el-carousel :interval="4000" indicator-position="outside" height="300px">
-			<el-carousel-item v-for="item in 6" :key="item">
-				<h3>{{ item }}</h3>
-			</el-carousel-item>
-		</el-carousel> -->
 		<ba-slider></ba-slider>
 		<!-- 按分类推荐 -->
 		<div class="recommend" v-for="item of categoryList" :key="item.id">
@@ -55,7 +50,7 @@ export default {
 <style lang="scss" scoped>
 	.auction-main {
 		width: 100%;
-		.el-carousel__item h3 {
+		/* .el-carousel__item h3 {
 			color: #475669;
 			opacity: 0.75;
 			line-height: 300px;
@@ -68,7 +63,7 @@ export default {
 
 		.el-carousel__item:nth-child(2n+1) {
 			background-color: #d3dce6;
-		}
+		} */
 		.recommend {
 			width: 100%;
 			.rec-title {
@@ -93,18 +88,15 @@ export default {
 				height: 275px;
 				//padding: 0 10px;
 				.book {
-					width: calc(20% - 1px);
+					//width: calc(20% - 1px);
+					width: 20%;
 					height: 100%;
-					border-right: 1px #99a9bf solid;
+					//border-right: 1px #99a9bf solid;
 					transition: all 0.3s;
 					&:hover {
 						box-shadow: 0 0 20px 2px #5c6783a3;
 						cursor: pointer;
 						position: relative;
-					}
-					&:last-child {
-						width: 20%;
-						border-right: 0px;
 					}
 					.book-img {
 						width: 150px;
