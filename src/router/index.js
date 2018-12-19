@@ -5,6 +5,7 @@ import Login from '@/views/Login'
 import Auction from '@/views/auction/Index'
 	import AuctionMain from '@/views/auction/Main'
 	import AuctionCategory from '@/views/auction/Category'
+	import AuctionBook from '@/views/auction/BookDetail'
 import Sell from '@/views/sell/Index'
 import Purchase from '@/views/purchase/Index'
 import Evaluate from '@/views/evaluate/Index'
@@ -41,12 +42,13 @@ export default new Router({
 						component: AuctionMain,
 					},
 					{
-						path: '/auction/:cid',
+						path: '/book_category/:cid',
 						component: AuctionCategory
 					},
-					/* {
-						path: '/auction/:bid',
-					} */
+					{
+						path: '/book_detail/:bid',
+						component: AuctionBook
+					}
 				]
 			},
 

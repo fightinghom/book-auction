@@ -15,7 +15,7 @@
 					</div>
 					<div class="fr"><i class="fas fa-angle-right"></i></div>
 				</div>
-				<div class="level-2 fl"><div class="fl child-link" v-for="child of item.child" :key="child.id"><span @click="showById(child.id)">{{child.name}}</span></div></div>
+				<div class="level-2 fl"><div class="fl child-link" v-for="child of item.child" :key="child.id"><span @click="toCategory(child.id)">{{child.name}}</span></div></div>
 			</el-row>
 		</div>
 	</div>
@@ -30,8 +30,8 @@ export default {
 		}
 	},
 	methods: {
-		showById(id) {
-			this.$router.push('/auction/' + id)
+		toCategory(id) {
+			this.$router.push('/book_category/' + id)
 		}
 	}
 }

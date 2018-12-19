@@ -1,14 +1,16 @@
 <template>
 	<div class="slider">
-		<div class="slider-img fl">
-			<ul id="sImg">
-				<li v-for="(item, index) of 5" :key="item" @mouseenter="toFocus(index)" @mouseleave="removeFocus(index)">{{item}}{{item}}{{item}}{{item}}{{item}}{{item}}{{item}}</li>
-			</ul>
-		</div>
-		<div class="slider-title fl">
-			<ul id="sTitle">
-				<li v-for="(item, index) of 5" :key="item" @mouseenter="toFocus(index)" @mouseleave="removeFocus(index)"><p>{{item}}{{item}}{{item}}{{item}}{{item}}{{item}}{{item}}</p></li>
-			</ul>
+		<div class="z">
+			<div class="slider-img fl">
+				<ul id="sImg">
+					<li v-for="(item, index) of 5" :key="item" @mouseenter="toFocus(index)" @mouseleave="removeFocus(index)"  @click="toBook('10000' + item)">{{item}}{{item}}{{item}}{{item}}{{item}}{{item}}{{item}}</li>
+				</ul>
+			</div>
+			<div class="slider-title fl">
+				<ul id="sTitle">
+					<li v-for="(item, index) of 5" :key="item" @mouseenter="toFocus(index)" @mouseleave="removeFocus(index)"><p>{{item}}{{item}}{{item}}{{item}}{{item}}{{item}}{{item}}</p></li>
+				</ul>
+			</div>
 		</div>
 	</div>
 </template>
@@ -54,6 +56,9 @@ export default {
 			list[index].className = 'on'
 			imgList.getElementsByTagName('li')[index].style.opacity = 1
 			imgList.style.marginLeft = -600 * index + 'px'
+		},
+		toBook(id) {
+			this.$router.push('/book_detail/' + id)
 		}
 	},
 	mounted() {
@@ -72,42 +77,49 @@ export default {
 	}
 	.slider {
 		height: 300px;
-		margin: 0 auto;
-		.slider-img {
-			width: 600px;
+		.z {
+			width: 926px;
 			height: 100%;
-			overflow: hidden;
-			ul {
-				width: 9999px;
+			margin: 0 auto;
+			.slider-img {
+				width: 600px;
 				height: 100%;
-				background: #fcfcfc;
-				li {
-					width: 600px;
+				overflow: hidden;
+				ul {
+					width: 9999px;
 					height: 100%;
-					float: left;
-					opacity: 0;
-					transition: all 1.5s;
-					/* &:nth-child(odd) {
-						background: #999;
-					} */
+					background: #fcfcfc;
+					li {
+						width: 600px;
+						height: 100%;
+						float: left;
+						opacity: 0;
+						transition: all 1.5s;
+						/* &:nth-child(odd) {
+							background: #999;
+						} */
+						&:hover {
+							cursor: pointer;
+						}
+					}
 				}
 			}
-		}
-		.slider-title {
-			height: 100%;
-			width: 326px;
-			ul {
+			.slider-title {
 				height: 100%;
-				background: #fcfcfc8a;
-				li {
-					padding: 0 20px;
-					p {
-						height: 60px;
-						line-height: 60px;
-					}
-					&:hover {
-						background: rgb(0, 42, 255);
-						color: #eaedfa;
+				width: 326px;
+				ul {
+					height: 100%;
+					background: #fcfcfc8a;
+					li {
+						padding: 0 20px;
+						p {
+							height: 60px;
+							line-height: 60px;
+						}
+						&:hover {
+							background: rgb(0, 42, 255);
+							color: #eaedfa;
+						}
 					}
 				}
 			}
