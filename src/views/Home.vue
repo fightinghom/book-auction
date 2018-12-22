@@ -94,6 +94,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+	@import '@/assets/css/theme.scss';
 	.icon {
 		width: 50px;
 		height: 50px;

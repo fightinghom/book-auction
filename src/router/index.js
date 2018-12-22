@@ -45,17 +45,13 @@ export default new Router({
 						path: '/book_category/:cid',
 						component: AuctionCategory
 					},
-					{
-						path: '/book_detail/:bid',
-						component: AuctionBook
-					}
 				]
 			},
 
 			{
 				path: '/sell',
 				name: 'Sell',
-				component: Sell
+				component: Sell,
 			},
 			{
 				path: '/purchase',
@@ -76,8 +72,12 @@ export default new Router({
 				path: '/feedback',
 				name: 'Feedback',
 				component: Feedback
-			}
-
+			},
+			{
+				path: '/book_detail/:bid',
+				name: 'AuctionBook',
+				component: AuctionBook
+			},
 		]
 	}
   ]

@@ -161,6 +161,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '@/assets/css/theme.scss';
 	.wapper {
 		.login-container {
 			position: relative;
@@ -183,7 +184,7 @@ export default {
 				.banner-bg {
 					width: 100%;
 					height: 100%;
-					background: rgba($color: #002aff, $alpha: 0.7);
+					background: rgba($color: $basic-color, $alpha: 0.7);
 					.banner {
 						width: 505px;
 						height: 100%;
@@ -229,18 +230,18 @@ export default {
 					.btn {
 						float: right;
 						font-size: 25px;
-						color: #002aff;
+						color: $basic-color;
 						border-radius: 20px;
 						cursor: pointer;
 						div	{
 							padding: 0 10px;
 							float: right;
 							transition: all .7s;
-							border: 1px solid #002aff;
+							border: 1px solid $basic-color;
 							border-radius: 0px 20px 20px 0px;
 						}
 						.is-checked {
-							background: #002aff;
+							background: $basic-color;
 							color: #fcfcfc;
 						}
 						.lf {
@@ -265,7 +266,7 @@ export default {
 						height: 40px;
 						line-height: 40px;
 						padding: 0;
-						background: #002aff;
+						background: $basic-color;
 						color: #fcfcfc;
 						font-size: 25px;
 						border-radius: 20px;

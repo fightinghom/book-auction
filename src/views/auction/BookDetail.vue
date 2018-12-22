@@ -27,12 +27,18 @@
 	<!-- 	基本信息 -->
 			<div class="basic-info">
 				<div class="pad-top-10  mar-btm-5 book-name">书籍名称</div>
-				<div class="pad-top-10  mar-btm-5 book-desc">商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介</div>
+				<div class="pad-top-10  mar-btm-5 book-desc">商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介</div>
 				<div class="pad-top-10  mar-btm-5 book-auth">作家名 著</div>
-				<div class="pad-top-10  mar-btm-5 book-test"><span>计时器</span><span></span></div>
-				<div class="pad-top-10  mar-btm-5 book-test"><span>起始价格</span>￥<span>20</span></div>
-				<div class="pad-top-10  mar-btm-5 book-test"><span>当前价格</span>￥<span>30</span></div>
-				<div class="pad-top-10  mar-btm-5 book-test"><span>我的出价</span>￥<span>30</span></div>
+				<div class="z mar-top-10">
+					<div class="mar-btm-5 book-clock">
+						<i class="far fa-clock fa-2x icon"></i>
+						<span>正在拍卖</span>
+						<ba-timer></ba-timer>
+					</div>
+					<div class="pad-top-10  mar-btm-5 book-test"><span>起始价格</span>￥<span>20</span></div>
+					<div class="pad-top-10  mar-btm-5 book-test"><span>当前价格</span>￥<span>30</span></div>
+					<div class="pad-top-10  mar-btm-5 book-test"><span>我的出价</span>￥<span>30</span></div>
+				</div>
 				<el-button type="primary">我要出价</el-button>
 			</div>
 		</div>
@@ -63,12 +69,21 @@
 	</div>
 </template>
 <script>
+import timer from '@/components/timer/timer.vue'
 export default {
 	data() {
 		return {
 			record: [],
 			showImg: require('@/assets/image/default-book-img.jpg'),
 		}
+	},
+	components: {
+		BaTimer: timer
+	},
+	methods: {
+		currentPage(page) {
+
+		},
 	}
 }
 </script>
@@ -80,7 +95,11 @@ export default {
 	$total-img-width: 270px;
 
 	.book-detail {
+		width: 70%;
+		min-width: 966px;
+		margin: 0 auto;
 		background: #fff;
+		padding: 20px;
 		.book-info {
 			display: flex;
 			.book-img {
@@ -143,16 +162,33 @@ export default {
 					color: #666;
 
 				}
-				.book-test {
-					color: #e3393c;
-					padding: 0 20px;
-					span {
-						&:first-child {
-							color: #666;
-							padding-right: 30px;
+				.z {
+					background: #f3f3f3;
+					.book-test {
+						color: #e3393c;
+						padding: 0 30px;
+						span {
+							&:first-child {
+								color: #666;
+								padding-right: 30px;
+							}
+							&:last-child {
+								font-size: 30px;
+							}
 						}
-						&:last-child {
-							font-size: 30px;
+					}
+					.book-clock {
+						color: #fff;
+						background: $basic-color;
+						display: flex;
+						height: 35px;
+						align-items: center;
+						.icon {
+							padding: 0 5px;
+						}
+						.timer {
+							flex: 1 1 auto;
+							padding: 0 5px;
 						}
 					}
 				}
@@ -160,6 +196,7 @@ export default {
 					width: 100%;
 					height: 40px;
 					margin-top: 10px;
+					background: $basic-color;
 				}
 			}
 		}

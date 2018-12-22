@@ -81,11 +81,11 @@ li {
 }
 
 .ba-basic-color-aph {
-	background: rgba($color: #002aff, $alpha: 0.8);
+	background: rgba($color: $basic-color, $alpha: 0.92);
 }
 
 .ba-basic-color-aph-5 {
-	background: rgba($color: #002aff, $alpha: 0.6);
+	background: rgba($color: $basic-color, $alpha: 0.6);
 }
 
 .bg-cover {
@@ -103,6 +103,10 @@ li {
 
 .fr {
 	float: right;
+}
+
+.mar-top-10 {
+	margin-top: 10px;
 }
 
 .mar-top-20 {
