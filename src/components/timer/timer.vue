@@ -1,17 +1,18 @@
 <template>
 	<div class="timer">
-		<div class="t-wapper">
-			<span>距离结束 </span><span>{{hh}}</span> : <span>{{mm}}</span> : <span>{{ss}}</span>
+		<div id="t-wapper">
+			<span><slot></slot></span> <span>{{hh}}</span> : <span>{{mm}}</span> : <span>{{ss}}</span>
 		</div>
 	</div>
 </template>
 <script>
 export default {
+	props:['type'],
 	data() {
 		return {
-			hh: '',
-			mm: '',
-			ss: '',
+			hh: '00',
+			mm: '00',
+			ss: '00',
 			timer: ''
 		}
 	},
@@ -42,17 +43,40 @@ export default {
 					self.timer = null
 				}
 			},1000)
+		},
+		/* 为t-wapper赋值 */
+		timerType(c) {
+			document.getElementById('t-wapper').setAttribute('class', c)
+		},
+		/* 识别计时器类型 */
+		typePick() {
+			switch(this.type) {
+				case 'book': {
+					this.timerType('book')
+				};break;
+				case 'bookDetail': {
+					this.timerType('book-detail')
+				};break;
+			}
+		},
+		getAucTime() {
+			let t1 = new Date(2015,1,1,10,30,0);
+			let t2 = new Date(2015,1,1,10,30,10);
+			let t3 = t2 - t1
+			let t = t3 / 1000
+			let h = parseInt(t / 3600)
+			let m = parseInt((t - h * 3600) / 60)
+			let s = parseInt(t - h * 3600 - m * 60)
+			this.assignTime(h, m, s)
 		}
+
+	},
+	watch: {
+
 	},
 	mounted() {
-		let t1 = new Date(2015,1,1,10,30,0);
-		let t2 = new Date(2015,1,1,10,30,10);
-		let t3 = t2 - t1
-		let t = t3 / 1000
-		let h = parseInt(t / 3600)
-		let m = parseInt((t - h * 3600) / 60)
-		let s = parseInt(t - h * 3600 - m * 60)
-		this.assignTime(h, m, s)
+		this.typePick()
+		this.getAucTime()
 	},
 	destroyed() {
 		if ( this.timer != null) {
@@ -62,15 +86,18 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-	.timer {
-		.t-wapper {
-			float: right;
-			span {
-				font-size: 20px;
-				&:first-child {
-					font-size: 14px;
-				}
+	/* bookDetail */
+	.book-detail {
+		float: right;
+		span {
+			font-size: 20px;
+			&:first-child {
+				font-size: 14px;
 			}
 		}
+	}
+	/* book */
+	.book {
+
 	}
 </style>

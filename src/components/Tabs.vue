@@ -40,9 +40,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 	.tabs {
-		width: 70%;
-		min-width: 966px;
-		margin: 0 auto;
 		padding: 20px 20px;
 		box-sizing:border-box;
 		.tabs-header {

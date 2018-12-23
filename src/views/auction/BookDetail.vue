@@ -33,7 +33,7 @@
 					<div class="mar-btm-5 book-clock">
 						<i class="far fa-clock fa-2x icon"></i>
 						<span>正在拍卖</span>
-						<ba-timer></ba-timer>
+						<ba-timer :type="'bookDetail'">距离结束&nbsp;</ba-timer>
 					</div>
 					<div class="pad-top-10  mar-btm-5 book-test"><span>起始价格</span>￥<span>20</span></div>
 					<div class="pad-top-10  mar-btm-5 book-test"><span>当前价格</span>￥<span>30</span></div>

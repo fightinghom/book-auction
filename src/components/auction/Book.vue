@@ -7,12 +7,17 @@
 		<!-- 图书当前最高价 -->
 		<div class="book-price">书的价格</div>
 		<!-- 剩余拍卖时间 -->
-		<div class="book-time">3天1时20分20秒</div>
+		<!-- <div class="book-time"><ba-timer></ba-timer>00 : 00 : 00</div> -->
+		<ba-timer :type="'book'"></ba-timer>
 	</div>
 </template>
 <script>
+import timer from '@/components/timer/timer.vue'
 export default {
 	props: ['book'],
+	components: {
+		BaTimer: timer
+	},
 	methods: {
 		toBook(id) {
 			this.$router.push('/book_detail/' + id)
@@ -46,5 +51,9 @@ export default {
 			padding: 0 20px;
 			margin-bottom: 10px;
 		}
+		.timer {
+			height: 25px;
+		}
+
 	}
 </style>
