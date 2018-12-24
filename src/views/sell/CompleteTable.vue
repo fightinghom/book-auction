@@ -78,5 +78,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
+	td {
+		width: 18.75%;
+		&:last-child {
+			width: 25%;
+		}
+	}
 </style>

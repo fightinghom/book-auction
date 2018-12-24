@@ -5,7 +5,7 @@
 			<div class="login-banner ba-shadow">
 				<div class="banner-bg">
 					<div class="banner banner-left fl" v-if="isLogin">
-						<div class="title">攀枝花学院二手图书交易平台</div>
+						<div class="title">攀枝花学院二手图书拍卖平台</div>
 						<div class="by">By Hao.Yang</div>
 					</div>
 					<div class="banner banner-right fr vertical-center" v-if="!isLogin">

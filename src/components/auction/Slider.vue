@@ -78,9 +78,10 @@ export default {
 	.slider {
 		height: 300px;
 		.z {
-			width: 926px;
+			width: 100%;
 			height: 100%;
-			margin: 0 auto;
+			display: flex;
+			align-items: flex-start;
 			.slider-img {
 				width: 600px;
 				height: 100%;
@@ -106,7 +107,7 @@ export default {
 			}
 			.slider-title {
 				height: 100%;
-				width: 326px;
+				flex: 1 1 auto;
 				ul {
 					height: 100%;
 					background: #fcfcfc8a;

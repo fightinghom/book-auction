@@ -28,10 +28,17 @@
 				<div class="vertical-center menu-icon fr"><i class="fas fa-angle-right "></i></div>
 			</div>
 		</div>
-		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu" @click="routeTo('/forum')">
+		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu" @click="routeTo('/forum')" v-if="false">
 			<div class="vertical-center menu-icon fl"><i class="fas fa-users "></i></div>
 			<div class="menu-name fl">
 				<span>用户论坛</span>
+				<div class="vertical-center menu-icon fr"><i class="fas fa-angle-right "></i></div>
+			</div>
+		</div>
+		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu" @click="routeTo('/manage')">
+			<div class="vertical-center menu-icon fl"><i class="fas fa-lock"></i></div>
+			<div class="menu-name fl">
+				<span>管理平台</span>
 				<div class="vertical-center menu-icon fr"><i class="fas fa-angle-right "></i></div>
 			</div>
 		</div>

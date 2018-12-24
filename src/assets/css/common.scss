@@ -146,18 +146,18 @@ li {
 }
 
 .el-input__inner {
-	border: 0px;
-	background: $panel-bg-color;
-	border-radius: 0;
-	border-bottom: 1px solid #b9beda;
-	transition: all .3s;
-	padding: 0;
+	border: 0px !important;
+	background: $panel-bg-color !important;
+	border-radius: 0 !important;
+	border-bottom: 1px solid #b9beda !important;
+	transition: all .3s !important;
+	padding: 0 !important;
 }
 
 .el-input__inner:focus {
-	border-color: $basic-color;
+	border-color: $basic-color !important;
 }
 
 .el-input__inner:hover {
-	border-color: $basic-color;
+	border-color: $basic-color !important;
 }

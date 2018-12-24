@@ -11,6 +11,7 @@ import Purchase from '@/views/purchase/Index'
 import Evaluate from '@/views/evaluate/Index'
 import Forum from '@/views/forum/Index'
 import Feedback from '@/views/feedback/Index'
+import Manage from '@/views/manage/Index'
 Vue.use(Router)
 
 export default new Router({
@@ -74,10 +75,16 @@ export default new Router({
 				component: Feedback
 			},
 			{
+				path: '/manage',
+				name: 'Manage',
+				component: Manage
+			},
+			{
 				path: '/book_detail/:bid',
 				name: 'AuctionBook',
 				component: AuctionBook
 			},
+
 		]
 	}
   ]

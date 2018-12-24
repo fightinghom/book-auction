@@ -28,7 +28,10 @@
 			<div class="basic-info">
 				<div class="pad-top-10  mar-btm-5 book-name">书籍名称</div>
 				<div class="pad-top-10  mar-btm-5 book-desc">商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介</div>
-				<div class="pad-top-10  mar-btm-5 book-auth">作家名 著</div>
+				<div class="pad-top-10  mar-btm-5 book-auth">
+					<el-col :span="12">作家 著</el-col>
+					<el-col :span="12">分类: 心理</el-col>
+				</div>
 				<div class="z mar-top-10">
 					<div class="mar-btm-5 book-clock">
 						<i class="far fa-clock fa-2x icon"></i>
@@ -43,7 +46,7 @@
 			</div>
 		</div>
 		<!-- 叫价记录 -->
-		<div class="auction-record">
+		<div class="auction-record" v-if="$route.params.bid !== 'add'">
 			<div class="art pad-tb-10">实时拍卖记录</div>
 			<table>
 				<tr>
@@ -78,7 +81,7 @@ export default {
 		}
 	},
 	components: {
-		BaTimer: timer
+		BaTimer: timer,
 	},
 	methods: {
 		currentPage(page) {
@@ -160,6 +163,7 @@ export default {
 				}
 				.book-auth {
 					color: #666;
+					height: 30px;
 
 				}
 				.z {
