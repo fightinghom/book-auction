@@ -163,7 +163,7 @@ export default {
 				}
 				.book-auth {
 					color: #666;
-					height: 30px;
+					height: 20px;
 
 				}
 				.z {

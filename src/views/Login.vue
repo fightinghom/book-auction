@@ -91,6 +91,7 @@
 <script>
 import {validate} from '@/utils/validate.js'
 import {mapActions, mapGetters} from 'vuex'
+import http from '@/utils/api/index'
 export default {
 	data() {
 		return {
@@ -131,17 +132,24 @@ export default {
 			let param = self.loginForm
 			self.$refs[form].validate((valid) => {
 				if (valid) {
-					if( param.stuId === '201510801007' && param.password === '123456') {
-						self.setUserinfo({
-							stuId: '201510801007',
-							name: '杨皓',
-							nickname: '闲云逸鹤',
-							phone: '15208441727',
-							img: ''
+					http.system.login({
+						id: param.stuId,
+						password: param.password
+					})
+					.then(res => {
+						if (res == true) {
+							self.setUserinfo({
+							id: param.stuId,
 						})
 						self.setLoginStatus(true)
 						self.$router.push('/home')
-					}
+						} else {
+							console.log('账户或密码错误')
+						}
+					})
+					.catch(value => {
+						console.log(value)
+					})
 				} else {
 					console.log('验证失败')
 				}
@@ -149,11 +157,24 @@ export default {
 		},
 		register(form) {
 			let self = this
+			let param = self.registerForm
 			self.$refs[form].validate((valid) => {
 				if (valid) {
-					console.log('验证成功')
+					http.system.addUser({
+						id: param.stuId,
+						password: param.password,
+						phone: param.mobile,
+						name: '',
+						nikename: ''
+					})
+					.then(res => {
+						console.log(res)
+					})
+					.catch(value => {
+						console.log(value)
+					})
 				} else {
-					console.log('验证失败')
+					console.log('注册失败')
 				}
 			})
 		}

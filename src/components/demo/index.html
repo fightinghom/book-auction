@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        div{
+            width: 1000px;
+			height: 400px;
+            margin:300px auto;
+            border:1px solid #ccc;
+            overflow: hidden;
+        }
+        ul{
+			height: 100%;
+            list-style: none;
+            width:9999px;
+            animation: imgAnimation 5s linear infinite ;
+        }
+        ul>li{
+			width: 1000px;
+            float: left;
+			height: 100%;
+        }
+        @keyframes imgAnimation{
+            from{}
+            to{
+                transform:translate(-5000px);
+            }
+        }
+        ul:hover{
+            animation-play-state:paused;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <ul>
+        <li style="background: red"></li>
+        <li style="background: blue"></li>
+        <li style="background: yellow"></li>
+        <li style="background: white"></li>
+        <li style="background: black"></li>
+        <li style="background: red"></li>
+        <li style="background: blue"></li>
+        <li style="background: yellow"></li>
+        <li style="background: white"></li>
+        <li style="background: black"></li>
+    </ul>
+</div>
+</body>
+</html>

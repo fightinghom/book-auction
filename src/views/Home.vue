@@ -38,13 +38,27 @@
 import Menu from '@/components/Menu.vue'
 import UserInfo from '@/components/UserInfo.vue'
 import {mapActions, mapGetters} from 'vuex'
+import http from '@/utils/api/index'
 export default {
 	data() {
 		return {
 			userFunc: false,
 			defaultImg: require('@/assets/image/default.gif'),
 			userInfo: false,
-			user: {}
+			user: {},
+			queryUserById(stuId) {
+				let self = this
+				http.system.getUserById({
+					id: stuId
+				})
+				.then((res) => {
+					self.user = res
+					self.setUserinfo(self.user)
+				})
+				.catch((value) => {
+					console.log(value)
+				})
+			}
 		}
 	},
 	components: {
@@ -56,8 +70,8 @@ export default {
 		displayName() {
 			let self = this
 			let name = self.user.name
-			let nickname = self.user.nickname
-			let stuId = self.user.stuId
+			let nickname = self.user.nikename
+			let stuId = self.user.id
 			if (nickname) {
 				return nickname
 			}
@@ -89,7 +103,9 @@ export default {
 		}
 	},
 	mounted() {
-		this.user = this.getUserinfo
+		let id = this.getUserinfo.id
+		this.queryUserById(id)
+		//this.user = this.getUserinfo
 	}
 }
 </script>

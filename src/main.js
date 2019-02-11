@@ -7,18 +7,24 @@ import Vuex from 'vuex'
 import store from './vuex/store'
 
 //引用element-ui
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
 //引入fontawesome图标库
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
+
+//引用axios
+import Qs from 'qs'
+const axios = require('axios')
+Vue.prototype.axios = axios
+Vue.prototype.qs = Qs
+
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 Vue.use(Vuex)
 /* eslint-disable no-new */
-
 router.beforeEach((to, from, next) => {
 	/* store.getters.getLoginStatus ? next() : next('/') */
 	/* if ( store.getters.getLoginStatus) {

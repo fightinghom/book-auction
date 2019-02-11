@@ -1,5 +1,5 @@
 <template>
-	<div class="ba-col" :class="className">
+	<div :id="_uid" class="ba-col">
 		<slot></slot>
 	</div>
 </template>
@@ -14,12 +14,12 @@ export default {
 	},
 	data() {
 		return {
-			className: ''
+
 		}
 	},
 	methods: {
 		setWidth(w) {
-			console.log(this)
+			document.getElementById(this._uid).style.width = w
 		}
 	},
 	computed: {
@@ -30,8 +30,6 @@ export default {
 		}
 	},
 	mounted() {
-		this.className = 'el-col-' + this._uid
-		console.log(this.className)
 		this.setWidth(this.width)
 	}
 }

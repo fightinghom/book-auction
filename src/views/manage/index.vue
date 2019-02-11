@@ -2,7 +2,7 @@
 	<div class="manage">
 		<ba-tabs :header="tabsHeader">
 			<div slot="0"><check-table></check-table></div>
-			<div slot="1">1</div>
+			<div slot="1"><user-table></user-table></div>
 			<div slot="2">2</div>
 			<div slot="3">3</div>
 		</ba-tabs>
@@ -11,6 +11,7 @@
 <script>
 import BaTabs from '@/components/Tabs.vue'
 import CheckTable from './CheckTable.vue'
+import UserTable from './UserTable.vue'
 export default {
 	data() {
 		return {
@@ -19,7 +20,8 @@ export default {
 	},
 	components: {
 		BaTabs,
-		CheckTable
+		CheckTable,
+		UserTable
 	},
 }
 </script>

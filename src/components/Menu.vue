@@ -35,7 +35,11 @@
 				<div class="vertical-center menu-icon fr"><i class="fas fa-angle-right "></i></div>
 			</div>
 		</div>
-		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu" @click="routeTo('/manage')">
+		<div class="menu-item"
+			v-if="getUserinfo.power === 1"
+			@mouseout="firstMenu = !firstMenu"
+			@mouseover="firstMenu = !firstMenu"
+			@click="routeTo('/manage')">
 			<div class="vertical-center menu-icon fl"><i class="fas fa-lock"></i></div>
 			<div class="menu-name fl">
 				<span>管理平台</span>
@@ -45,11 +49,15 @@
 	</div>
 </template>
 <script>
+import {mapGetters} from 'vuex'
 export default {
 	data() {
 		return {
 			firstMenu: false
 		}
+	},
+	computed: {
+		...mapGetters(['getUserinfo']),
 	},
 	methods: {
 		routeTo(rn) {
