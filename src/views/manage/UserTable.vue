@@ -45,6 +45,7 @@ export default {
 			tableHeader: ['学号', '姓名', '昵称', '联系方式', '权限等级', '操作'],
 			tableData: [],
 			editId: '',
+			userOnEdit: '',
 			queryUserList() {
 				let self = this
 				http.system.getUserList({})
@@ -60,7 +61,6 @@ export default {
 	methods: {
 		edit(id) {
 			this.editId = id
-
 		},
 		save(user) {
 			let self = this
@@ -78,6 +78,7 @@ export default {
 						type: 'success'
 					})
 					self.editId = ''
+					self.userOnEdit =''
 				}
 			})
 			.catch(value => {
@@ -86,10 +87,25 @@ export default {
 		},
 		cancel() {
 			this.editId = ''
+			this.queryUserList()
 		},
 		remove(id) {
-			console.log(id)
-			this.queryUserList()
+			let self = this
+			http.system.deleteUserById({
+				id: id
+			})
+			.then(res => {
+				if(res) {
+					self.$message({
+						message: '注销用户' + id + '成功',
+						type: 'success'
+					})
+					self.queryUserList()
+				}
+			})
+			.catch(value => {
+				console.log(value)
+			})
 		}
 	},
 	mounted() {

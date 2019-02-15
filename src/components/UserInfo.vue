@@ -142,7 +142,7 @@ export default {
 		 * 取消截图
 		 */
 		concelCrop() {
-			self.cropperStatus = false
+			this.cropperStatus = false
 		}
 	},
 	mounted() {

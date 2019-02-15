@@ -15,6 +15,23 @@ const help = {
 		.catch((error) => {
 			return reject(error)
 		})
+	},
+
+	httpHelper2(api, method, request) {
+		return	new Promise((resolve, reject) =>{
+			axios({
+				method: method,
+				url: URL + api,
+				dataType: 'json',
+				data: request
+			})
+			.then((response) => {
+				return resolve(response.data)
+			})
+			.catch((error) => {
+				return reject(error)
+			})
+		})
 	}
 }
 
