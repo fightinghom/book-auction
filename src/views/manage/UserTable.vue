@@ -1,31 +1,37 @@
 <template>
 	<div class="user-table">
-		<ba-table :header="tableHeader">
+		<ba-table
+		:header="tableHeader"
+		:obj="'user'"
+		:params="paginationBody"
+		@setPage="getPage($event)"
+		:update="updatePagination"
+		@updateSuc="updatePagination = $event">
 			<tr v-for="item of tableData" :key="item.id">
-				<td>{{item.u_id}}</td>
-				<td><input type="text" :disabled="editId !== item.u_id" class="tx-c" :class="{'on-edit': editId === item.u_id}" v-model="item.u_name"/></td>
-				<td><input type="text" :disabled="editId !== item.u_id" class="tx-c" :class="{'on-edit': editId === item.u_id}" v-model="item.u_nikename"/></td>
-				<td><input type="text" :disabled="editId !== item.u_id" class="tx-c" :class="{'on-edit': editId === item.u_id}" v-model="item.u_phone"/></td>
-				<td><input type="text" :disabled="editId !== item.u_id" class="tx-c" :class="{'on-edit': editId === item.u_id}" v-model="item.u_power"/></td>
+				<td>{{item.id}}</td>
+				<td><input type="text" :disabled="editId !== item.id" class="tx-c" :class="{'on-edit': editId === item.id}" v-model="item.name"/></td>
+				<td><input type="text" :disabled="editId !== item.id" class="tx-c" :class="{'on-edit': editId === item.id}" v-model="item.nikename"/></td>
+				<td><input type="text" :disabled="editId !== item.id" class="tx-c" :class="{'on-edit': editId === item.id}" v-model="item.phone"/></td>
+				<td><input type="text" :disabled="editId !== item.id" class="tx-c" :class="{'on-edit': editId === item.id}" v-model="item.power"/></td>
 				<td>
 					<el-button
 					type="primary"
 					size="small"
-					:disabled="editId !== item.u_id && editId !== ''"
-					@click="editId === item.u_id ? save(item) : edit(item.u_id)"
-					v-text="editId === item.u_id ? '保存' : '编辑'">
+					:disabled="editId !== item.id && editId !== ''"
+					@click="editId === item.id ? save(item) : edit(item.id)"
+					v-text="editId === item.id ? '保存' : '编辑'">
 					</el-button>
 					<el-button
 					size="small"
 					@click="cancel()"
-					v-if="editId === item.u_id">
+					v-if="editId === item.id">
 						取消
 					</el-button>
 					<el-button
 					size="small"
 					type="danger"
-					@click="remove(item.u_id)"
-					v-if="editId !== item.u_id">
+					@click="remove(item.id)"
+					v-if="editId !== item.id">
 						注销
 					</el-button>
 				</td>
@@ -46,9 +52,14 @@ export default {
 			tableData: [],
 			editId: '',
 			userOnEdit: '',
+			updatePagination: false,
+			paginationBody: {
+				userNumber: 8,
+				nowPage: 1,
+			},
 			queryUserList() {
 				let self = this
-				http.system.getUserList({})
+				http.system.getUserList(self.paginationBody)
 				.then(res => {
 					self.tableData = res
 				})
@@ -65,16 +76,16 @@ export default {
 		save(user) {
 			let self = this
 			http.system.saveUser({
-				id: user.u_id,
-				name: user.u_name,
-				nikename: user.u_nikename,
-				phone: user.u_phone,
-				power: user.u_power
+				id: user.id,
+				name: user.name,
+				nikename: user.nikename,
+				phone: user.phone,
+				power: user.power
 			})
 			.then(res => {
 				if(res) {
 					self.$message({
-						message: '修改用户' + user.u_id + '成功',
+						message: '修改用户' + user.id + '成功',
 						type: 'success'
 					})
 					self.editId = ''
@@ -106,7 +117,11 @@ export default {
 			.catch(value => {
 				console.log(value)
 			})
-		}
+		},
+		getPage(val) {
+			this.paginationBody.nowPage = val
+			this.queryUserList()
+		},
 	},
 	mounted() {
 		this.queryUserList()

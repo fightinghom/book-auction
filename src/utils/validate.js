@@ -44,6 +44,88 @@ export const validate = {
 				trigger: 'blur'
 			}
 		]
+	},
+	book: {
+		name: [
+			{
+				required: true,
+				message: '请输入图书名称',
+				trigger: 'blur'
+			},
+			{
+				max: 20,
+				message: '名称最多20个字符',
+				trigger: 'blur'
+			}
+		],
+		author: [
+			{
+				required: true,
+				message: '请输入作者',
+				trigger: 'blur'
+			},
+			{
+				max: 20,
+				message: '名称最多20个字符',
+				trigger: 'blur'
+			}
+		],
+		category: [
+			{
+				required: true,
+				message: '请选择类别',
+				trigger: 'change'
+			}
+		],
+		description: [
+			{
+				required: true,
+				message: '请输入描述',
+				trigger: 'blur'
+			},
+			{
+				max: 500,
+				message: '名称最多500个字符',
+				trigger: 'blur'
+			}
+		],
+		startPrice: [
+			{
+				required: true,
+				message: '请输入起拍价格',
+				trigger: 'blur'
+			}
+		],
+		endTime: [
+			{
+				type: 'date',
+				required: true,
+				message: '请选择拍卖结束时间',
+				trigger: 'change'
+			}
+		],
+		deposit: [
+			{
+				required: true,
+				message: '请输入保证金',
+				trigger: 'blur'
+			}
+		],
+		increaseRange: [
+			{
+				required: true,
+				message: '请输入加价幅度',
+				trigger: 'blur'
+			}
+		],
+		img: [
+			{
+				type: 'array',
+				required: true,
+				message: '至少上传一张图片',
+				trigger: 'change'
+			}
+		]
 	}
 
 }

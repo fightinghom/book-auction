@@ -22,7 +22,12 @@ const system = {
 	},
 	getUserList(request) {
 		const api = 'bookAuctionServer/userList'
-		const method = "get"
+		const method = "POST"
+		return help.httpHelper2(api, method, request)
+	},
+	getUserTotalPage(request) {
+		const api = 'bookAuctionServer/userTotalPages'
+		const method = "POST"
 		return help.httpHelper2(api, method, request)
 	},
 	savePic(request) {

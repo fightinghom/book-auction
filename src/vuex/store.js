@@ -9,7 +9,8 @@ const store = new Vuex.Store({
 	//状态值
 	state: {
 		userinfo: JSON.parse(sessionStorage.getItem('user')),
-		loginStatus: sessionStorage.getItem('loginStatus')
+		loginStatus: sessionStorage.getItem('loginStatus'),
+		bookCategory: JSON.parse(sessionStorage.getItem('bookCategory'))
 	},
 
 
@@ -20,6 +21,9 @@ const store = new Vuex.Store({
 		},
 		getLoginStatus: ({loginStatus}) => {
 			return loginStatus
+		},
+		getBookCategory: ({bookCategory}) => {
+			return bookCategory
 		}
 	},
 
@@ -33,6 +37,10 @@ const store = new Vuex.Store({
 		[types.Login_Status](state, status) {
 			state.loginStatus = status
 			sessionStorage.setItem('loginStatus', status)
+		},
+		[types.Book_Category](state, bookCategory) {
+			state.bookCategory = bookCategory
+			sessionStorage.setItem('bookCategory', JSON.stringify(bookCategory))
 		}
 	},
 
@@ -44,6 +52,9 @@ const store = new Vuex.Store({
 		},
 		setLoginStatus: ({commit}, status) => {
 			return commit(types.Login_Status, status)
+		},
+		setBookCategory: ({commit}, category) => {
+			return commit(types.Book_Category, category)
 		}
 	}
 

@@ -168,7 +168,17 @@ export default {
 						nikename: ''
 					})
 					.then(res => {
-						console.log(res)
+						if(res) {
+							self.$message({
+								type: 'success',
+								message: '注册成功!'
+							})
+						} else {
+							self.$message({
+								type: 'warning',
+								message: '账号可能已被注册！'
+							})
+						}
 					})
 					.catch(value => {
 						console.log(value)
@@ -184,6 +194,7 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/css/theme.scss';
 	.wapper {
+		overflow: auto;
 		.login-container {
 			position: relative;
 			width: 998px;

@@ -15,24 +15,56 @@
 					</div>
 					<div class="fr"><i class="fas fa-angle-right"></i></div>
 				</div>
-				<div class="level-2 fl"><div class="fl child-link" v-for="child of item.child" :key="child.id"><span @click="toCategory(child.id)">{{child.name}}</span></div></div>
+				<div class="level-2 fl"><div class="fl child-link" v-for="child of item.children" :key="child.id"><span @click="toCategory(child.id)">{{child.name}}</span></div></div>
 			</el-row>
 		</div>
 	</div>
 </template>
 <script>
 import { list } from '@/utils/category.js'
+import {mapActions, mapGetters} from 'vuex'
+
 export default {
 	data() {
 		return {
-			categoryList: list,
+			categoryList: '',
 			showCategory: false
 		}
 	},
 	methods: {
 		toCategory(id) {
 			this.$router.push('/book_category/' + id)
-		}
+		},
+		/**递归版 */
+		/* fn(data, pid) {
+			let result = [] , temp
+			data.forEach(item => {
+				if (item.pid == pid) {
+					result.push(item)
+					temp = this.fn(data, item.id)
+					if(temp.length > 0) {
+						item.children=temp
+					} else {
+						item.children = []
+					}
+				}
+			})
+			return result
+
+		} */
+	},
+	computed: {
+		...mapGetters(['getBookCategory','getUserinfo']),
+	},
+	mounted() {
+		let list = JSON.parse(JSON.stringify(this.getBookCategory))
+		list.map(item => {
+			item.children.push({
+				id: item.id,
+				name: '更多...'
+			})
+		})
+		this.categoryList = list
 	}
 }
 </script>

@@ -1,28 +1,28 @@
 <template>
 	<div class="manage">
-		<ba-tabs :header="tabsHeader">
-			<div slot="0"><check-table></check-table></div>
-			<div slot="1"><user-table></user-table></div>
-			<div slot="2">2</div>
-			<div slot="3">3</div>
-		</ba-tabs>
+		<div class="back" @click="back"><i class="fas fa-chevron-left fa-3x"></i></div>
+		<div class="title">{{title}}</div>
+		<router-view></router-view>
 	</div>
 </template>
 <script>
-import BaTabs from '@/components/Tabs.vue'
-import CheckTable from './CheckTable.vue'
-import UserTable from './UserTable.vue'
 export default {
 	data() {
 		return {
-			tabsHeader: ['书籍审核', '用户列表', '交易订单', '意见反馈']
+			title: ''
 		}
 	},
-	components: {
-		BaTabs,
-		CheckTable,
-		UserTable
+	methods:{
+		back() {
+			this.$router.go(-1)
+		}
 	},
+	updated() {
+		this.title = this.$route.meta.title
+	},
+	mounted() {
+		this.title = this.$route.meta.title
+	}
 }
 </script>
 <style lang="scss" scoped>
@@ -31,5 +31,18 @@ export default {
 		min-width: 966px;
 		margin: 0 auto;
 		background: #fcfcfc;
+		padding: 10px;
+		.back {
+			color: #b9beda;
+			text-align: left;
+			&:hover {
+				cursor: pointer;
+			}
+		}
+		.title {
+			color: #1f2f3d;
+			font-size: 28px;
+			padding: 10px 0;
+		}
 	}
 </style>

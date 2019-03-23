@@ -1,14 +1,21 @@
 <template>
-	<div class="book fl ba-bg-color" @click="toBook('10000' + book)">
+	<div class="book fl ba-bg-color" @click="toBook( bookInfo.id)">
 		<!-- 图书照片 -->
-		<div class="book-img"></div>
+		<div class="book-img">
+			<img :src="showImg" alt="">
+		</div>
 		<!-- 图书名称 -->
-		<p class="book-name">书的名字</p>
+		<p class="book-name">{{bookInfo.name}}</p>
 		<!-- 图书当前最高价 -->
-		<div class="book-price">书的价格</div>
+		<div class="book-price">{{bookInfo.startPrice}}</div>
 		<!-- 剩余拍卖时间 -->
-		<!-- <div class="book-time"><ba-timer></ba-timer>00 : 00 : 00</div> -->
-		<ba-timer :type="'book'"></ba-timer>
+		<ba-timer
+		:type="'book'"
+		:end="bookInfo.endTime"
+		@timeover="timeover"
+		v-if="!auctionEnd">
+		</ba-timer>
+		<div class="end-text" v-if="auctionEnd">拍卖已结束!</div>
 	</div>
 </template>
 <script>
@@ -18,10 +25,27 @@ export default {
 	components: {
 		BaTimer: timer
 	},
+	data() {
+		return {
+			bookInfo: {},
+			showImg: '',
+			auctionEnd: false
+		}
+	},
 	methods: {
 		toBook(id) {
 			this.$router.push('/book_detail/' + id)
+		},
+		timeover(v) {
+			if(v) {
+				this.auctionEnd = true
+			}
 		}
+	},
+	created() {
+		this.bookInfo = JSON.parse(JSON.stringify(this.book))
+		this.bookInfo.img = JSON.parse(this.bookInfo.img)
+		this.showImg = this.bookInfo.img[0]
 	}
 }
 </script>
@@ -42,6 +66,11 @@ export default {
 			height: 150px;
 			background: #666;
 			margin: 20px auto;
+			img {
+				width: 100%;
+				height: 100%;
+				border: 1px #b9beda solid;
+			}
 		}
 		.book-name {
 			padding: 0 20px;

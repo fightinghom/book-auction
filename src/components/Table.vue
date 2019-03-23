@@ -10,19 +10,88 @@
 			<el-pagination
 				background
 				layout="prev, pager, next"
-				:page-count="100"
+				:page-count="totalPage"
 				@current-change="currentPage">
 			</el-pagination>
 		</div>
 	</div>
 </template>
 <script>
+import http from '@/utils/api/index'
 export default {
-	props: ['header'],
+	props: ['header','params', 'obj', 'update'],
+	data() {
+		return {
+			totalPage: 0,
+			/* getTotalPage() {
+				let self = this
+				http.auction.getBookTotalPage(self.params)
+				.then(res => {
+					self.totalPage = res
+				})
+				.catch(value => {
+					console.log(value)
+				})
+			},
+			getTotalPageOfUser() {
+				let self = this
+				http.system.getUserTotalPage(self.params)
+				.then(res => {
+					self.totalPage = res
+				})
+				.catch(value => {
+					console.log(value)
+				})
+			} */
+			getTotalPage(moduleName, api) {
+				let self = this
+				http[moduleName][api](self.params)
+				.then(res => {
+					self.totalPage = res
+				})
+				.catch(value => {
+					console.log(value)
+				})
+			}
+		}
+	},
 	methods: {
 		currentPage(page) {
-
+			this.$emit('setPage', page)
 		},
+	},
+	watch: {
+		update(v) {
+			if (v) {
+				switch(this.obj) {
+					case 'book':
+						this.getTotalPage('')
+						break;
+					case 'user':
+						this.getTotalPageOfUser()
+						break;
+					default:
+						break;
+				}
+				this.$emit('updateSuc', false)
+			}
+		}
+	},
+	mounted() {
+		switch(this.obj) {
+			case 'book':
+				this.getTotalPage('auction', 'getBookTotalPage')
+				break;
+			case 'user':
+				this.getTotalPage('system', 'getUserTotalPage')
+				break;
+			case 'purchase':
+				this.getTotalPage('purchase', 'getPages')
+				break;
+			default:
+				break;
+		}
+
 	}
 }
 </script>

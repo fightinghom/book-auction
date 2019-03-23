@@ -58,6 +58,16 @@ export default {
 				.catch((value) => {
 					console.log(value)
 				})
+			},
+			queryBookCaList() {
+				let self = this
+				http.auction.getBookCategoryList({})
+				.then(res => {
+					self.setBookCategory(self.fn(res, 0))
+				})
+				.catch(value => {
+					console.log(value)
+				})
 			}
 		}
 	},
@@ -90,7 +100,7 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(['setUserinfo', 'setLoginStatus']),
+		...mapActions(['setUserinfo', 'setLoginStatus', 'setBookCategory']),
 		logout() {
 			this.setUserinfo({})
 			this.setLoginStatus(false)
@@ -100,11 +110,28 @@ export default {
 			if (val) {
 				this.userInfo = false
 			}
+		},
+		fn(data, pid) {
+			let result = [] , temp
+			data.forEach(item => {
+				if (item.pid == pid) {
+					result.push(item)
+					temp = this.fn(data, item.id)
+					if(temp.length > 0) {
+						item.children=temp
+					} else {
+						item.children = []
+					}
+				}
+			})
+			return result
+
 		}
 	},
 	mounted() {
 		let id = this.getUserinfo.id
 		this.queryUserById(id)
+		this.queryBookCaList()
 		//this.user = this.getUserinfo
 	}
 }
@@ -140,6 +167,8 @@ export default {
 						cursor: pointer;
 					}
 					.user-name {
+						text-align: right;
+						padding-right: 10px;
 						width: 150px;
 					}
 					.user-image {
@@ -164,9 +193,9 @@ export default {
 			z-index: 999; */
 		}
 		.el-main {
-			padding-bottom: 0;
-			padding-right: 0;
-			overflow-y: auto;
+			//padding-bottom: 20px;
+			padding: 20px 20px;;
+			overflow-y: scroll;
 		}
 	}
 </style>

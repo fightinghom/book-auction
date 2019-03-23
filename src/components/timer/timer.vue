@@ -7,7 +7,7 @@
 </template>
 <script>
 export default {
-	props:['type'],
+	props:['type', 'end'],
 	data() {
 		return {
 			hh: '00',
@@ -28,11 +28,12 @@ export default {
 						if ( m != 0) {
 							m -= 1
 							s = 59
-						}
-						if (h != 0) {
-							h -=1
-							m = 59
-							s = 59
+						} else {
+							if (h != 0) {
+								h -=1
+								m = 59
+								s = 59
+							}
 						}
 					} else {
 						s -= 1
@@ -41,6 +42,7 @@ export default {
 				} else {
 					clearInterval(self.timer)
 					self.timer = null
+					self.$emit('timeover', true)
 				}
 			},1000)
 		},
@@ -60,14 +62,19 @@ export default {
 			}
 		},
 		getAucTime() {
-			let t1 = new Date(2015,1,1,10,30,0);
-			let t2 = new Date(2015,1,1,10,30,10);
-			let t3 = t2 - t1
-			let t = t3 / 1000
-			let h = parseInt(t / 3600)
-			let m = parseInt((t - h * 3600) / 60)
-			let s = parseInt(t - h * 3600 - m * 60)
-			this.assignTime(h, m, s)
+			let start = (new Date()).getTime()
+			let end = this.end
+			let time = end - start
+			if(time > 0) {
+				let t = time / 1000
+				let h = parseInt(t / 3600)
+				let m = parseInt((t - h * 3600) / 60)
+				let s = parseInt(t - h * 3600 - m * 60)
+				this.assignTime(h, m, s)
+			} else {
+				this.$emit('timeover', true)
+			}
+
 		}
 
 	},

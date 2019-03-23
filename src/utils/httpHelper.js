@@ -1,5 +1,6 @@
 const axios = require('axios')
-const URL = 'http://localhost:8081/'
+//const URL = 'http://hao.yang.com:8081/' //部署后url
+const URL = 'http://localhost:8080/' //开发时url
 
 const help = {
 	httpHelper(api, method, request,resolve, reject) {
@@ -26,7 +27,15 @@ const help = {
 				data: request
 			})
 			.then((response) => {
-				return resolve(response.data)
+				let data = response.data
+				let reso = ''
+				if (data.status == 200) {
+					reso = data.data
+				}
+				if (data.status == 400 || data.status == 201) {
+					reso = data.message
+				}
+				return resolve(reso)
 			})
 			.catch((error) => {
 				return reject(error)

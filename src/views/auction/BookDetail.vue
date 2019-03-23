@@ -1,48 +1,37 @@
 <template>
 	<!-- book:{{$route.params.bid}} -->
 	<div class="book-detail">
+		<div class="back" @click="back"><i class="fas fa-chevron-left fa-3x"></i></div>
 		<!-- 书籍信息 -->
 		<div class="book-info">
 			<!-- 书籍图片集 -->
-			<div class="book-img">
-				<div class="show">
-					<img :src="showImg" alt="">
-				</div>
-				<div class="list">
-					<div class="to-left fl vertical-center">
-						<i class="fas fa-chevron-left fa-2x"></i>
-					</div>
-					<div class="img-list fl">
-						<ul>
-							<li class="fl" v-for="item of 7" :key="item">
-								<img :src="showImg" alt="">
-							</li>
-						</ul>
-					</div>
-					<div class="to-right fl vertical-center">
-						<i class="fas fa-chevron-right fa-2x"></i>
-					</div>
-				</div>
-			</div>
+			<ba-img-list v-if="undefined != book.img" :imgList="book.img"></ba-img-list>
 	<!-- 	基本信息 -->
 			<div class="basic-info">
-				<div class="pad-top-10  mar-btm-5 book-name">书籍名称</div>
-				<div class="pad-top-10  mar-btm-5 book-desc">商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介商品简介简介简介</div>
-				<div class="pad-top-10  mar-btm-5 book-auth">
-					<el-col :span="12">作家 著</el-col>
-					<el-col :span="12">分类: 心理</el-col>
-				</div>
+				<div class="mar-btm-5 book-name">{{book.name}}</div>
+				<div class="pad-top-10  mar-btm-5 book-desc">{{book.desc}}</div>
+				<div class="pad-top-10  mar-btm-5">作者: {{book.author}}</div>
+				<div class="pad-top-10  mar-btm-5" v-if="book.category">分类: {{book.category.name}}</div>
 				<div class="z mar-top-10">
 					<div class="mar-btm-5 book-clock">
 						<i class="far fa-clock fa-2x icon"></i>
 						<span>正在拍卖</span>
-						<ba-timer :type="'bookDetail'">距离结束&nbsp;</ba-timer>
+						<ba-timer v-if="undefined != book.endTime" :type="'bookDetail'" :end="book.endTime">距离结束&nbsp;</ba-timer>
 					</div>
-					<div class="pad-top-10  mar-btm-5 book-test"><span>起始价格</span>￥<span>20</span></div>
-					<div class="pad-top-10  mar-btm-5 book-test"><span>当前价格</span>￥<span>30</span></div>
-					<div class="pad-top-10  mar-btm-5 book-test"><span>我的出价</span>￥<span>30</span></div>
+					<div class="pad-top-10  mar-btm-5 book-test"><span>起始价格</span>￥<span>{{book.startPrice}}</span></div>
+					<div class="pad-top-10  mar-btm-5 book-test"><span>加价幅度</span>￥<span>{{book.increaseRange}}</span></div>
+					<div class="pad-top-10  mar-btm-5 book-test"><span>当前价格</span>￥<span>{{bid.showMaxPrice}}</span></div>
+					<div class="pad-top-10  mar-btm-5 book-test" v-if="1 === btnStatus"><span>我的出价</span>￥<span>{{myPrice}}</span></div>
 				</div>
-				<el-button type="primary">我要出价</el-button>
+				<div class="pad-top-10  mar-btm-5 bidding" v-if="1 === btnStatus">
+					<div  @click="setPrice('minus')"><i class="fas fa-minus"></i></div>
+					<input v-model="bid.price" type="number">
+					<div @click="setPrice('plus')"><i class="fas fa-plus"></i></div>
+					<div class="tips">您可以选择自主输入价格，也可以选择增减加价幅度值的倍数</div>
+				</div>
+				<el-button v-if="1 === btnStatus" type="primary" @click="uploadBid()">我要出价</el-button>
+				<el-button v-if="0 === btnStatus" type="primary" @click="enroll()">我要报名</el-button>
+				<div class="pad-top-10" v-if="2 === btnStatus">您是出售者，不能进行报名和出价</div>
 			</div>
 		</div>
 		<!-- 叫价记录 -->
@@ -54,17 +43,17 @@
 					<td>出价时间</td>
 					<td>出价金额</td>
 				</tr>
-				<tr v-for="item of 10" :key="item">
-					<td>出价者{{item}}</td>
-					<td>2018-10-10 16-40-30</td>
-					<td>300</td>
+				<tr v-for="item of record" :key="item.id">
+					<td>{{item.user}}</td>
+					<td>{{item.datetime}}</td>
+					<td>{{item.price}}</td>
 				</tr>
 			</table>
 			<div class="pagination">
 				<el-pagination
 					background
 					layout="prev, pager, next"
-					:page-count="100"
+					:page-count="pageCount"
 					@current-change="currentPage">
 				</el-pagination>
 			</div>
@@ -73,87 +62,275 @@
 </template>
 <script>
 import timer from '@/components/timer/timer.vue'
+import imgList from '@/components/img/detailShowImg.vue'
+import http from '@/utils/api/index'
+import {mapActions, mapGetters} from 'vuex'
 export default {
 	data() {
 		return {
+			bookId: '',
 			record: [],
-			showImg: require('@/assets/image/default-book-img.jpg'),
+			book: {},
+			bidders: [],
+			myPrice: 0,
+			bid: {
+				user: '',
+				price: 0,
+				bookId: '',
+				ownerPrice: 0,
+				showMaxPrice: 0,
+				increaseRange: 0
+			},
+			page: {
+				number: 8,
+				page: 1,
+				bookId: '',
+				userId: ''
+			},
+			pageCount: 0,
+			btnStatus: 0,
+			queryBookById() {
+				let self = this
+				http.auction.getBookById({
+					bookId: self.bookId
+				})
+				.then(rs => {
+					self.book = rs
+					self.bid.price = self.book.startPrice
+					self.bid.ownerPrice = self.book.startPrice
+					self.bid.increaseRange = self.book.increaseRange
+
+					if (self.bid.user === rs.ownerId) {
+						self.btnStatus = 2
+					}
+				})
+				.catch(value => {
+					console.log(value)
+				})
+
+			},
+			queryBidderList() {
+				let self = this
+				http.auction.getBidders({
+					bookId: self.bookId
+				})
+				.then(rs => {
+					self.bidders = rs
+
+					rs.map(id => {
+						if (id === self.bid.user) {
+							self.btnStatus = 1
+						}
+					})
+				})
+				.catch(value => {
+					console.log(value)
+				})
+			},
+			queryRecordTotalPage() {
+				let self = this
+				http.auction.getRecordTotalPages(self.page)
+				.then(rs => {
+					self.pageCount = rs
+				})
+				.catch(value => {
+					console.log(value)
+				})
+			},
+			queryRecordsOfPage() {
+				let self = this
+				http.auction.getRecordsOfPage(self.page)
+				.then(rs => {
+					self.record = rs.list
+					self.bid.showMaxPrice = rs.maxPrice
+					self.bid.price = rs.maxPrice
+					self.myPrice = rs.myPrice
+				})
+				.catch(value => {
+					console.log(value)
+				})
+			}
+
 		}
 	},
 	components: {
 		BaTimer: timer,
+		BaImgList: imgList
+	},
+	computed: {
+		...mapGetters(['getUserinfo']),
+	},
+	watch: {
+		record(v) {
+			if(v.length != 0){
+				v.map(item => {
+					item.datetime = item.datetime.split('.')[0]
+				})
+			}
+		}
 	},
 	methods: {
 		currentPage(page) {
-
+			this.page.page = page
+			this.queryRecordsOfPage()
 		},
+		/**
+		 * 通过加减号设置价格
+		 */
+		setPrice(op) {
+			if ('plus' === op) {
+				this.bid.price = parseInt(this.bid.price) + this.book.increaseRange
+			}
+			if ('minus' === op) {
+				this.bid.price -= this.book.increaseRange
+			}
+			if (this.bid.price < this.bid.showMaxPrice) {
+				this.bid.price = this.bid.showMaxPrice
+			}
+		},
+		/**
+		 * 报名
+		 */
+		enroll() {
+			let self = this
+
+			http.auction.toEnroll({
+			userId: self.bid.user,
+			bookId: self.bookId,
+			deposit: self.book.deposit
+			})
+			.then(rs => {
+				if (0 == rs) {
+					self.$message({
+						message: "报名失败，请重试，或者联系管理员!",
+						type: 'error'
+					})
+				}
+				if (1 == rs) {
+					self.$message({
+						message: "报名成功!",
+						type: 'success'
+					})
+					self.btnStatus = 1
+				}
+				if (2 == rs) {
+					self.$message({
+						message: "余额不足，无法缴纳保证金，请先确保余额足够参加竞拍!",
+						type: 'warning'
+					})
+				}
+				if(3 == rs) {
+					self.$message({
+						message: "用户已经报名了，无需再次报名!",
+						type: 'warning'
+					})
+					self.btnStatus = 1
+				}
+			})
+			.catch(value => {
+				console.log(value)
+			})
+		},
+		/**
+		 * 上传出价
+		 */
+		uploadBid() {
+			let self = this
+			let canBid = true
+			let bid = self.bid
+			let book = self.book
+			if (bid.price < book.startPrice) {
+				canBid = false
+				self.$notify({
+					title: '警告',
+					message: '您的出价小于了起始价格',
+					type: 'warning'
+				})
+				return ;
+			}
+
+			if (bid.price < bid.showMaxPrice) {
+				canBid = false
+				self.$notify({
+					title: '警告',
+					message: '您的出价小于了当前的最高价',
+					type: 'warning'
+				})
+				return ;
+			}
+
+			if (bid.price - bid.showMaxPrice < book.increaseRange) {
+				canBid = false
+				self.$notify({
+					title: '警告',
+					message: '您的加价幅度小于预设加价幅度',
+					type: 'warning'
+				})
+				return ;
+			}
+
+			if (canBid) {
+				http.auction.bid(bid)
+				.then(rs => {
+					self.$notify({
+						title: '提示',
+						message: rs.msg,
+						type: rs.type
+					})
+					self.queryRecordTotalPage()
+					self.queryRecordsOfPage()
+				})
+				.catch(value => {
+					console.log(value)
+				})
+			}
+		},
+		back() {
+			this.$router.go(-1)
+		}
+	},
+	mounted() {
+
+	},
+	created() {
+		this.bookId = this.$route.params.bid
+		this.bid.bookId = this.bookId
+		this.page.bookId = this.bookId
+		this.page.userId = this.getUserinfo.id
+		this.bid.user = this.getUserinfo.id
+		this.queryBookById()
+		this.queryBidderList()
+		this.queryRecordTotalPage()
+		this.queryRecordsOfPage()
 	}
 }
 </script>
 <style lang="scss" scoped>
 	@import '@/assets/css/theme.scss';
 	$row-height: 40px;
-	$big-img-width: 350px;
-	$sm-img-width: 50px;
-	$total-img-width: 270px;
-
 	.book-detail {
-		width: 70%;
-		min-width: 966px;
+		width: 966px;
 		margin: 0 auto;
+		padding: 20px 20px;
 		background: #fff;
-		padding: 20px;
-		.book-info {
-			display: flex;
-			.book-img {
-				width: $big-img-width + 2px;
-				.show {
-					border: 1px #b9beda solid;
-					margin-bottom: 20px;
-					height: $big-img-width;
-					img{
-						width: $big-img-width;
-					}
-				}
-				.list {
-					height: 54px;
-					.to-left, .to-right {
-						width: ($big-img-width + 2 - $total-img-width) / 2;
-						height: 100%;
-						color: #b9beda;
-						&:hover {
-							color: #666;
-							cursor: pointer;
-						}
-					}
-					.img-list {
-						width: $total-img-width;
-						height: $sm-img-width + 4px;
-						overflow: hidden;
-						ul {
-							width: 2000px;
-							height: $sm-img-width + 4px;
-							li {
-								padding:2px;
-								height: $sm-img-width;
-								&:hover {
-									padding: 0px;
-									border: 2px $basic-color solid;
-									cursor: pointer;
-								}
-								img {
-									width: $sm-img-width;
-								}
-							}
-						}
-					}
-				}
+		.back {
+			color: #b9beda;
+			text-align: left;
+			&:hover {
+				cursor: pointer;
 			}
+		}
+		.book-info {
+			padding-top: 20px;
+			display: flex;
 			.basic-info {
 				flex:1 1 auto;
 				text-align: left;
-				padding: 0 20px;
-				padding-bottom: 20px;
+				padding: 0 0 20px 20px;
+				min-width: 614px;
+				box-sizing: border-box;
+				display: flex;
+				flex-flow: column;
 				.book-name {
 					font-size: 24px;
 					color: #666;
@@ -203,6 +380,26 @@ export default {
 					background: $basic-color;
 				}
 			}
+			.bidding {
+				font-size: 20px;
+				display: flex;
+				justify-items: baseline;
+				align-items: center;
+				svg {
+					padding: 5px;
+					color: $basic-color;
+				}
+				svg:hover {
+					background: $basic-color;
+					color: #fff;
+					cursor: pointer;
+				}
+				.tips {
+					color: #e3393c;
+					font-size: 15px;
+					padding: 0 10px;
+				}
+			}
 		}
 		.auction-record {
 			margin-top: 20px;
@@ -247,5 +444,8 @@ export default {
 				margin-top: 20px;
 			}
 		}
+	}
+	input {
+		text-align: center;
 	}
 </style>

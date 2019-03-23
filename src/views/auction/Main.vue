@@ -11,16 +11,16 @@
 				<div class="line fl"></div>
 			</div>
 			<!-- 推荐图书 -->
-			<div class="rec-book">
-				<ba-book v-for="item of 4" :key="item" :book="item"></ba-book>
+			<!-- <div class="rec-book">
+				<ba-book v-for="item of 4" :key="item" :book="item"></ba-book> -->
 				<!-- 更多同类图书 -->
-				<div class="book fl vertical-center ba-bg-color" @click="toCategory(item.id)">
+				<!-- <div class="book fl vertical-center ba-bg-color" @click="toCategory(item.id)">
 					<div class="more">
 						<p class="fl">更多</p>
 						<div class="more-icon vertical-center fr"><i class="fas fa-chevron-circle-right fa-4x"></i></div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>
@@ -47,7 +47,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 	.auction-main {
-		width: 100%;
+		width: 966px;
+		margin: 0 auto;
+		padding: 20px 0;
 		/* .el-carousel__item h3 {
 			color: #475669;
 			opacity: 0.75;

@@ -13,7 +13,7 @@
 			<div class="change-photo">
 				<a href="javascript:void(0)" @click="imageChoice()" v-if="editInfo">更改头像</a>
 			</div>
-			<el-form>
+			<el-form label-width="80px">
 				<el-form-item label="学号:">
 					<div>{{userinfo.id}}</div>
 				</el-form-item>
@@ -26,6 +26,8 @@
 				<el-form-item label="手机:">
 					<el-input v-model="userinfo.phone" :disabled="!editInfo"></el-input>
 				</el-form-item>
+			</el-form>
+			<el-form>
 				<el-form-item>
 					<el-button @click="editInfo ? saveInfo() : (editInfo = !editInfo)">{{editInfo ? '保存修改' :'编辑信息'}}</el-button>
 				</el-form-item>

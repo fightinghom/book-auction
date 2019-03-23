@@ -133,6 +133,10 @@ li {
 	padding: 10px 0;
 }
 
+.pad-lf-20 {
+	padding-left: 50px;
+}
+
 .param-name-color {
 	font-size: 20px !important;
 	color: $param-color;
@@ -154,10 +158,45 @@ li {
 	padding: 0 !important;
 }
 
+.el-textarea__inner {
+	background: $panel-bg-color !important;
+}
+
 .el-input__inner:focus {
 	border-color: $basic-color !important;
 }
 
 .el-input__inner:hover {
 	border-color: $basic-color !important;
+}
+
+.el-form-item__content {
+	text-align: left !important;
+}
+
+.el-date-editor.el-input, .el-date-editor.el-input__inner, .el-select {
+	width: 100%;
+}
+
+input {
+	border: none;
+	height: 30px;
+	border-bottom: 1px #666 solid;
+	&:focus {
+		outline: none;
+		border-color: $basic-color
+	}
+	&:hover {
+		border-color: $basic-color
+	}
+}
+
+
+input[type=number] {
+    -moz-appearance:textfield;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

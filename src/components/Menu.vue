@@ -1,49 +1,30 @@
 <template>
-	<div class="menu ba-basic-color-aph" :style="{'width': firstMenu ? '200px' : '50px'}">
-		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu" @click="routeTo('/auction')">
-			<div class="vertical-center menu-icon fl"><i class="fas fa-shopping-bag "></i></div>
-			<div class="menu-name fl">
-				<span>正在拍卖</span>
-				<div class="vertical-center menu-icon fr"><i class="fas fa-angle-right "></i></div>
-			</div>
-		</div>
-		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu"  @click="routeTo('/sell')">
-			<div class="vertical-center menu-icon fl"><i class="fas fa-box-open "></i></div>
-			<div class="menu-name fl">
-				<span>我的竞卖</span>
-				<div class="vertical-center menu-icon fr"><i class="fas fa-angle-right "></i></div>
-			</div>
-		</div>
-		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu"  @click="routeTo('/purchase')">
-			<div class="vertical-center menu-icon fl"><i class="fas fa-shopping-cart "></i></div>
-			<div class="menu-name fl">
-				<span>我的竞购</span>
-				<div class="vertical-center menu-icon fr"><i class="fas fa-angle-right "></i></div>
-			</div>
-		</div>
-		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu" @click="routeTo('/feedback')">
-			<div class="vertical-center menu-icon fl"><i class="fas fa-comments "></i></div>
-			<div class="menu-name fl">
-				<span>互评记录</span>
-				<div class="vertical-center menu-icon fr"><i class="fas fa-angle-right "></i></div>
-			</div>
-		</div>
-		<div class="menu-item"  @mouseout="firstMenu = !firstMenu"  @mouseover="firstMenu = !firstMenu" @click="routeTo('/forum')" v-if="false">
-			<div class="vertical-center menu-icon fl"><i class="fas fa-users "></i></div>
-			<div class="menu-name fl">
-				<span>用户论坛</span>
-				<div class="vertical-center menu-icon fr"><i class="fas fa-angle-right "></i></div>
-			</div>
-		</div>
+	<div
+	class="menu ba-basic-color-aph"
+	@mouseout="firstMenu = !firstMenu"
+	@mouseover="firstMenu = !firstMenu"
+	:style="{'width': firstMenu ? '200px' : '50px'}">
 		<div class="menu-item"
-			v-if="getUserinfo.power === 1"
-			@mouseout="firstMenu = !firstMenu"
-			@mouseover="firstMenu = !firstMenu"
-			@click="routeTo('/manage')">
-			<div class="vertical-center menu-icon fl"><i class="fas fa-lock"></i></div>
-			<div class="menu-name fl">
-				<span>管理平台</span>
-				<div class="vertical-center menu-icon fr"><i class="fas fa-angle-right "></i></div>
+		v-for="item of menu"
+		:key="item.mark"
+		v-if="'Manage' !== item.mark ? true : (1 == getUserinfo.power ? true : false)"
+		@click="item.child.length > 0 ? '' : routeTo(item.path, '')">
+			<div class="first-menu" @click="expend(item.mark)" :class="{'on': item.mark === firstMenuName}">
+				<div class="vertical-center menu-icon fl"><i class="fas" :class="item.icon"></i></div>
+				<div class="menu-name fl">
+					<span>{{item.name}}</span>
+					<div class="vertical-center menu-icon fr" :class="{'icon-trans': item.mark === firstMenuName && item.child.length > 0}"><i class="fas fa-angle-right "></i></div>
+				</div>
+			</div>
+			<div class="item-child" v-show="item.mark === firstMenuName">
+				<div
+				v-for="(citem, index) of item.child"
+				:key="index"
+				class="child"
+				:class="{'on': focusChildName === citem.mark}"
+				@click="routeTo(item.path+citem.path, citem.mark)">
+				{{citem.name}}
+				</div>
 			</div>
 		</div>
 	</div>
@@ -53,29 +34,150 @@ import {mapGetters} from 'vuex'
 export default {
 	data() {
 		return {
-			firstMenu: false
+			firstMenu: false,
+			firstMenuName: 'Auction',
+			focusChildName: '',
+			menu: [
+				{
+					name: '正在拍卖',
+					mark: 'Auction',
+					path: '/auction',
+					icon: 'fa-shopping-bag',
+					child: [],
+				},
+				{
+					name: '我的竞卖',
+					mark: 'Sell',
+					path: '/sell',
+					icon: 'fa-box-open',
+					child: [
+						{
+							name: '创建拍品',
+							path: '/create',
+							mark: 'CreateBook',
+						},
+						{
+							name: '正在拍卖',
+							path: '/auction',
+							mark: 'AuctionTable',
+						},
+						{
+							name: '等待处理',
+							path: '/dealing',
+							mark: 'sellDealing'
+						},
+						{
+							name: '交易历史',
+							path: '/complete',
+							mark: 'sellComplete'
+						},
+					]
+				},
+				{
+					name: '我的竞购',
+					path: '/purchase',
+					mark: 'Purchase',
+					icon: 'fa-shopping-cart',
+					child: [
+						{
+							name: '我正在拍',
+							path: '/bidding',
+							mark: 'PurchaseBidding'
+						},
+						{
+							name: '等待处理',
+							path: '/get',
+							mark: 'purchaseGet'
+
+						},
+						{
+							name: '交易历史',
+							path: '/complete',
+							mark: 'purchaseComplete'
+						},
+					]
+				},
+				{
+					name: '互评记录',
+					path: '/feedback',
+					mark: 'feedback',
+					icon: 'fa-comments',
+					child: []
+				},
+				{
+					name: '管理平台',
+					path: '/manage',
+					mark: 'Manage',
+					icon: 'fa-lock',
+					child: [
+						{
+							name: '书籍审核',
+							path: '/check',
+							mark: 'ManageCheck'
+						},
+						{
+							name: '用户列表',
+							path: '/user',
+							mark: 'ManageUser'
+						},
+						{
+							name: '交易订单',
+							path: '/order',
+							mark: 'manageOrder'
+						},
+						{
+							name: '意见反馈',
+							path: '/feedback',
+							mark: 'manageFeedback'
+						}
+					]
+				},
+			]
 		}
 	},
 	computed: {
 		...mapGetters(['getUserinfo']),
 	},
 	methods: {
-		routeTo(rn) {
+		routeTo(rn, mark) {
+			if(mark === '') {
+				this.focusChildName = ''
+			} else {
+				this.focusChildName = mark
+			}
 			this.$router.push(rn)
+		},
+		expend(v) {
+			this.firstMenuName = v
+		},
+	},
+	watch: {
+		'$route' (to, from) {
+			let matched = to.matched
+			let pName = matched[1].name
+			let name = matched[2].name
+			this.firstMenuName = pName
+			this.focusChildName = name
 		}
 	}
 }
 </script>
 <style lang="scss" scoped>
+	.on {
+		background: #647bec;
+	}
+	.icon-trans {
+		transition: all 0.5s;
+		transform: rotate(90deg);
+	}
 	.menu {
 		height: 100%;
 		position: absolute;
 		overflow: hidden;
 		transition: all 0.5s;
-		//border-right: #eaedfa 1px solid;
 		overflow-y: auto;
 		.menu-item {
-			height: 50px;
+			transition: all 0.5s;
 			width: 200px;
 			color: #eaedfa;
 			&:first-child {
@@ -84,23 +186,37 @@ export default {
 				border-top: 1px solid;
 				border-bottom: 1px solid;
 			}
-			&:hover {
-				background: #647bec;
-				cursor: pointer;
-			}
-			.menu-icon {
-				width: 50px;
-				height: 100%;
-			}
-			.menu-name {
-				width: 150px;
-				height: 100%;
-				text-align: left;
-				span {
-					line-height: 50px;
-					padding-left: 20px;
+			.first-menu {
+				height: 50px;
+				&:hover {
+					background: #647bec;
+					cursor: pointer;
+				}
+				.menu-icon {
+					width: 50px;
+					height: 100%;
+				}
+				.menu-name {
+					width: 150px;
+					height: 100%;
+					text-align: left;
+					span {
+						line-height: 50px;
+						padding-left: 20px;
+					}
 				}
 			}
+			.item-child{
+				transition: all 5s;
+				.child {
+					padding: 8px 0;
+					&:hover {
+						background: #647bec;
+						cursor: pointer;
+					}
+				}
+			}
+
 		}
 	}
 </style>
