@@ -34,7 +34,7 @@ export default {
 		min-width: 966px;
 		margin: 0 auto;
 		background: #fcfcfc;
-		padding: 10px;
+		padding: 20px;
 		.back {
 			color: #b9beda;
 			text-align: left;

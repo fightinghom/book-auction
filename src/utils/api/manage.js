@@ -1,12 +1,17 @@
 import help from '../httpHelper'
 const manage = {
 	approve(request) {
-		const api = 'bookAuctionServer//book/approve'
+		const api = 'bookAuctionServer/book/approve'
 		const method = 'POST'
 		return help.httpHelper2(api, method, request)
 	},
 	fail(request) {
-		const api = 'bookAuctionServer//book/failApprove'
+		const api = 'bookAuctionServer/book/failApprove'
+		const method = 'POST'
+		return help.httpHelper2(api, method, request)
+	},
+	break(request) {
+		const api = 'bookAuctionServer/order/break'
 		const method = 'POST'
 		return help.httpHelper2(api, method, request)
 	},

@@ -5,8 +5,20 @@ const sell = {
 		const method = 'POST'
 		return help.httpHelper2(api, method, request)
 	},
-	queryBookByStatus(request) {
-
+	getOrderPages(request) {
+		const api = 'bookAuctionServer/order/pages'
+		const method = 'POST'
+		return help.httpHelper2(api, method, request)
+	},
+	getOrderList(request) {
+		const api = 'bookAuctionServer/order/list'
+		const method = 'POST'
+		return help.httpHelper2(api, method, request)
+	},
+	comformOrder(request) {
+		const api = 'bookAuctionServer/order/comform'
+		const method = 'POST'
+		return help.httpHelper2(api, method, request)
 	},
 }
 

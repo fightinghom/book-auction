@@ -15,55 +15,51 @@
 		</el-form>
 		<ba-table
 		:header="tableHeader"
-		:obj="'purchaseOrder'"
+		:obj="'sellOrder'"
 		:params="paginationBody"
 		:update="updatePagination"
 		@updateSuc="updatePagination = $event"
 		@setPage="getPage($event)">
-			<tr v-for="item of tableData" :key="item.id" @click="complete(item.oNumber)">
+			<tr v-for="item of tableData" :key="item.id" @click="deal(item.oNumber)">
 				<td>{{item.oNumber}}</td>
-				<td v-if="item.bookDetail">{{item.bookDetail.name}}</td>
-				<td>{{item.actualPrice}}</td>
+				<td>{{item.bookDetail.name}}</td>
 				<td>{{item.createTime.split('.')[0]}}</td>
-				<td>{{item.sellerId}}</td>
+				<td>{{item.actualPrice}}</td>
+				<td>{{item.getterId}}</td>
 				<td v-if="item.status">
 					<el-tag
 					:type="orderTag(item.status).type">
 					{{ orderTag(item.status).text }}
 					</el-tag>
 				</td>
-				<td>
-					<el-button size="small" type="primary" @click.stop="complete(item.oNumber)">查看订单</el-button>
-				</td>
+				<td><el-button size="small" type="primary" @click.stop="deal(item.oNumber)">查看订单</el-button></td>
 			</tr>
 		</ba-table>
 	</div>
 </template>
 <script>
 import Table from '@/components/Table.vue'
-import Timer from '@/components/timer/timer.vue'
 import http from '@/utils/api/index'
 import orderStatusUtils from '@/utils/orderStatus.js'
+
 import {mapActions, mapGetters} from 'vuex'
 export default {
 	components: {
 		BaTable: Table,
-		BaTimer: Timer
 	},
 	data() {
 		return {
-			tableHeader: ['订单编号', '拍品名称', '成交价格', '创建时间','卖家','订单状态' ,'操作'],
+			tableHeader: ['订单编号','拍品名称', '创建时间', '成交价格','竞得者', '订单状态','操作'],
 			tableData: [],
 			paginationBody: {
 				orderStauts: 0,
-				getterId: '',
 				number: 8,
 				nowpage: 1
 			},
 			updatePagination: false,
 			queryOrderList() {
 				let self = this
-				http.purchase.getBidderOfOrderList(self.paginationBody)
+				http.sell.getOrderList(self.paginationBody)
 				.then(rs => {
 					self.tableData = rs
 				})
@@ -74,21 +70,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(['getUserinfo']),
-	},
-	methods: {
-		complete(v) {
-			this.$router.push('/purchase/order/'+v)
-		},
-		getPage(val) {
-			this.paginationBody.nowPage = val
-			this.queryOrderList()
-		},
-		orderTag(v) {
-
-			let tag = orderStatusUtils.orderTag(v)
-			return tag
-		}
+		...mapGetters(['getUserinfo'])
 	},
 	watch: {
 		'paginationBody.orderStauts'(v) {
@@ -96,8 +78,20 @@ export default {
 			this.queryOrderList()
 		}
 	},
+	methods: {
+		deal(v) {
+			this.$router.push('/sell/order/'+v)
+		},
+		getPage(val) {
+			this.paginationBody.nowPage = val
+			this.queryOrderList()
+		},
+		orderTag(v) {
+			let tag = orderStatusUtils.orderTag(v)
+			return tag
+		}
+	},
 	created() {
-		this.paginationBody.getterId = this.getUserinfo.id
 		this.queryOrderList()
 	}
 }
@@ -111,7 +105,7 @@ export default {
 		word-wrap:break-word;
 		word-break: break-all;
 		&:first-child {
-			width: 16%;
+			width: 26%;
 		}
 	}
 </style>

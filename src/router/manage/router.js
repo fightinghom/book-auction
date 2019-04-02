@@ -1,5 +1,6 @@
 import ManageCheck from '@/views/manage/CheckTable'
 import ManageUser from '@/views/manage/UserTable'
+import ManageTable from '@/views/manage/OrderTabel'
 
 const manage = [
 	{
@@ -16,6 +17,14 @@ const manage = [
 		component: ManageUser,
 		meta: {
 			title: '用户管理'
+		}
+	},
+	{
+		path: 'order',
+		name: 'ManageTable',
+		component: ManageTable,
+		meta: {
+			title: '交易订单'
 		}
 	}
 ]

@@ -1,8 +1,9 @@
 <template>
 	<ba-table
 	:header="tableHeader"
-	:obj="'purchase'"
+	:obj="'purchaseBidding'"
 	:params="paginationBody"
+	@setPage="getPage($event)"
 	>
 		<tr v-for="item of tableData" :key="item.id" @click="toBook(item.book.id)">
 			<td>{{item.book.id}}</td>
@@ -40,7 +41,7 @@ export default {
 			},
 			queryEnrollList() {
 				let self = this
-				http.purchase.getBidderOfBookList(this.paginationBody)
+				http.purchase.getBidderOfBookList(self.paginationBody)
 				.then(rs => {
 					self.tableData = rs
 				})
@@ -56,6 +57,10 @@ export default {
 	methods: {
 		toBook(id) {
 			this.$router.push('/book_detail/' + id)
+		},
+		getPage(v){
+			this.paginationBody.nowPage = v
+			this.queryEnrollList()
 		}
 	},
 	mounted(){
@@ -66,9 +71,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 	td {
-		width: 16%;
-		&:first-child {
-			width: 20%;
-		}
+		width: 16.667%;
+		word-wrap:break-word;
+		word-break: break-all;
 	}
 </style>

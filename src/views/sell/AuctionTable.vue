@@ -61,7 +61,8 @@ export default {
 			this.$router.push('/book_detail/' + id)
 		},
 		getPage(v){
-			console.log(v)
+			this.paginationBody.nowPage = v
+			this.queryBook()
 		}
 	},
 	computed: {
@@ -76,5 +77,7 @@ export default {
 <style lang="scss" scoped>
 	td {
 		width: 25%;
+		word-wrap:break-word;
+		word-break: break-all;
 	}
 </style>

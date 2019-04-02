@@ -35,7 +35,7 @@ export default {
 	data() {
 		return {
 			firstMenu: false,
-			firstMenuName: 'Auction',
+			firstMenuName: '',
 			focusChildName: '',
 			menu: [
 				{
@@ -64,7 +64,7 @@ export default {
 						{
 							name: '等待处理',
 							path: '/dealing',
-							mark: 'sellDealing'
+							mark: 'SellDealing'
 						},
 						{
 							name: '交易历史',
@@ -87,7 +87,7 @@ export default {
 						{
 							name: '等待处理',
 							path: '/get',
-							mark: 'purchaseGet'
+							mark: 'PurchaseGet'
 
 						},
 						{
@@ -123,7 +123,7 @@ export default {
 						{
 							name: '交易订单',
 							path: '/order',
-							mark: 'manageOrder'
+							mark: 'ManageOrder'
 						},
 						{
 							name: '意见反馈',
@@ -159,6 +159,14 @@ export default {
 			this.firstMenuName = pName
 			this.focusChildName = name
 		}
+	},
+	mounted() {
+		let matched = this.$route.matched
+		let pName = matched[1].name
+		let name = matched[2].name
+		this.firstMenuName = pName
+		this.focusChildName = name
+
 	}
 }
 </script>

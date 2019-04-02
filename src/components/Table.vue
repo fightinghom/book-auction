@@ -59,39 +59,38 @@ export default {
 		currentPage(page) {
 			this.$emit('setPage', page)
 		},
+		updatePage() {
+			switch(this.obj) {
+				case 'book':
+					this.getTotalPage('auction', 'getBookTotalPage')
+					break;
+				case 'user':
+					this.getTotalPage('system', 'getUserTotalPage')
+					break;
+				case 'purchaseBidding':
+					this.getTotalPage('purchase', 'getPages')
+					break;
+				case 'purchaseOrder':
+					this.getTotalPage('purchase', 'getOrderPages')
+					break;
+				case 'sellOrder' :
+					this.getTotalPage('sell', 'getOrderPages')
+					break;
+				default:
+					break;
+			}
+		}
 	},
 	watch: {
 		update(v) {
 			if (v) {
-				switch(this.obj) {
-					case 'book':
-						this.getTotalPage('')
-						break;
-					case 'user':
-						this.getTotalPageOfUser()
-						break;
-					default:
-						break;
-				}
+				this.updatePage()
 				this.$emit('updateSuc', false)
 			}
 		}
 	},
 	mounted() {
-		switch(this.obj) {
-			case 'book':
-				this.getTotalPage('auction', 'getBookTotalPage')
-				break;
-			case 'user':
-				this.getTotalPage('system', 'getUserTotalPage')
-				break;
-			case 'purchase':
-				this.getTotalPage('purchase', 'getPages')
-				break;
-			default:
-				break;
-		}
-
+		this.updatePage()
 	}
 }
 </script>
@@ -121,6 +120,7 @@ export default {
 			}
 			td {
 				//height: $row-height;
+				box-sizing: border-box;
 				padding: 5px 20px;
 			}
 		}

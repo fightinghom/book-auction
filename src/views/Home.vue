@@ -1,30 +1,53 @@
 <template>
 	<div class="wapper vertical-center">
 		<div class="bg-cover"></div>
-		<el-container>
-			<el-header class="ba-basic-color-aph" height="50px">
-				<div class="vertical-center fl icon"><i class="fas fa-book-open fa-2x"></i></div>
-				<div class="plafrom-title fl">攀枝花学院二手图书拍卖平台</div>
-				<div class="fr personal-info" @mouseout="userFunc = !userFunc"  @mouseover="userFunc = !userFunc" :style="{'height': userFunc ? '150px' : '50px'}">
-					<div class="user-account">
-						<div class="user-name fl">{{displayName}}</div>
-						<div class="user-image fl">
-							<img :src="displayImg" alt="">
-						</div>
+		<!-- <div class="header ba-basic-color-aph">
+			<div class="vertical-center fl icon"><i class="fas fa-book-open fa-2x"></i></div>
+			<div class="plafrom-title fl">攀枝花学院二手图书拍卖平台</div>
+			<div class="fr personal-info" @mouseout="userFunc = !userFunc"  @mouseover="userFunc = !userFunc" :style="{'height': userFunc ? '150px' : '50px'}">
+				<div class="user-account">
+					<div class="user-name fl">{{displayName}}</div>
+					<div class="user-image fl">
+						<img :src="displayImg" alt="">
 					</div>
-					<div class="user-account ba-basic-color-aph" @click="userInfo = true">个人资料</div>
-					<div class="user-account ba-basic-color-aph" @click="logout">注销登录</div>
 				</div>
-			</el-header>
-			<el-container>
-				<el-aside width="50px">
-					<ba-menu></ba-menu>
-				</el-aside>
-				<el-main>
+				<div class="user-account ba-basic-color-aph" @click="userInfo = true">个人资料</div>
+				<div class="user-account ba-basic-color-aph" @click="logout">注销登录</div>
+			</div>
+		</div>
+		<div class="second">
+			<div class="aside">
+				<ba-menu></ba-menu>
+			</div>
+			<div class="main">
 					<router-view></router-view>
-				</el-main>
-			</el-container>
-		</el-container>
+			</div>
+		</div> -->
+		<div class="header ba-basic-color-aph">
+			<div class="vertical-center fl icon"><i class="fas fa-book-open fa-2x"></i></div>
+			<div class="plafrom-title fl">攀枝花学院二手图书拍卖平台</div>
+			<div class="fr personal-info" @mouseout="userFunc = !userFunc"  @mouseover="userFunc = !userFunc" :style="{'height': userFunc ? '150px' : '50px'}">
+				<div class="user-account">
+					<div class="user-name fl">{{displayName}}</div>
+					<div class="user-image fl">
+						<img :src="displayImg" alt="">
+					</div>
+				</div>
+				<div class="user-account ba-basic-color-aph" @click="userInfo = true">个人资料</div>
+				<div class="user-account ba-basic-color-aph" @click="logout">注销登录</div>
+			</div>
+		</div>
+		<div class="content">
+			<div class="content-wapper">
+				<div class="aside ba-basic-color-aph">
+					<ba-menu></ba-menu>
+				</div>
+				<div class="main">
+					<router-view></router-view>
+				</div>
+			</div>
+
+		</div>
 		<el-dialog
 		width="100%"
 		:visible.sync="userInfo"
@@ -138,18 +161,22 @@ export default {
 </script>
 <style lang="scss" scoped>
 	@import '@/assets/css/theme.scss';
-	.icon {
-		width: 50px;
-		height: 50px;
-	}
-	.el-container {
+	/* .wapper {
+		position: relative;
+		display: flex;
+		flex-wrap: wrap;
 		width: 100%;
 		height: 100%;
-		position: relative;
-		z-index: 99;
-		.el-header {
-			padding: 0;
+		.header {
+			width: 100%;
+			height: 50px;
+			position: relative;
+			z-index: 999;
 			color: #eaedfa;
+			.icon {
+				width: 50px;
+				height: 50px;
+			}
 			.plafrom-title {
 				line-height: 50px;
 			}
@@ -187,16 +214,90 @@ export default {
 				}
 			}
 		}
-		.el-aside {
-			height: 100%;
-			/* position: relative;
-			z-index: 999; */
+	} */
+	.wapper {
+		width: 100%;
+		height: 100%;
+		position: relative;
+		.header {
+			position: absolute;
+			z-index: 999;
+			left: 0;
+			top: 0;
+			height: 50px;
+			right: 0;
+			color: #eaedfa;
+			.icon {
+				width: 50px;
+				height: 50px;
+			}
+			.plafrom-title {
+				line-height: 50px;
+			}
+			.personal-info {
+				position: relative;
+				overflow: hidden;
+				z-index: 9999;
+				transition: all 0.5s;
+				.user-account {
+					height: 50px;
+					line-height: 50px;
+					padding: 0 10px;
+					&:hover {
+						background: #647bec;
+						cursor: pointer;
+					}
+					.user-name {
+						text-align: right;
+						padding-right: 10px;
+						width: 150px;
+					}
+					.user-image {
+						width: 40px;
+						height: 40px;
+						border-radius: 20px;
+						//padding: 5px;
+						margin-top: 5px;
+						background: #eaedfa;
+						img {
+							width: 40px;
+							height: 40px;
+							border-radius: 20px;
+						}
+					}
+				}
+			}
 		}
-		.el-main {
-			//padding-bottom: 20px;
-			padding: 20px 20px;;
-			overflow-y: scroll;
+		.content {
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 50px;
+			bottom: 0;
+			.content-wapper {
+				width: 100%;
+				height: 100%;
+				position: relative;
+				.aside {
+					position: absolute;
+					width: 50px;
+					top: 0;
+					bottom: 0;
+					z-index: 999;
+				}
+				.main {
+					position: absolute;
+					left: 50px;
+					top: 0;
+					bottom: 0;
+					right: 0;
+					overflow: auto;
+					//z-index: 2;
+					padding: 20px 20px;
+				}
+			}
 		}
 	}
+
 </style>
 

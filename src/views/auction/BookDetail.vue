@@ -16,7 +16,7 @@
 					<div class="mar-btm-5 book-clock">
 						<i class="far fa-clock fa-2x icon"></i>
 						<span>正在拍卖</span>
-						<ba-timer v-if="undefined != book.endTime" :type="'bookDetail'" :end="book.endTime">距离结束&nbsp;</ba-timer>
+						<ba-timer v-if="undefined != book.endTime" :type="'bookDetail'" :end="book.endTime" @timeover="timeover($event)">距离结束&nbsp;</ba-timer>
 					</div>
 					<div class="pad-top-10  mar-btm-5 book-test"><span>起始价格</span>￥<span>{{book.startPrice}}</span></div>
 					<div class="pad-top-10  mar-btm-5 book-test"><span>加价幅度</span>￥<span>{{book.increaseRange}}</span></div>
@@ -32,6 +32,7 @@
 				<el-button v-if="1 === btnStatus" type="primary" @click="uploadBid()">我要出价</el-button>
 				<el-button v-if="0 === btnStatus" type="primary" @click="enroll()">我要报名</el-button>
 				<div class="pad-top-10" v-if="2 === btnStatus">您是出售者，不能进行报名和出价</div>
+				<div class="pad-top-10" v-if="3 === btnStatus">拍卖已结束</div>
 			</div>
 		</div>
 		<!-- 叫价记录 -->
@@ -287,6 +288,9 @@ export default {
 		},
 		back() {
 			this.$router.go(-1)
+		},
+		timeover(v) {
+			this.btnStatus = 3
 		}
 	},
 	mounted() {

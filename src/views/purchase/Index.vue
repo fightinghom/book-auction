@@ -35,6 +35,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '@/assets/css/theme.scss';
 	.purchase {
 		width: 70%;
 		min-width: 966px;
