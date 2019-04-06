@@ -76,6 +76,9 @@ export default {
 				case 'sellOrder' :
 					this.getTotalPage('sell', 'getOrderPages')
 					break;
+				case 'feedbackMine' :
+					this.getTotalPage('feedback', 'getPages')
+					break;
 				default:
 					break;
 			}

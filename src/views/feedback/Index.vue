@@ -1,24 +1,50 @@
 <template>
-	<div>
-		<input type="datetime-local" v-model="time" @change="timeChange()">
+	<div class="feedback">
+		<div class="back" @click="back"><i class="fas fa-chevron-left fa-3x"></i></div>
+		<div class="title">{{title}}</div>
+		<router-view></router-view>
 	</div>
 </template>
 <script>
 import http from '@/utils/api/index'
-import {validate} from '@/utils/validate.js'
+
 export default {
 	data() {
 		return {
-			time: ''
+			title: ''
 		}
 	},
-	methods: {
-		timeChange() {
-			console.log((new Date(this.time)).getTime())
+	methods:{
+		back() {
+			this.$router.go(-1)
 		}
+	},
+	updated() {
+		this.title = this.$route.meta.title
+	},
+	mounted() {
+		this.title = this.$route.meta.title
 	}
 }
 </script>
 <style lang="scss" scoped>
-
+	.feedback {
+		width: 70%;
+		min-width: 966px;
+		margin: 0 auto;
+		background: #fcfcfc;
+		padding: 10px;
+		.back {
+			color: #b9beda;
+			text-align: left;
+			&:hover {
+				cursor: pointer;
+			}
+		}
+		.title {
+			color: #1f2f3d;
+			font-size: 28px;
+			padding: 10px 0;
+		}
+	}
 </style>

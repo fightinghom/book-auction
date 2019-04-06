@@ -102,7 +102,13 @@ export default {
 					path: '/feedback',
 					mark: 'feedback',
 					icon: 'fa-comments',
-					child: []
+					child: [
+						{
+							name: '我的评价',
+							path: '/wait',
+							mark: 'FeedBackWait'
+						}
+					]
 				},
 				{
 					name: '管理平台',

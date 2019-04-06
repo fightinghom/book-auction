@@ -20,7 +20,7 @@
 		:update="updatePagination"
 		@updateSuc="updatePagination = $event"
 		@setPage="getPage($event)">
-			<tr v-for="item of tableData" :key="item.id" @click="complete(item.oNumber)">
+			<tr v-for="item of tableData" :key="item.id" @click="toOrder(item.oNumber)">
 				<td>{{item.oNumber}}</td>
 				<td v-if="item.bookDetail">{{item.bookDetail.name}}</td>
 				<td>{{item.actualPrice}}</td>
@@ -33,7 +33,7 @@
 					</el-tag>
 				</td>
 				<td>
-					<el-button size="small" type="primary" @click.stop="complete(item.oNumber)">查看订单</el-button>
+					<el-button size="small" type="primary" @click.stop="toOrder(item.oNumber)">查看订单</el-button>
 				</td>
 			</tr>
 		</ba-table>
@@ -77,7 +77,7 @@ export default {
 		...mapGetters(['getUserinfo']),
 	},
 	methods: {
-		complete(v) {
+		toOrder(v) {
 			this.$router.push('/purchase/order/'+v)
 		},
 		getPage(val) {

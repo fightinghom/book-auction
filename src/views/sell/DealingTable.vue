@@ -7,8 +7,8 @@
 					<el-option :label="'待完善'" :value="1"></el-option>
 					<el-option :label="'待确认'" :value="2"></el-option>
 					<el-option :label="'交易中'" :value="3"></el-option>
-					<el-option :label="'交易完成'" :value="4"></el-option>
-					<el-option :label="'交易取消'" :value="5"></el-option>
+					<el-option :label="'交易完成'" :value="6"></el-option>
+					<el-option :label="'交易取消'" :value="7"></el-option>
 					<el-option :label="'交易停滞'" :value="96"></el-option>
 				</el-select>
 			</el-form-item>
