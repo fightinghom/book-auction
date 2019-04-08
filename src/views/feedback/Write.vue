@@ -39,7 +39,7 @@
 			</el-form>
 		</div>
 		<!-- 对方信息 -->
-		<div class="other-side" v-if="detail.otherSideUser">
+		<div class="other-side" v-if="detail.otherSideUser && user != detail.otherSide">
 			<img :src="detail.otherSideUser.pic" alt="对方未添加头像">
 			<div class="info">
 				<div class="number"><span>用户编号:</span>{{detail.otherSideUser.id}}</div>
@@ -47,13 +47,21 @@
 				<div class="phone"><span>电话:</span>{{detail.otherSideUser.phone}}</div>
 			</div>
 		</div>
-		<!-- 商品信息 -->
-		<div class="book-info" v-if="detail.order.bookDetail">
-			<img :src="detail.order.bookDetail.img[0]" alt="111">
+		<div class="other-side" v-if="detail.ownSideUser && user != detail.user">
+			<img :src="detail.ownSideUser.pic" alt="对方未添加头像">
 			<div class="info">
-				<div class="number"><span>图书编号:</span>{{detail.order.bookDetail.id}}</div>
-				<div class="name"><span>书名:</span>{{detail.order.bookDetail.name}}</div>
-				<div class="category"><span>分类:</span>{{detail.order.bookDetail.category.name}}</div>
+				<div class="number"><span>用户编号:</span>{{detail.ownSideUser.id}}</div>
+				<div class="name"><span>姓名:</span>{{detail.ownSideUser.name}}</div>
+				<div class="phone"><span>电话:</span>{{detail.ownSideUser.phone}}</div>
+			</div>
+		</div>
+		<!-- 商品信息 -->
+		<div class="book-info" v-if="book != null">
+			<img :src="book.img[0]" alt="111">
+			<div class="info">
+				<div class="number"><span>图书编号:</span>{{book.id}}</div>
+				<div class="name"><span>书名:</span>{{book.name}}</div>
+				<div class="category"><span>分类:</span>{{book.category.name}}</div>
 			</div>
 		</div>
 	</div>
@@ -61,10 +69,13 @@
 <script>
 import http from '@/utils/api/index'
 import orderStatusUtils from '@/utils/orderStatus.js'
+import {mapActions,mapGetters} from 'vuex'
 export default {
 	data() {
 		return {
+			user: '',
 			detail: {},
+			book: null,
 			params: {
 				orderNo: '',
 				userId: ''
@@ -79,6 +90,7 @@ export default {
 				.then(rs => {
 					rs.order.bookDetail.img = JSON.parse(rs.order.bookDetail.img)
 					self.detail = rs
+					self.book = rs.order.bookDetail
 				})
 				.catch(value => {
 					console.log(value)
@@ -108,10 +120,14 @@ export default {
 			})
 		}
 	},
+	computed: {
+		...mapGetters(['getUserinfo'])
+	},
 	mounted() {
 		/* this.queryFeedback() */
 	},
 	created() {
+		this.user = this.getUserinfo.id
 		this.params.orderNo = this.$route.query.oid
 		this.params.userId = this.$route.query.userId
 		this.queryFeedback()

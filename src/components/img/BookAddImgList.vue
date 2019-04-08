@@ -3,7 +3,7 @@
 		<div class="img"  v-for="(item, index) of imgs" :key="index">
 			<img :src="item" alt="">
 		</div>
-		<div class="add-img vertical-center" @click="addImg" v-if="imgs.length < 5">
+		<div class="add-img vertical-center" @click="addImg" v-if="imgs.length < imgNum">
 			<i class="fas fa-plus fa-2x"></i>
 			<input ref="imgInput" type="file" accept="image/*" @change="pushImg"/>
 		</div>
@@ -12,9 +12,16 @@
 <script>
 import imgUtils from '@/utils/imgHelper'
 export default {
+	props:{
+		imgNum: {
+			type: Number,
+			default: 5
+		}
+	},
 	data() {
 		return {
 			imgs:[],
+			imgNumber: 0
 		}
 	},
 	methods: {
@@ -34,6 +41,9 @@ export default {
 		imgs(v) {
 			this.$emit('imgs', v)
 		}
+	},
+	created() {
+		this.imgNumber = this.imgNum
 	}
 }
 </script>

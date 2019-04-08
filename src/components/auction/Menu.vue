@@ -61,7 +61,7 @@ export default {
 		list.map(item => {
 			item.children.push({
 				id: item.id,
-				name: '更多...'
+				name: '其他'
 			})
 		})
 		this.categoryList = list

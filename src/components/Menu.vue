@@ -107,6 +107,16 @@ export default {
 							name: '我的评价',
 							path: '/wait',
 							mark: 'FeedBackWait'
+						},
+						{
+							name: '关于我的',
+							path: '/aboutme',
+							mark: 'FeedBackAboutMe'
+						},
+						{
+							name: '评价广场',
+							path: '/square',
+							mark: 'FeedBackSquare'
 						}
 					]
 				},
@@ -135,6 +145,11 @@ export default {
 							name: '意见反馈',
 							path: '/feedback',
 							mark: 'manageFeedback'
+						},
+						{
+							name: '首页设置',
+							path: '/homeset',
+							mark: 'ManageHomeSet'
 						}
 					]
 				},

@@ -76,7 +76,7 @@
 	</div>
 </template>
 <script>
-import BookAddImgList from '@/components/sell/BookAddImgList.vue'
+import BookAddImgList from '@/components/img/BookAddImgList.vue'
 import CategoryPicker from '@/components/picker/CategoryPicker.vue'
 import http from '@/utils/api/index.js'
 import {mapActions, mapGetters} from 'vuex'

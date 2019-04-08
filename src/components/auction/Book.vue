@@ -2,12 +2,12 @@
 	<div class="book fl ba-bg-color" @click="toBook( bookInfo.id)">
 		<!-- 图书照片 -->
 		<div class="book-img">
-			<img :src="showImg" alt="">
+			<img :src="bookInfo.img" alt="">
 		</div>
 		<!-- 图书名称 -->
 		<p class="book-name">{{bookInfo.name}}</p>
 		<!-- 图书当前最高价 -->
-		<div class="book-price">{{bookInfo.startPrice}}</div>
+		<div class="book-price">{{bookInfo.maxPrice}}</div>
 		<!-- 剩余拍卖时间 -->
 		<ba-timer
 		:type="'book'"
@@ -28,7 +28,6 @@ export default {
 	data() {
 		return {
 			bookInfo: {},
-			showImg: '',
 			auctionEnd: false
 		}
 	},
@@ -44,8 +43,6 @@ export default {
 	},
 	created() {
 		this.bookInfo = JSON.parse(JSON.stringify(this.book))
-		this.bookInfo.img = JSON.parse(this.bookInfo.img)
-		this.showImg = this.bookInfo.img[0]
 	}
 }
 </script>
@@ -75,6 +72,11 @@ export default {
 		.book-name {
 			padding: 0 20px;
 			margin-bottom: 10px;
+			word-break:keep-all;
+			white-space:nowrap;
+			overflow:hidden;
+			text-overflow:ellipsis;
+			text-align: center;
 		}
 		.book-price {
 			padding: 0 20px;

@@ -40,9 +40,14 @@ const system = {
 		const method = "POST"
 		return help.httpHelper2(api, method, request)
 	},
-	test(request) {
-		const api = 'bookAuctionServer/test0'
-		const method = 'POST'
+	getSetting(request) {
+		const api = 'bookAuctionServer/setting/get'
+		const method = "POST"
+		return help.httpHelper2(api, method, request)
+	},
+	updateSetting(request) {
+		const api = 'bookAuctionServer/setting/update'
+		const method = "POST"
 		return help.httpHelper2(api, method, request)
 	}
 }

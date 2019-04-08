@@ -40,6 +40,9 @@ export default {
 					bookCategory: self.bookCategory
 				})
 				.then(res => {
+					res.map(item => {
+						item.img = JSON.parse(item.img)[0]
+					})
 					self.bookList = res
 				})
 				.catch(value => {
