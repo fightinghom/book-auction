@@ -9,7 +9,7 @@
 			</div>
 			<div class="img-list fl">
 				<ul>
-					<li class="fl" :class="{'on': focusOnIndex == index}" v-for="(item, index) of list" :key="item">
+					<li class="fl" :class="{'on': focusOnIndex == index}" v-for="(item, index) of list" :key="item" @click="showThis(index)">
 						<img :src="item" alt="">
 					</li>
 				</ul>
@@ -50,6 +50,10 @@ export default {
 
 			}
 
+			this.showImg = this.list[this.focusOnIndex]
+		},
+		showThis(v) {
+			this.focusOnIndex = v
 			this.showImg = this.list[this.focusOnIndex]
 		}
 

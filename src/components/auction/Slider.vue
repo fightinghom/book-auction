@@ -7,7 +7,7 @@
 			<li style="background:gray"></li>
 			<li style="background:green"></li> -->
 			<li v-for="(item, index) of 5" :key="item">
-				<img v-if="bookList.length > 0" :src="bookList[index].img" alt="">
+				<img v-if="bookList.length > 0" :src="bookList[index].img" :alt="bookList[index].name" @click="toBook(bookList[index].id)">
 			</li>
 		</ul>
 		<div class="btn">
@@ -94,7 +94,10 @@ export default {
 					this.next()
 				}
 			}
-		}
+		},
+		toBook(id) {
+			this.$router.push('/book_detail/' + id)
+		},
 	},
 	watch: {
 		books(v) {
@@ -156,6 +159,9 @@ export default {
 				transition: all 0.5s;
 				img {
 					transition: all 0.5s;
+					&:hover{
+						cursor: pointer;
+					}
 				}
 			}
 		}
