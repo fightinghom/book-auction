@@ -10,7 +10,11 @@ const store = new Vuex.Store({
 	state: {
 		userinfo: JSON.parse(sessionStorage.getItem('user')),
 		loginStatus: sessionStorage.getItem('loginStatus'),
-		bookCategory: JSON.parse(sessionStorage.getItem('bookCategory'))
+		bookCategory: JSON.parse(sessionStorage.getItem('bookCategory')),
+		loading: false /* sessionStorage.getItem('loading') */,
+		memroyPage: {
+			componentName: ''
+		}
 	},
 
 
@@ -24,6 +28,12 @@ const store = new Vuex.Store({
 		},
 		getBookCategory: ({bookCategory}) => {
 			return bookCategory
+		},
+		getLoading: ({loading}) => {
+			return loading
+		},
+		getMemoryPage: ({memroyPage}) => {
+			return memroyPage
 		}
 	},
 
@@ -41,6 +51,13 @@ const store = new Vuex.Store({
 		[types.Book_Category](state, bookCategory) {
 			state.bookCategory = bookCategory
 			sessionStorage.setItem('bookCategory', JSON.stringify(bookCategory))
+		},
+		[types.Loading](state, loading) {
+			state.loading = loading
+			/* sessionStorage.setItem('loading', loading) */
+		},
+		[types.Memory_Page](state, memroyPage) {
+			state.memroyPage = memroyPage
 		}
 	},
 
@@ -55,6 +72,12 @@ const store = new Vuex.Store({
 		},
 		setBookCategory: ({commit}, category) => {
 			return commit(types.Book_Category, category)
+		},
+		setLoading: ({commit}, loading) => {
+			return commit(types.Loading, loading)
+		},
+		setMemoryPage: ({commit}, memoryPage) => {
+			return commit(types.Memory_Page, memoryPage)
 		}
 	}
 

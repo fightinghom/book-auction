@@ -1,5 +1,5 @@
 <template>
-	<div class="book fl ba-bg-color" @click="toBook( bookInfo.id)">
+	<div class="book fl ba-bg-color">
 		<!-- 图书照片 -->
 		<div class="book-img">
 			<img :src="bookInfo.img" alt="">
@@ -32,9 +32,6 @@ export default {
 		}
 	},
 	methods: {
-		toBook(id) {
-			this.$router.push('/book_detail/' + id)
-		},
 		timeover(v) {
 			if(v) {
 				this.auctionEnd = true

@@ -62,14 +62,9 @@ export default {
 							mark: 'AuctionTable',
 						},
 						{
-							name: '等待处理',
+							name: '订单管理',
 							path: '/dealing',
 							mark: 'SellDealing'
-						},
-						{
-							name: '交易历史',
-							path: '/complete',
-							mark: 'sellComplete'
 						},
 					]
 				},
@@ -85,15 +80,10 @@ export default {
 							mark: 'PurchaseBidding'
 						},
 						{
-							name: '等待处理',
+							name: '订单管理',
 							path: '/get',
 							mark: 'PurchaseGet'
 
-						},
-						{
-							name: '交易历史',
-							path: '/complete',
-							mark: 'purchaseComplete'
 						},
 					]
 				},
@@ -142,11 +132,6 @@ export default {
 							mark: 'ManageOrder'
 						},
 						{
-							name: '意见反馈',
-							path: '/feedback',
-							mark: 'manageFeedback'
-						},
-						{
 							name: '首页设置',
 							path: '/homeset',
 							mark: 'ManageHomeSet'
@@ -179,6 +164,7 @@ export default {
 			let name = matched[2].name
 			this.firstMenuName = pName
 			this.focusChildName = name
+			console.log(pName, name)
 		}
 	},
 	mounted() {
@@ -187,7 +173,6 @@ export default {
 		let name = matched[2].name
 		this.firstMenuName = pName
 		this.focusChildName = name
-
 	}
 }
 </script>

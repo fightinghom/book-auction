@@ -15,6 +15,11 @@ const manage = {
 		const method = 'POST'
 		return help.httpHelper2(api, method, request)
 	},
+	resolve(request) {
+		const api = 'bookAuctionServer/order/resolve'
+		const method = 'POST'
+		return help.httpHelper2(api, method, request)
+	},
 }
 
 export default manage

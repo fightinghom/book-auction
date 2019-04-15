@@ -17,7 +17,7 @@ const purchase = [
 		name: 'PurchaseGet',
 		component: GetTable,
 		meta: {
-			title: '订单处理'
+			title: '订单管理'
 		}
 	},
 	{

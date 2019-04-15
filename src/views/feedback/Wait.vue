@@ -39,10 +39,11 @@
 					</el-tag>
 				</td>
 				<td>
-					<el-button type="primary" size="mini" @click="toWrite(item.order.oNumber)">评价</el-button>
-					<el-button type="info" size="mini" @click="toOrder(item.order.oNumber)">详情</el-button>
+					<el-button type="primary" size="mini" @click="toWrite(item.order.oNumber)">{{item.status === 1 ? '评价' : '查看'}}</el-button>
+					<el-button type="info" size="mini" @click="toOrder(item.order.oNumber)">订单</el-button>
 				</td>
 			</tr>
+			<div v-if="tableData.length === 0" slot="nodata">暂无互评</div>
 		</ba-table>
 	</div>
 </template>
@@ -83,7 +84,7 @@ export default {
 		BaTable: Table
 	},
 	computed: {
-		...mapGetters(['getUserinfo'])
+		...mapGetters(['getUserinfo', 'getMemoryPage'])
 	},
 	methods: {
 		orderTag(v) {
@@ -92,14 +93,20 @@ export default {
 			return tag
 		},
 		toOrder(v) {
-			this.$router.push('/purchase/order/'+v)
+			let pageInfo = {}
+			pageInfo.paginationBody = this.paginationBody
+			pageInfo.componentName = this.$route.name
+			this.$router.push({path: '/purchase/order/' + v, query: {prevPage: pageInfo}})
 		},
 		getPage(val) {
 			this.paginationBody.nowPage = val
 			this.queryFeedbackList()
 		},
 		toWrite(v) {
-			this.$router.push({path: 'write', query: {oid: v, userId: this.getUserinfo.id}})
+			let pageInfo = {}
+			pageInfo.paginationBody = this.paginationBody
+			pageInfo.componentName = this.$route.name
+			this.$router.push({path: 'write', query: {oid: v, userId: this.getUserinfo.id, prevPage: pageInfo}})
 		}
 	},
 	watch: {
@@ -109,6 +116,11 @@ export default {
 		}
 	},
 	created() {
+		let memory = this.getMemoryPage
+		if(memory.componentName === this.$route.name) {
+			console.log(memory)
+			this.paginationBody = memory.paginationBody
+		}
 		this.paginationBody.user = this.getUserinfo.id
 		this.queryFeedbackList()
 	}

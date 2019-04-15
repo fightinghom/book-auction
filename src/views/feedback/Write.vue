@@ -99,6 +99,7 @@ export default {
 		}
 	},
 	methods: {
+		...mapActions(['setMemoryPage']),
 		orderTag(v) {
 
 			let tag = orderStatusUtils.orderTag(v)
@@ -127,6 +128,7 @@ export default {
 		/* this.queryFeedback() */
 	},
 	created() {
+		this.setMemoryPage(this.$route.query.prevPage)
 		this.user = this.getUserinfo.id
 		this.params.orderNo = this.$route.query.oid
 		this.params.userId = this.$route.query.userId

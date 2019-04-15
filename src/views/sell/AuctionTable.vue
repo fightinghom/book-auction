@@ -13,8 +13,9 @@
 			<td>{{item.name}}</td>
 			<td>{{item.category.name}}</td>
 			<td><ba-timer type="book" :end="item.endTime"></ba-timer></td>
-			<td><el-button size="small" type="primary" @click.stop="cancelBook(item.id)">取消上架</el-button></td>
+			<td><el-button size="small" type="primary" @click.stop="toBook(item.id)">查看图书</el-button></td>
 		</tr>
+		<div v-if="tableData.length === 0" slot="nodata">暂无拍品</div>
 	</ba-table>
 </template>
 <script>
@@ -58,7 +59,10 @@ export default {
 			console.log(v)
 		},
 		toBook(id) {
-			this.$router.push('/book_detail/' + id)
+			let pageInfo = {}
+			pageInfo.paginationBody = this.paginationBody
+			pageInfo.componentName = this.$route.name
+			this.$router.push({path: '/book_detail/' + id, query: {prevPage: pageInfo}})
 		},
 		getPage(v){
 			this.paginationBody.nowPage = v
@@ -66,11 +70,17 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(['getUserinfo'])
+		...mapGetters(['getUserinfo', 'getMemoryPage'])
 	},
 	mounted() {
 		this.paginationBody.userId = this.getUserinfo.id
 		this.queryBook()
+	},
+	created() {
+		let memory = this.getMemoryPage
+		if(memory.componentName === this.$route.name) {
+			this.paginationBody = memory.paginationBody
+		}
 	}
 }
 </script>

@@ -15,6 +15,7 @@
 				<el-button size="small" type="primary" @click.stop="toBook(item.book.id)">查看详情</el-button>
 			</td>
 		</tr>
+		<div v-if="tableData.length === 0" slot="nodata">暂无拍品</div>
 	</ba-table>
 </template>
 <script>
@@ -52,11 +53,14 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(['getUserinfo'])
+		...mapGetters(['getUserinfo', 'getMemoryPage'])
 	},
 	methods: {
 		toBook(id) {
-			this.$router.push('/book_detail/' + id)
+			let pageInfo = {}
+			pageInfo.paginationBody = this.paginationBody
+			pageInfo.componentName = this.$route.name
+			this.$router.push({path: '/book_detail/' + id, query: {prevPage: pageInfo}})
 		},
 		getPage(v){
 			this.paginationBody.nowPage = v
@@ -66,6 +70,12 @@ export default {
 	mounted(){
 		this.paginationBody.bidderId = this.getUserinfo.id
 		this.queryEnrollList()
+	},
+	created() {
+		let memory = this.getMemoryPage
+		if(memory.componentName === this.$route.name) {
+			this.paginationBody = memory.paginationBody
+		}
 	}
 }
 </script>

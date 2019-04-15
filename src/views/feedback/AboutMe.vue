@@ -3,7 +3,7 @@
 		<el-form>
 			<el-form-item :label="'评价状态'" label-width="80px">
 				<el-select v-model="paginationBody.status" placeholder="请选择">
-					<el-option :label="'全部'" :value="0"></el-option>
+					<el-option :label="'全部'" :value="2"></el-option>
 				</el-select>
 			</el-form-item>
 		</el-form>
@@ -34,10 +34,11 @@
 					{{item.rate}}
 				</td>
 				<td>
-					<el-button type="primary" size="mini" @click="toWrite(item.order.oNumber, item.user)">评价</el-button>
-					<el-button type="info" size="mini" @click="toOrder(item.order.oNumber)">详情</el-button>
+					<el-button type="primary" size="mini" @click="toWrite(item.order.oNumber, item.user)">查看</el-button>
+					<el-button type="info" size="mini" @click="toOrder(item.order.oNumber)">订单</el-button>
 				</td>
 			</tr>
+			<div v-if="tableData.length === 0" slot="nodata">暂无互评</div>
 		</ba-table>
 	</div>
 </template>
@@ -53,7 +54,7 @@ export default {
 			tableData: [],
 			paginationBody: {
 				user: '',
-				status: 0,
+				status: 2,
 				otherSide: '',
 				nowPage: 1,
 				number: 8
@@ -78,18 +79,24 @@ export default {
 		BaTable: Table
 	},
 	computed: {
-		...mapGetters(['getUserinfo'])
+		...mapGetters(['getUserinfo', 'getMemoryPage'])
 	},
 	methods: {
 		toOrder(v) {
-			this.$router.push('/purchase/order/'+v)
+			let pageInfo = {}
+			pageInfo.paginationBody = this.paginationBody
+			pageInfo.componentName = this.$route.name
+			this.$router.push({path: '/purchase/order/' + v, query: {prevPage: pageInfo}})
 		},
 		getPage(val) {
 			this.paginationBody.nowPage = val
 			this.queryFeedbackList()
 		},
 		toWrite(v, u) {
-			this.$router.push({path: 'write', query: {oid: v, userId: u}})
+			let pageInfo = {}
+			pageInfo.paginationBody = this.paginationBody
+			pageInfo.componentName = this.$route.name
+			this.$router.push({path: 'write', query: {oid: v, userId: u, prevPage: pageInfo}})
 		}
 	},
 	watch: {
@@ -99,6 +106,11 @@ export default {
 		}
 	},
 	created() {
+		let memory = this.getMemoryPage
+		if(memory.componentName === this.$route.name) {
+			console.log(memory)
+			this.paginationBody = memory.paginationBody
+		}
 		this.paginationBody.otherSide = this.getUserinfo.id
 		this.queryFeedbackList()
 	}

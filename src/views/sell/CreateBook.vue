@@ -1,5 +1,5 @@
 <template>
-	<div class="create-book">
+	<div class="create-book" v-loading="getLoading">
 		<el-form
 		:model="bookDetail"
 		label-width="90px"
@@ -120,9 +120,10 @@ export default {
 		CategoryPicker
 	},
 	computed: {
-		...mapGetters(['getUserinfo'])
+		...mapGetters(['getUserinfo', 'getLoading'])
 	},
 	methods: {
+		...mapActions(['setLoading']),
 		upload(forms) {
 			let self = this
 			let bookDetail = JSON.parse(JSON.stringify(this.bookDetail))
@@ -134,25 +135,30 @@ export default {
 				resultList.push(self.valid(form))
 			})
 
+			self.setLoading(true)
 			Promise.all(resultList)
 			.then(() => {
 				bookDetail.sellerId =  this.getUserinfo.id
 				bookDetail.endTime = new Date(bookDetail.endTime).getTime()
+				bookDetail.description = bookDetail.description.replace(/\n|\r|↵/g, '<br />')
 				bookDetail.imgs = bookDetail.imgs.map(item => {
 					return item.split(',')[1]
 				})
 				http.sell.addBook(bookDetail)
 				.then(rs => {
+					self.setLoading(false)
 					self.$message({
 						message: rs,
 						type: 'success'
 					})
 				})
 				.catch(value => {
+					self.setLoading(false)
 					console.log(value)
 				})
 			})
 			.catch(() => {
+				self.setLoading(false)
 			})
 		},
 		getImgs(v) {
@@ -175,6 +181,8 @@ export default {
 			return result
 		},
 	},
+	mounted() {
+	}
 }
 </script>
 <style lang="scss" scoped>

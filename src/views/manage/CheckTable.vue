@@ -1,27 +1,31 @@
 <template>
-	<ba-table
-	:header="tableHeader"
-	:obj="'book'"
-	:params="paginationBody"
-	:update="updatePagination"
-	@updateSuc="updatePagination = $event"
-	@setPage="getPage($event)">
-		<tr v-for="item of tableData" :key="item.id" @click="toBook(item.id)">
-			<td>{{item.name}}</td>
-			<td>{{item.id}}</td>
-			<td>{{item.ownerId}}</td>
-			<td>{{item.startPrice}}</td>
-			<td>
-				<el-button size="small" type="primary" @click.stop="pass(item.id)">审核通过</el-button>
-				<el-button size="small" type="warning" @click.stop="fail(item.id)">不允通过</el-button>
-			</td>
-		</tr>
-	</ba-table>
+	<div>
+		<ba-table
+		:header="tableHeader"
+		:obj="'book'"
+		:params="paginationBody"
+		:update="updatePagination"
+		@updateSuc="updatePagination = $event"
+		@setPage="getPage($event)">
+			<tr v-for="item of tableData" :key="item.id" @click="toBook(item.id)">
+				<td>{{item.name}}</td>
+				<td>{{item.id}}</td>
+				<td>{{item.ownerId}}</td>
+				<td>{{item.startPrice}}</td>
+				<td>
+					<el-button size="small" type="primary" @click.stop="pass(item.id)">审核通过</el-button>
+					<el-button size="small" type="warning" @click.stop="fail(item.id)">不允通过</el-button>
+				</td>
+			</tr>
+			<div v-if="tableData.length === 0" slot="nodata">暂无图书</div>
+		</ba-table>
+	</div>
 </template>
 <script>
 import Table from '@/components/Table.vue'
 import bookStatusCode from '@/utils/bookStatusCode'
 import http from '@/utils/api/index'
+import {mapGetters} from 'vuex'
 export default {
 	components: {
 		BaTable: Table,
@@ -85,14 +89,24 @@ export default {
 			})
 		},
 		toBook(id) {
-			this.$router.push('/book_detail/' + id)
+			let pageInfo = {}
+			pageInfo.paginationBody = this.paginationBody
+			pageInfo.componentName = this.$route.name
+			this.$router.push({path: '/book_detail/' + id, query: {prevPage: pageInfo}})
 		},
 		getPage(val) {
 			this.paginationBody.nowPage = val
 			this.queryBook()
 		},
 	},
+	computed: {
+		...mapGetters(['getUserinfo', 'getMemoryPage'])
+	},
 	mounted() {
+		let memory = this.getMemoryPage
+		if(memory.componentName === this.$route.name) {
+			this.paginationBody = memory.paginationBody
+		}
 		this.queryBook()
 	}
 }

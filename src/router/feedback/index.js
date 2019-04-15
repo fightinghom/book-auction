@@ -6,7 +6,7 @@ import FeedbackChild from './router'
 const feedbackIndex = [
 	{
 		path: '/feedback',
-		name: 'Feedback',
+		name: 'feedback',
 		component: Feedback,
 		children: FeedbackChild
 	}

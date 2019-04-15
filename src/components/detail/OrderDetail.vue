@@ -1,7 +1,7 @@
 <template>
 	<div class="order-detail">
 		<!-- 步骤条 -->
-		<div class="item item-shadow animated delay-1">
+		<div class="item item-shadow animated">
 			<ba-step v-if="step.length > 0 && stepUpdate">
 				<ba-step-item
 				v-for="(item, index) of step"
@@ -12,7 +12,7 @@
 			</ba-step>
 		</div>
 		<!-- 订单信息 -->
-		<div class="item item-shadow animated delay-2">
+		<div class="item item-shadow animated">
 			<div class="title">订单信息</div>
 			<div class="info">
 				<div class="info-item">
@@ -30,7 +30,7 @@
 			</div>
 		</div>
 		<!-- 图书信息 -->
-		<div class="item item-shadow  animated delay-3"  v-if="order.bookDetail">
+		<div class="item item-shadow  animated"  v-if="order.bookDetail">
 			<div class="title">图书信息</div>
 			<div class="info">
 				<div class="info-item">
@@ -52,7 +52,7 @@
 			</div>
 		</div>
 		<!-- 卖家信息 -->
-		<div class="item item-shadow animated delay-4"  v-if="'getter' === role">
+		<div class="item item-shadow animated"  v-if="'getter' === role || 'manager' === role">
 			<div class="title">卖家信息</div>
 			<div class="info">
 				<div class="info-item">
@@ -70,7 +70,7 @@
 			</div>
 		</div>
 		<!-- 买家信息 -->
-		<div class="item item-shadow animated delay-5"  v-if="'seller' === role">
+		<div class="item item-shadow animated"  v-if="'seller' === role || 'manager' === role">
 			<div class="title">买家信息</div>
 			<div class="info">
 				<div class="info-item">
@@ -88,7 +88,7 @@
 			</div>
 		</div>
 		<!-- 约见信息 -->
-		<div class="item item-shadow animated delay-6"  v-if="seller">
+		<div class="item item-shadow animated"  v-if="seller">
 			<div class="title">约见信息</div>
 			<div class="info">
 				<div class="info-item">
@@ -108,8 +108,9 @@
 			</div>
 		</div>
 		<!-- 操作按钮 -->
-		<div class="item item-shadow animated delay-7">
-			<div class="btn">
+		<div class="item item-shadow animated" v-if="order.status != 6 && order.status != 7">
+			<div class="btn" >
+				<el-button type="warning" v-if="96 == order.status && 'manager' == role" @click="resolveOrder()">恢复订单</el-button>
 				<el-button type="primary" v-if="1 == order.status && 'getter' == role" @click="meetInfo = true">完善订单</el-button>
 				<el-button type="success" v-if="2 == order.status && 'seller' == role" @click="comformOrder()">确认订单</el-button>
 				<el-button type="primary" v-if="3 == order.status && 'seller' == role" @click="getCode()">获取送货码</el-button>
@@ -124,7 +125,7 @@
 			<div class="tip focus">	Tips:如果您取消订单，您的保证金会作为卖家的赔偿!</div>
 		</div>
 		<el-dialog
-		width="100%"
+		width="90%"
 		:visible.sync="meetInfo"
 		title="约见信息"
 		custom-class="ba-bg-color max-w-600">
@@ -167,17 +168,19 @@ export default {
 					orderNo: self.orderNo
 				})
 				.then(rs => {
-					self.order = rs.order
-					self.step = orderStep.initStep(rs.order.status, rs.order.cancelReason)
-					self.getter = rs.getter
-					self.seller = rs.seller
 					if(rs.getter.id === self.getUserinfo.id) {
 						self.role = 'getter'
 					} else if(rs.seller.id === self.getUserinfo.id) {
 						self.role = 'seller'
 					} else if(self.getUserinfo.power > 0) {
 						self.role = 'manager'
+					} else {
+						self.$router.go(-1)
 					}
+					self.order = rs.order
+					self.step = orderStep.initStep(rs.order.status, rs.order.cancelReason)
+					self.getter = rs.getter
+					self.seller = rs.seller
 					self.stepReset()
 				})
 				.catch(value => {
@@ -192,6 +195,7 @@ export default {
 		BaMeet
 	},
 	methods: {
+		...mapActions(['setMemoryPage']),
 		getMeetInfo(v) {
 			let self = this
 			self.meetInfo = false
@@ -327,6 +331,25 @@ export default {
 				console.log(value)
 			})
 		},
+		resolveOrder() {
+			let self = this
+			let params = {
+				type: self.role + 'Resolve',
+				no: self.orderNo,
+				status: self.order.status
+			}
+
+			http.manage.resolve(params)
+			.then(rs => {
+				if(rs) {
+					console.log('已恢复')
+					self.queryOrderDetail()
+				}
+			})
+			.catch(value => {
+				console.log(value)
+			})
+		}
 	},
 	computed: {
 		...mapGetters(['getUserinfo']),
@@ -337,7 +360,7 @@ export default {
 	created() {
 		this.orderNo = this.$route.params.oid
 		this.queryOrderDetail()
-
+		this.setMemoryPage(this.$route.query.prevPage)
 	}
 }
 </script>
@@ -350,7 +373,6 @@ export default {
 			margin-top: 20px;
 			position: relative;
 			z-index: 3;
-			transform: translateX(1500px);
 			.title {
 				padding: 10px 20px;
 				text-align: left;
@@ -399,6 +421,34 @@ export default {
 		}
 	}
 
+	@media screen and (max-width: 420px){
+		.order-detail {
+			padding: 0 5px;
+			box-sizing: border-box;
+			.item {
+
+				&:first-child {
+					display: none;
+				}
+				.info {
+					flex-direction: column;
+					.info-item {
+						width: 100%;
+						padding: 5px 0;
+					}
+				}
+				.btn {
+					display: flex;
+					flex-wrap: wrap;
+					.el-button {
+						margin: 0;
+						margin: 5px 5px;
+					}
+				}
+			}
+		}
+	}
+
 	.item-shadow {
 		box-shadow: 0 0 10px 0 #cccccc;;
 	}
@@ -406,43 +456,5 @@ export default {
 	.focus {
 		color: red !important;
 	}
-
-	.animated{
-		-webkit-animation: animate 0.5s 1;
-		-webkit-animation-fill-mode: forwards;
-
-	}
-
-	@-webkit-keyframes animate{
-		from{
-			transform: translateX(1500px);
-		}
-		to{
-			transform: translateX(0px);
-		}
-	}
-
-	.delay-1{
-		-webkit-animation-delay: 0.5s;
-	}
-	.delay-2{
-		-webkit-animation-delay: 0.75s;
-	}
-	.delay-3{
-		-webkit-animation-delay: 1s;
-	}
-	.delay-4{
-		-webkit-animation-delay: 1.25s;
-	}
-	.delay-5{
-		-webkit-animation-delay: 1.5s;
-	}
-	.delay-6{
-		-webkit-animation-delay: 1.75s;
-	}
-	.delay-7{
-		-webkit-animation-delay: 2s;
-	}
-
 </style>
 

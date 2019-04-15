@@ -7,8 +7,8 @@
 					<el-option :label="'待完善'" :value="1"></el-option>
 					<el-option :label="'待确认'" :value="2"></el-option>
 					<el-option :label="'交易中'" :value="3"></el-option>
-					<el-option :label="'交易完成'" :value="4"></el-option>
-					<el-option :label="'交易取消'" :value="5"></el-option>
+					<el-option :label="'交易完成'" :value="6"></el-option>
+					<el-option :label="'交易取消'" :value="7"></el-option>
 					<el-option :label="'交易停滞'" :value="96"></el-option>
 				</el-select>
 			</el-form-item>
@@ -36,6 +36,7 @@
 					<el-button size="small" type="primary" @click.stop="toOrder(item.oNumber)">查看订单</el-button>
 				</td>
 			</tr>
+			<div v-if="tableData.length === 0" slot="nodata">暂无订单</div>
 		</ba-table>
 	</div>
 </template>
@@ -58,7 +59,7 @@ export default {
 				orderStauts: 0,
 				getterId: '',
 				number: 8,
-				nowpage: 1
+				nowPage: 1
 			},
 			updatePagination: false,
 			queryOrderList() {
@@ -74,11 +75,14 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(['getUserinfo']),
+		...mapGetters(['getUserinfo', 'getMemoryPage']),
 	},
 	methods: {
 		toOrder(v) {
-			this.$router.push('/purchase/order/'+v)
+			let pageInfo = {}
+			pageInfo.paginationBody = this.paginationBody
+			pageInfo.componentName = this.$route.name
+			this.$router.push({path: '/purchase/order/' + v, query: {prevPage: pageInfo}})
 		},
 		getPage(val) {
 			this.paginationBody.nowPage = val
@@ -97,6 +101,10 @@ export default {
 		}
 	},
 	created() {
+		let memory = this.getMemoryPage
+		if(memory.componentName === this.$route.name) {
+			this.paginationBody = memory.paginationBody
+		}
 		this.paginationBody.getterId = this.getUserinfo.id
 		this.queryOrderList()
 	}

@@ -1,6 +1,7 @@
 <template>
 	<div class="wapper vertical-center">
 		<div class="bg-cover"></div>
+		<!-- PC端显示 -->
 		<div class="login-container">
 			<div class="login-banner ba-shadow">
 				<div class="banner-bg">
@@ -43,7 +44,7 @@
 								<el-input type="password" v-model="loginForm.password" autocomplete="off" @keyup.enter.native="login('loginForm')"></el-input>
 							</el-form-item>
 							<el-form-item class="mar-top-30">
-								<el-button @click="login('loginForm')">登 录</el-button>
+								<el-button @click="login('loginForm', 'pc')" :loading="getLoading">登 录</el-button>
 							</el-form-item>
 						</el-form>
 					</div>
@@ -79,12 +80,35 @@
 								<el-input type="password" v-model="registerForm.comfirmPwd" autocomplete="off" @keyup.enter.native="register('registerForm')"></el-input>
 							</el-form-item>
 							<el-form-item class="mar-top-30">
-								<el-button @click="register('registerForm')">注 册</el-button>
+								<el-button @click="register('registerForm')" :loading="getLoading">注 册</el-button>
 							</el-form-item>
 						</el-form>
 					</div>
 				</div>
 			</div>
+		</div>
+		<div class="login-container-mobile">
+			<div class="title">攀大二手图书拍卖平台</div>
+			<el-form
+			ref="loginFormM"
+			:model="loginFormM"
+			:rules="loginRuleM">
+				<el-form-item class="mar-top-20 param-name-color">
+					<span class="param-name-color">学 号</span>
+				</el-form-item>
+				<el-form-item prop="stuId">
+					<el-input type="text" v-model="loginFormM.stuId" autocomplete="off"></el-input>
+				</el-form-item>
+				<el-form-item class="mar-top-20">
+					<span class="param-name-color">密 码</span>
+				</el-form-item>
+				<el-form-item prop="password">
+					<el-input type="password" v-model="loginFormM.password" autocomplete="off" @keyup.enter.native="login('loginFormM', 'mobile')"></el-input>
+				</el-form-item>
+				<el-form-item class="mar-top-30">
+					<el-button @click="login('loginFormM', 'mobile')" :loading="getLoading" type="primary">登 录</el-button>
+				</el-form-item>
+			</el-form>
 		</div>
 	</div>
 </template>
@@ -100,6 +124,10 @@ export default {
 				stuId: '',
 				password: ''
 			},
+			loginFormM: {
+				stuId: '',
+				password: ''
+			},
 			registerForm: {
 				stuId: '',
 				mobile: '',
@@ -107,6 +135,10 @@ export default {
 				comfirmPwd: ''
 			},
 			loginRule: {
+				stuId: validate.userId,
+				password: validate.password
+			},
+			loginRuleM: {
 				stuId: validate.userId,
 				password: validate.password
 			},
@@ -119,19 +151,22 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(['getUserinfo', 'getLoginStatus'])
+		...mapGetters(['getUserinfo', 'getLoginStatus', 'getLoading']),
 	},
 	methods: {
-		...mapActions(['setUserinfo', 'setLoginStatus']),
+		...mapActions(['setUserinfo', 'setLoginStatus', 'setLoading']),
 		change(form) {
 			this.isLogin = !this.isLogin
 			this.$refs[form].resetFields()
 		},
-		login(form) {
+		login(form, client) {
+			console.log(client)
 			let self = this
-			let param = self.loginForm
+			let param = 'mobile' === client ? self.loginFormM : self.loginForm
+			self.setLoading(true)
 			self.$refs[form].validate((valid) => {
 				if (valid) {
+
 					http.system.login({
 						id: param.stuId,
 						password: param.password
@@ -142,15 +177,22 @@ export default {
 							id: param.stuId,
 						})
 						self.setLoginStatus(true)
-						self.$router.push('/home')
+						if('mobile' === client) {
+							self.$router.push('/mobile')
+						} else {
+							self.$router.push('/home')
+						}
 						} else {
 							console.log('账户或密码错误')
 						}
+						self.setLoading(false)
 					})
 					.catch(value => {
+						self.setLoading(false)
 						console.log(value)
 					})
 				} else {
+					self.setLoading(false)
 					console.log('验证失败')
 				}
 			})
@@ -158,6 +200,7 @@ export default {
 		register(form) {
 			let self = this
 			let param = self.registerForm
+			self.setLoading(true)
 			self.$refs[form].validate((valid) => {
 				if (valid) {
 					http.system.addUser({
@@ -173,21 +216,28 @@ export default {
 								type: 'success',
 								message: '注册成功!'
 							})
+							self.setLoading(false)
 						} else {
 							self.$message({
 								type: 'warning',
 								message: '账号可能已被注册！'
 							})
+							self.setLoading(false)
 						}
 					})
 					.catch(value => {
+						self.setLoading(false)
 						console.log(value)
 					})
 				} else {
+					self.setLoading(false)
 					console.log('注册失败')
 				}
 			})
 		}
+	},
+	created() {
+		this.setLoading(false)
 	}
 }
 </script>
@@ -195,6 +245,26 @@ export default {
 @import '@/assets/css/theme.scss';
 	.wapper {
 		overflow: auto;
+		.login-container-mobile {
+			display: none;
+			width: 100%;
+			height: 100%;
+			background: #fcfcfc ;
+			position: relative;
+			z-index: 9;
+			padding: 10px;
+			box-sizing: border-box;
+			color: #409EFF;
+			.el-button {
+				width: 100%;
+			}
+			.title {
+				font-size: 30px;
+			}
+			span {
+				color: #409EFF !important;
+			}
+		}
 		.login-container {
 			position: relative;
 			width: 998px;
@@ -307,6 +377,14 @@ export default {
 						}
 					}
 				}
+			}
+		}
+		@media screen and (max-width: 420px) {
+			.login-container {
+				display: none;
+			}
+			.login-container-mobile {
+				display: block;
 			}
 		}
 	}

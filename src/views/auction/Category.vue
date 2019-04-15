@@ -2,7 +2,7 @@
 	<div class="auction-ca">
 		<!-- 该页商品 -->
 		<div class="ca-book">
-			<ba-book v-for="item of bookList" :key="item.id" :book="item"></ba-book>
+			<ba-book v-for="item of bookList" :key="item.id" :book="item" @click.native="toBook(item.id)"></ba-book>
 			<div v-if="bookList.length == 0">
 				暂无商品
 			</div>
@@ -13,7 +13,8 @@
 				background
 				layout="prev, pager, next"
 				:page-count="pages"
-				@current-change="currentPage">
+				@current-change="currentPage"
+				:current-page="nowPage">
 			</el-pagination>
 		</div>
 	</div>
@@ -22,6 +23,7 @@
 import Book from '@/components/auction/Book'
 import http from '@/utils/api/index'
 import bookStatusCode from '@/utils/bookStatusCode'
+import {mapGetters} from 'vuex'
 export default {
 	data() {
 		return {
@@ -73,6 +75,16 @@ export default {
 			this.nowPage = page
 			this.queryBook()
 		},
+		toBook(id) {
+			let pageInfo = {}
+			pageInfo.componentName = this.$route.name
+			pageInfo.nowPage = this.nowPage
+			pageInfo.category = this.bookCategory
+			this.$router.push({path: '/book_detail/' + id,query: {prevPage: pageInfo}})
+		},
+	},
+	computed: {
+		...mapGetters(['getMemoryPage'])
 	},
 	/**
 	 *
@@ -82,11 +94,18 @@ export default {
 		'$route' (to, from) {
 			this.bookCategory = to.params.cid
 			this.queryBook()
-		    this.getTotalPage()
+			this.getTotalPage()
+
 		}
 	},
 	mounted() {
 		this.bookCategory = this.$route.params.cid
+		let memory = this.getMemoryPage
+		if(memory.componentName === this.$route.name) {
+			if(memory.category === this.bookCategory) {
+				this.nowPage = memory.nowPage
+			}
+		}
 		this.queryBook()
 		this.getTotalPage()
 	}

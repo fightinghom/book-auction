@@ -34,6 +34,7 @@
 				</td>
 				<td><el-button size="small" type="primary" @click.stop="deal(item.oNumber)">查看订单</el-button></td>
 			</tr>
+			<div v-if="tableData.length === 0" slot="nodata">暂无订单</div>
 		</ba-table>
 	</div>
 </template>
@@ -54,7 +55,7 @@ export default {
 			paginationBody: {
 				orderStauts: 0,
 				number: 8,
-				nowpage: 1
+				nowPage: 1
 			},
 			updatePagination: false,
 			queryOrderList() {
@@ -70,7 +71,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(['getUserinfo'])
+		...mapGetters(['getUserinfo', 'getMemoryPage'])
 	},
 	watch: {
 		'paginationBody.orderStauts'(v) {
@@ -80,7 +81,10 @@ export default {
 	},
 	methods: {
 		deal(v) {
-			this.$router.push('/sell/order/'+v)
+			let pageInfo = {}
+			pageInfo.paginationBody = this.paginationBody
+			pageInfo.componentName = this.$route.name
+			this.$router.push({path: '/sell/order/' + v, query: {prevPage: pageInfo}})
 		},
 		getPage(val) {
 			this.paginationBody.nowPage = val
@@ -92,6 +96,10 @@ export default {
 		}
 	},
 	created() {
+		let memory = this.getMemoryPage
+		if(memory.componentName === this.$route.name) {
+			this.paginationBody = memory.paginationBody
+		}
 		this.queryOrderList()
 	}
 }

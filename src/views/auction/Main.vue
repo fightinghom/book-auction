@@ -13,7 +13,7 @@
 			</div>
 			<!-- 推荐图书 -->
 			<div class="rec-book">
-				<ba-book v-for="item of home.literature" :key="item.id" :book="item"></ba-book>
+				<ba-book v-for="item of home.literature" :key="item.id" :book="item" @click.native="toBook(item.id)"></ba-book>
 				<!-- 更多同类图书 -->
 				<!-- <div class="book fl vertical-center ba-bg-color" @click="toCategory(item.id)">
 					<div class="more">
@@ -90,7 +90,6 @@ export default {
 				})
 				.then(rs => {
 					self.home = JSON.parse(rs.jsonStr)
-					console.log(self.home)
 				})
 				.catch(value => {
 					console.log(value)
@@ -101,7 +100,10 @@ export default {
 	methods: {
 		toCategory(cid) {
 			this.$router.push('/book_category/' + cid)
-		}
+		},
+		toBook(id) {
+			this.$router.push('/book_detail/' + id)
+		},
 	},
 	components: {
 		BaSlider: Slider,

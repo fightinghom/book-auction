@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home'
+import Mobile from '@/views/Mobile'
 import Login from '@/views/Login'
 import page404 from '@/components/404'
 
@@ -11,6 +12,7 @@ import forum from './forum/index'
 import manage from './manage/index'
 import purchase from './purchase/index'
 import sell from './sell/index'
+import mobile from './mobile/index'
 
 const modules = []
 
@@ -39,8 +41,15 @@ const routers = new Router({
 	},
 	{
 		path: '/404',
-		name: page404,
+		name: 'page404',
 		component: page404
+	},
+	{
+		path: '/mobile',
+		name: 'Mobile',
+		component: Mobile,
+		redirect: '/order',
+		children: mobile
 	},
 	{
 		path: '/home',

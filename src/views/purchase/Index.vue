@@ -14,7 +14,6 @@
 import Tabs from '@/components/Tabs.vue'
 import BiddingTable from './BiddingTable.vue'
 import GetTable from './GetTable.vue'
-import CompleteTable from './CompleteTable.vue'
 export default {
 	data() {
 		return {

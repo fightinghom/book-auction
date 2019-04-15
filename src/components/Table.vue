@@ -6,12 +6,14 @@
 			</tr>
 			<slot></slot>
 		</table>
+		<slot name="nodata"></slot>
 		<div class="pagination">
 			<el-pagination
 				background
 				layout="prev, pager, next"
 				:page-count="totalPage"
-				@current-change="currentPage">
+				@current-change="currentPage"
+				:current-page.sync="nowPage">
 			</el-pagination>
 		</div>
 	</div>
@@ -23,31 +25,13 @@ export default {
 	data() {
 		return {
 			totalPage: 0,
-			/* getTotalPage() {
-				let self = this
-				http.auction.getBookTotalPage(self.params)
-				.then(res => {
-					self.totalPage = res
-				})
-				.catch(value => {
-					console.log(value)
-				})
-			},
-			getTotalPageOfUser() {
-				let self = this
-				http.system.getUserTotalPage(self.params)
-				.then(res => {
-					self.totalPage = res
-				})
-				.catch(value => {
-					console.log(value)
-				})
-			} */
+			nowPage: 1,
 			getTotalPage(moduleName, api) {
 				let self = this
 				http[moduleName][api](self.params)
 				.then(res => {
 					self.totalPage = res
+					self.nowPage = self.params.nowPage
 				})
 				.catch(value => {
 					console.log(value)

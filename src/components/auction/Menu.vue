@@ -56,15 +56,32 @@ export default {
 	computed: {
 		...mapGetters(['getBookCategory','getUserinfo']),
 	},
+	watch: {
+		getBookCategory(v) {
+
+			let list = JSON.parse(JSON.stringify(v))
+			if (v != null) {
+				list.map(item => {
+					item.children.push({
+						id: item.id,
+						name: '其他'
+					})
+				})
+				this.categoryList = list
+			}
+		}
+	},
 	mounted() {
 		let list = JSON.parse(JSON.stringify(this.getBookCategory))
-		list.map(item => {
-			item.children.push({
-				id: item.id,
-				name: '其他'
+		if (this.getBookCategory != null) {
+			list.map(item => {
+				item.children.push({
+					id: item.id,
+					name: '其他'
+				})
 			})
-		})
-		this.categoryList = list
+			this.categoryList = list
+		}
 	}
 }
 </script>

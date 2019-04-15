@@ -30,7 +30,7 @@
 					<div class="tips">您可以选择自主输入价格，也可以选择增减加价幅度值的倍数</div>
 				</div>
 				<el-button v-if="1 === btnStatus" type="primary" @click="uploadBid()">我要出价</el-button>
-				<el-button v-if="0 === btnStatus" type="primary" @click="enroll()">我要报名</el-button>
+				<el-button v-if="0 === btnStatus && 1 === book.status" type="primary" @click="enroll()">我要报名</el-button>
 				<div class="pad-top-10" v-if="2 === btnStatus">您是出售者，不能进行报名和出价</div>
 				<div class="pad-top-10" v-if="3 === btnStatus">拍卖已结束</div>
 			</div>
@@ -171,6 +171,7 @@ export default {
 		}
 	},
 	methods: {
+		...mapActions(['setMemoryPage']),
 		currentPage(page) {
 			this.page.page = page
 			this.queryRecordsOfPage()
@@ -297,6 +298,7 @@ export default {
 
 	},
 	created() {
+		this.setMemoryPage(this.$route.query.prevPage)
 		this.bookId = this.$route.params.bid
 		this.bid.bookId = this.bookId
 		this.page.bookId = this.bookId

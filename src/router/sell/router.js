@@ -24,7 +24,7 @@ const sell = [
 		name: 'SellDealing',
 		component: SellDealing,
 		meta: {
-			title: '订单处理'
+			title: '订单管理'
 		}
 	},
 	{

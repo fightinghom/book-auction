@@ -14,6 +14,12 @@ const orderStatus = {
 			case 4:
 				text = '交易完成'
 				break;
+			case 6:
+				text = '交易完成'
+				break;
+			case 7:
+				text = '交易取消'
+				break;
 			case 96:
 				text = '交易停滞'
 				break;

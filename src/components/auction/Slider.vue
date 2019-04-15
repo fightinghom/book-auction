@@ -14,6 +14,8 @@
 			<div class="left" @click="prev()"><i class="fas fa-chevron-left fa-3x"></i></div>
 			<div class="right" @click="next()"><i class="fas fa-chevron-right fa-3x"></i></div>
 		</div>
+			<!-- <div class="left" @click="prev()"><i class="fas fa-chevron-left fa-3x"></i></div>
+			<div class="right" @click="next()"><i class="fas fa-chevron-right fa-3x"></i></div> -->
 		<div class="point">
 			<div class="item" v-for="(item, index) of 5" :key="item" @click="toPoint(index)"></div>
 		</div>

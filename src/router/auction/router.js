@@ -10,6 +10,7 @@ const auction = [
 	},
 	{
 		path: '/book_category/:cid',
+		name: 'AuctionCategory',
 		component: AuctionCategory
 	},
 	{
