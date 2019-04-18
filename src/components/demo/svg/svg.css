@@ -1,0 +1,30 @@
+* {
+	padding: 0;
+	margin: 0;
+	text-decoration:none;
+}
+html, body{
+	width: 100%;
+	height: 100%;
+}
+.wapper {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+.wapper #menu{
+	position: absolute;
+	width: 60px;
+	height: 60px;
+	right: 0;
+	bottom: 0;
+	cursor: pointer;
+}
+
+.wapper .menu-item{
+	position: absolute;
+	width: 60px;
+	height: 60px;
+	cursor: pointer;
+}

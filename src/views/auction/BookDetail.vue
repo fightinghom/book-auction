@@ -35,6 +35,23 @@
 				<div class="pad-top-10" v-if="3 === btnStatus">拍卖已结束</div>
 			</div>
 		</div>
+		<!-- 卖家信息 -->
+		<div class="seller-info" v-if="book.owner">
+			<img :src="book.owner.pic" :alt="book.owner.id">
+			<div class="info">
+				<div class="item">
+					<el-rate
+						disabled
+						v-model="book.owner.avgStars"
+						show-score
+						text-color="#ff9900"
+						score-template="{value}">
+					</el-rate>
+				</div>
+				<div class="item">卖家编号: {{book.owner.id}}</div>
+				<div class="item">卖家昵称: {{book.owner.nikename}}</div>
+			</div>
+		</div>
 		<!-- 叫价记录 -->
 		<div class="auction-record" v-if="$route.params.bid !== 'add'">
 			<div class="art pad-tb-10">实时拍卖记录</div>
@@ -404,6 +421,24 @@ export default {
 					color: #e3393c;
 					font-size: 15px;
 					padding: 0 10px;
+				}
+			}
+		}
+		.seller-info {
+			display: flex;
+			padding: 10px 0;
+			img {
+				width: 100px;
+				height: 100px;
+			}
+			.info {
+				flex: 1 1;
+				display: flex;
+				flex-direction: column;
+				text-align: left;
+				padding-left: 30px;
+				.item {
+					padding-top: 10px;
 				}
 			}
 		}

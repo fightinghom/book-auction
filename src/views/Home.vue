@@ -1,31 +1,10 @@
 <template>
 	<div class="wapper vertical-center">
 		<div class="bg-cover"></div>
-		<!-- <div class="header ba-basic-color-aph">
-			<div class="vertical-center fl icon"><i class="fas fa-book-open fa-2x"></i></div>
-			<div class="plafrom-title fl">攀枝花学院二手图书拍卖平台</div>
-			<div class="fr personal-info" @mouseout="userFunc = !userFunc"  @mouseover="userFunc = !userFunc" :style="{'height': userFunc ? '150px' : '50px'}">
-				<div class="user-account">
-					<div class="user-name fl">{{displayName}}</div>
-					<div class="user-image fl">
-						<img :src="displayImg" alt="">
-					</div>
-				</div>
-				<div class="user-account ba-basic-color-aph" @click="userInfo = true">个人资料</div>
-				<div class="user-account ba-basic-color-aph" @click="logout">注销登录</div>
-			</div>
-		</div>
-		<div class="second">
-			<div class="aside">
-				<ba-menu></ba-menu>
-			</div>
-			<div class="main">
-					<router-view></router-view>
-			</div>
-		</div> -->
 		<div class="header ba-basic-color-aph">
-			<div class="vertical-center fl icon"><i class="fas fa-book-open fa-2x"></i></div>
-			<div class="plafrom-title fl">攀枝花学院二手图书拍卖平台</div>
+			<div class="vertical-center icon"><i class="fas fa-book-open fa-2x"></i></div>
+			<div class="plafrom-title">攀枝花学院二手图书拍卖平台</div>
+			<div class="vallet" @click="updateMoney()">可用余额: {{user.balance}} ￥</div>
 			<div class="fr personal-info" @mouseout="userFunc = !userFunc"  @mouseover="userFunc = !userFunc" :style="{'height': userFunc ? '150px' : '50px'}">
 				<div class="user-account">
 					<div class="user-name fl">{{displayName}}</div>
@@ -149,6 +128,10 @@ export default {
 			})
 			return result
 
+		},
+		updateMoney() {
+			let id = this.getUserinfo.id
+			this.queryUserById(id)
 		}
 	},
 	mounted() {
@@ -161,66 +144,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 	@import '@/assets/css/theme.scss';
-	/* .wapper {
-		position: relative;
-		display: flex;
-		flex-wrap: wrap;
-		width: 100%;
-		height: 100%;
-		.header {
-			width: 100%;
-			height: 50px;
-			position: relative;
-			z-index: 999;
-			color: #eaedfa;
-			.icon {
-				width: 50px;
-				height: 50px;
-			}
-			.plafrom-title {
-				line-height: 50px;
-			}
-			.personal-info {
-				position: relative;
-				overflow: hidden;
-				z-index: 9999;
-				transition: all 0.5s;
-				.user-account {
-					height: 50px;
-					line-height: 50px;
-					padding: 0 10px;
-					&:hover {
-						background: #647bec;
-						cursor: pointer;
-					}
-					.user-name {
-						text-align: right;
-						padding-right: 10px;
-						width: 150px;
-					}
-					.user-image {
-						width: 40px;
-						height: 40px;
-						border-radius: 20px;
-						//padding: 5px;
-						margin-top: 5px;
-						background: #eaedfa;
-						img {
-							width: 40px;
-							height: 40px;
-							border-radius: 20px;
-						}
-					}
-				}
-			}
-		}
-	} */
 	.wapper {
 		width: 100%;
 		height: 100%;
 		position: relative;
 		.header {
 			position: absolute;
+			display: flex;
 			z-index: 999;
 			left: 0;
 			top: 0;
@@ -233,6 +163,19 @@ export default {
 			}
 			.plafrom-title {
 				line-height: 50px;
+				flex: 1 1;
+				text-align: left;
+			}
+			.vallet {
+				line-height: 50px;
+				width: 150px;
+				.icon {
+					display: inline-block;
+				}
+				&:hover {
+					background: #647bec;
+					cursor: pointer;
+				}
 			}
 			.personal-info {
 				position: relative;

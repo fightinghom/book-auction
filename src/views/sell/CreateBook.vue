@@ -140,7 +140,7 @@ export default {
 			.then(() => {
 				bookDetail.sellerId =  this.getUserinfo.id
 				bookDetail.endTime = new Date(bookDetail.endTime).getTime()
-				bookDetail.description = bookDetail.description.replace(/\n|\r|↵/g, '<br />')
+				/* bookDetail.description = bookDetail.description.replace(/\n|\r|↵/g, '<br />') */
 				bookDetail.imgs = bookDetail.imgs.map(item => {
 					return item.split(',')[1]
 				})

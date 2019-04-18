@@ -32,7 +32,7 @@
 			</div>
 			<!-- 推荐图书 -->
 			<div class="rec-book">
-				<ba-book v-for="item of home.socialScience" :key="item.id" :book="item"></ba-book>
+				<ba-book v-for="item of home.socialScience" :key="item.id" :book="item" @click.native="toBook(item.id)"></ba-book>
 			</div>
 		</div>
 		<div class="recommend">
@@ -44,7 +44,7 @@
 			</div>
 			<!-- 推荐图书 -->
 			<div class="rec-book">
-				<ba-book v-for="item of home.study" :key="item.id" :book="item"></ba-book>
+				<ba-book v-for="item of home.study" :key="item.id" :book="item" @click.native="toBook(item.id)"></ba-book>
 			</div>
 		</div>
 		<div class="recommend">
@@ -56,7 +56,7 @@
 			</div>
 			<!-- 推荐图书 -->
 			<div class="rec-book">
-				<ba-book v-for="item of home.magazine" :key="item.id" :book="item"></ba-book>
+				<ba-book v-for="item of home.magazine" :key="item.id" :book="item" @click.native="toBook(item.id)"></ba-book>
 			</div>
 		</div>
 		<div class="recommend">
@@ -68,7 +68,7 @@
 			</div>
 			<!-- 推荐图书 -->
 			<div class="rec-book">
-				<ba-book v-for="item of home.other" :key="item.id" :book="item"></ba-book>
+				<ba-book v-for="item of home.other" :key="item.id" :book="item" @click.native="toBook(item.id)"></ba-book>
 			</div>
 		</div>
 	</div>
