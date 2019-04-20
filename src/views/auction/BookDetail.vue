@@ -9,7 +9,7 @@
 	<!-- 	基本信息 -->
 			<div class="basic-info">
 				<div class="mar-btm-5 book-name">{{book.name}}</div>
-				<div class="pad-top-10  mar-btm-5 book-desc">{{book.desc}}</div>
+				<div class="pad-top-10  mar-btm-5 book-desc" v-html="book.desc"></div>
 				<div class="pad-top-10  mar-btm-5">作者: {{book.author}}</div>
 				<div class="pad-top-10  mar-btm-5" v-if="book.category">分类: {{book.category.name}}</div>
 				<div class="z mar-top-10">
@@ -47,6 +47,7 @@
 						text-color="#ff9900"
 						score-template="{value}">
 					</el-rate>
+					<span>( {{book.owner.evaluationCount}}人评价 )</span>
 				</div>
 				<div class="item">卖家编号: {{book.owner.id}}</div>
 				<div class="item">卖家昵称: {{book.owner.nikename}}</div>
@@ -439,6 +440,12 @@ export default {
 				padding-left: 30px;
 				.item {
 					padding-top: 10px;
+					&:first-child {
+						display: flex;
+						span {
+							padding: 0 10px;
+						}
+					}
 				}
 			}
 		}

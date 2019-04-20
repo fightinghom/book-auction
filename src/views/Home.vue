@@ -194,6 +194,10 @@ export default {
 						text-align: right;
 						padding-right: 10px;
 						width: 150px;
+						text-overflow: ellipsis;
+						word-break:keep-all;
+						white-space:nowrap;
+						overflow:hidden;
 					}
 					.user-image {
 						width: 40px;

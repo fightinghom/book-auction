@@ -11,11 +11,18 @@ var dragging = false
 var startMove = (element) => {
 	dragging = true
 	el = element
-	console.dir(el)
+	/* var items = document.getElementsByClassName('menu-item')
+	if(length > 0) {
+		for (item of items) {
+			wapper.removeChild(item)
+		}
+	} */
+	el.addEventListener('click', null)
 }
 
 var stopMove = () => {
 	dragging = false
+	el.addEventListener('click', expand)
 	el = null
 }
 
@@ -44,28 +51,43 @@ var menu = ['主页', '个人', '好友']
 
 var menuX
 var menuY
+var winHeight
 var menuExHeight
 var direction = 'top'
-var itemx
-var itemY
 var expand = (ev) => {
 	var position = ev.getBoundingClientRect()
 	menuX = position.x
 	menuY = position.y
 	menuExHeight = menu.length * 70
-	/* if(menuExHeight + 30 > menuY) {
+	winHeight  = wapper.offsetHeight
+	if(menuExHeight > menuY) {
 		direction = 'bottom'
-	} */
-	if(menuExHeight < menuY) {
+	}
+	if(menuExHeight > winHeight - menuY) {
 		direction = 'top'
 	}
 
 	if('top' === direction) {
 		menu.map((item, index) => {
-			itemx = menuX
-			itemy = menuY - 70 * (index + 1)
-			var menuItem = document.createElementNS(svgNs,'svg')
-			menuItem.classList.add('menu-item')
+			var itemx = menuX
+			var itemy = menuY - 70 * (index + 1)
+			createMenuItem(itemx, itemy, item)
+		})
+	}
+
+	if('bottom' === direction) {
+		menu.map((item, index) => {
+			var itemx = menuX
+			var itemy = menuY + 70 * (index + 1)
+			createMenuItem(itemx, itemy, item)
+		})
+	}
+
+}
+
+var createMenuItem = (itemx, itemy, item) => {
+	var menuItem = document.createElementNS(svgNs,'svg')
+			menuItem.setAttribute('class',  'menu-item' )
 			var itemG = document.createElementNS(svgNs,'g')
 			var itemC = document.createElementNS(svgNs,'circle')
 			var itemT = document.createElementNS(svgNs,'text')
@@ -77,7 +99,7 @@ var expand = (ev) => {
 			itemC.setAttribute('fill', 'transparent')
 			itemG.appendChild(itemC)
 			itemT.setAttribute('x', '13.8')
-			itemT.setAttribute('Y', '40.4')
+			itemT.setAttribute('y', '40.4')
 			itemT.setAttribute('font-size', '16')
 			itemT.innerHTML = item
 			itemG.appendChild(itemT)
@@ -88,7 +110,4 @@ var expand = (ev) => {
 				console.log(item)
 			})
 			wapper.appendChild(menuItem)
-		})
-	}
-
 }
