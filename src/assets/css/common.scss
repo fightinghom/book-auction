@@ -185,6 +185,14 @@ li {
 	width: 100%;
 }
 
+.el-button--primary, .el-pagination.is-background .el-pager li:not(.disabled).active {
+	background-color: $basic-color;
+}
+
+.el-pager li.active {
+	color: $basic-color;
+}
+
 input {
 	border: none;
 	height: 30px;
@@ -213,3 +221,5 @@ input[type=number]::-webkit-outer-spin-button {
 			width: 90vw !important;
 	}
 }
+
+

@@ -57,7 +57,7 @@ export default {
 							mark: 'CreateBook',
 						},
 						{
-							name: '正在拍卖',
+							name: '我的拍卖',
 							path: '/auction',
 							mark: 'AuctionTable',
 						},
@@ -117,7 +117,7 @@ export default {
 					icon: 'fa-lock',
 					child: [
 						{
-							name: '书籍审核',
+							name: '图书管理',
 							path: '/check',
 							mark: 'ManageCheck'
 						},

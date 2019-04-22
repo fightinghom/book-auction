@@ -9,7 +9,7 @@ const manage = [
 		name: 'ManageCheck',
 		component: ManageCheck,
 		meta: {
-			title: '书籍审核'
+			title: '图书管理'
 		}
 	},
 	{

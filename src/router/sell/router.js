@@ -16,7 +16,7 @@ const sell = [
 		name: 'AuctionTable',
 		component: AuctionTable,
 		meta: {
-			title: '正在拍卖'
+			title: '我的拍卖'
 		}
 	},
 	{

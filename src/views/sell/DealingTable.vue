@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<el-form>
-			<el-form-item :label="'订单状态'" label-width="80px">
+			<el-form-item :label="'订单状态 :'" label-width="80px">
 				<el-select v-model="paginationBody.orderStauts" placeholder="请选择">
 					<el-option :label="'全部'" :value="0"></el-option>
 					<el-option :label="'待完善'" :value="1"></el-option>
@@ -55,7 +55,7 @@ export default {
 			paginationBody: {
 				orderStauts: 0,
 				sellerId: '',
-				number: 8,
+				number: 1,
 				nowPage: 1
 			},
 			updatePagination: false,
