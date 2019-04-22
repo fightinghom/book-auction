@@ -101,7 +101,7 @@ export default {
 	mounted() {
 		this.bookCategory = this.$route.params.cid
 		let memory = this.getMemoryPage
-		if(memory.componentName === this.$route.name && typeof componentName !== 'undefined') {
+		if(memory.componentName === this.$route.name && typeof memory.componentName !== 'undefined') {
 			if(memory.category === this.bookCategory) {
 				this.nowPage = memory.nowPage
 			}

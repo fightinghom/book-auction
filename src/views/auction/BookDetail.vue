@@ -37,7 +37,7 @@
 		</div>
 		<!-- 卖家信息 -->
 		<div class="seller-info" v-if="book.owner">
-			<img :src="book.owner.pic" :alt="book.owner.id">
+			<img :src="book.owner.pic" :alt="book.owner.id" @click="showUser = true">
 			<div class="info">
 				<div class="item">
 					<el-rate
@@ -53,6 +53,7 @@
 				<div class="item">卖家昵称: {{book.owner.nikename}}</div>
 			</div>
 		</div>
+		<ba-show-user  v-if="book.owner" :showIt="showUser" :userId="book.owner.id" :title="'卖家信息'" @handle-close="showUser = $event"></ba-show-user>
 		<!-- 叫价记录 -->
 		<div class="auction-record" v-if="$route.params.bid !== 'add'">
 			<div class="art pad-tb-10">实时拍卖记录</div>
@@ -83,6 +84,7 @@
 import timer from '@/components/timer/timer.vue'
 import imgList from '@/components/img/detailShowImg.vue'
 import http from '@/utils/api/index'
+import ShowUser from '@/components/dialog/ShowUser.vue'
 import {mapActions, mapGetters} from 'vuex'
 export default {
 	data() {
@@ -108,6 +110,7 @@ export default {
 			},
 			pageCount: 0,
 			btnStatus: 0,
+			showUser: false,
 			queryBookById() {
 				let self = this
 				http.auction.getBookById({
@@ -174,7 +177,8 @@ export default {
 	},
 	components: {
 		BaTimer: timer,
-		BaImgList: imgList
+		BaImgList: imgList,
+		BaShowUser: ShowUser
 	},
 	computed: {
 		...mapGetters(['getUserinfo']),
@@ -431,6 +435,9 @@ export default {
 			img {
 				width: 100px;
 				height: 100px;
+				&:hover {
+					cursor: pointer;
+				}
 			}
 			.info {
 				flex: 1 1;

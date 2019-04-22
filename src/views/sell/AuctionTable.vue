@@ -78,6 +78,7 @@ export default {
 	},
 	created() {
 		let memory = this.getMemoryPage
+		if('undefined' === typeof memory.componentName)
 		if(memory.componentName === this.$route.name) {
 			this.paginationBody = memory.paginationBody
 		}
