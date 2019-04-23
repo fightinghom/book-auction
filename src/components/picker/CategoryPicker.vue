@@ -9,6 +9,7 @@
 import {mapActions, mapGetters} from 'vuex'
 import CategoryPickerOption from './CategoryPickerOption'
 export default {
+	props: ['category'],
 	data() {
 		return {
 			catagoryList: [],
@@ -25,6 +26,9 @@ export default {
 		selectValue(v) {
 			this.$emit('getCategoryValue', v)
 		},
+		category(v) {
+			this.selectValue = v
+		}
 	},
 	mounted() {
 		this.catagoryList = this.getBookCategory

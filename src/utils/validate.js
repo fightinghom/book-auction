@@ -126,6 +126,22 @@ export const validate = {
 				trigger: 'change'
 			}
 		]
+	},
+	proposal: {
+		type:[
+			{
+				required: true,
+				message: '请选择意见类型',
+				trigger: 'blur'
+			}
+		],
+		content: [
+			{
+				required: true,
+				message: '请输入问题描述',
+				trigger: 'blur'
+			}
+		]
 	}
 
 }

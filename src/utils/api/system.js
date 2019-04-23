@@ -49,6 +49,11 @@ const system = {
 		const api = 'bookAuctionServer/setting/update'
 		const method = "POST"
 		return help.httpHelper2(api, method, request)
+	},
+	uploadProposal(request) {
+		const api = 'bookAuctionServer/proposal/add'
+		const method = "POST"
+		return help.httpHelper2(api, method, request)
 	}
 }
 

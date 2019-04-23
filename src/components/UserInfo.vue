@@ -223,6 +223,6 @@ export default {
 		}
 	}
 	.el-input__inner {
-		background-color: #fcfcfc !important;
+		/* background-color: #fcfcfc !important; */
 	}
 </style>

@@ -145,15 +145,6 @@ export default {
 			this.queryFeedbackList()
 		},
 	},
-	computed: {
-
-	},
-	beforeMount() {
-
-	},
-	created() {
-
-	},
 }
 </script>
 <style lang="scss" scoped>

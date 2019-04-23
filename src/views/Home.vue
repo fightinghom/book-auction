@@ -1,5 +1,5 @@
 <template>
-	<div class="wapper vertical-center">
+	<div class="wapper">
 		<div class="bg-cover"></div>
 		<div class="header ba-basic-color-aph">
 			<div class="vertical-center icon"><i class="fas fa-book-open fa-2x"></i></div>
@@ -34,11 +34,16 @@
 		custom-class="ba-bg-color max-w-600">
 			<ba-user-info @closeDialog="closeDialog"></ba-user-info>
 		</el-dialog>
+		<div class="proposal vertical-center" @click.stop="open()" v-if="!showProposal">
+			<span>意见反馈</span>
+		</div>
+		<ba-proposal-dialog :showIt="showProposal" @handle-close="showProposal = $event"></ba-proposal-dialog>
 	</div>
 </template>
 <script>
 import Menu from '@/components/Menu.vue'
 import UserInfo from '@/components/UserInfo.vue'
+import BaProposalDialog from '@/components/dialog/ProposalDialog.vue'
 import {mapActions, mapGetters} from 'vuex'
 import http from '@/utils/api/index'
 export default {
@@ -48,6 +53,7 @@ export default {
 			defaultImg: require('@/assets/image/default.gif'),
 			userInfo: false,
 			user: {},
+			showProposal: false,
 			queryUserById(stuId) {
 				let self = this
 				http.system.getUserById({
@@ -75,7 +81,8 @@ export default {
 	},
 	components: {
 		BaMenu: Menu,
-		BaUserInfo: UserInfo
+		BaUserInfo: UserInfo,
+		BaProposalDialog
 	},
 	computed: {
 		...mapGetters(['getUserinfo']),
@@ -132,6 +139,9 @@ export default {
 		updateMoney() {
 			let id = this.getUserinfo.id
 			this.queryUserById(id)
+		},
+		open() {
+			this.showProposal = true
 		}
 	},
 	mounted() {
@@ -242,6 +252,23 @@ export default {
 					//z-index: 2;
 					padding: 20px 20px;
 				}
+			}
+		}
+		.proposal {
+			position: absolute;
+			right: 20px;
+			bottom: 20px;
+			width: 50px;
+			height: 50px;
+			z-index: 9999;
+			background: #fff;
+			&:hover {
+				cursor: pointer;
+			}
+			span {
+				display: block;
+				width: 30px;
+				text-align: center;
 			}
 		}
 	}

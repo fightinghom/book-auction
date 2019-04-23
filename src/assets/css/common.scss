@@ -165,6 +165,10 @@ li {
 	padding: 0 !important;
 }
 
+.el-form-item.is-error .el-input__inner, .el-form-item.is-error .el-input__inner:focus, .el-form-item.is-error .el-textarea__inner, .el-form-item.is-error .el-textarea__inner:focus, .el-message-box__input input.invalid, .el-message-box__input input.invalid:focus {
+	border-color: #f56c6c !important;
+}
+
 .el-textarea__inner {
 	background: $panel-bg-color !important;
 }
@@ -191,6 +195,10 @@ li {
 
 .el-pager li.active {
 	color: $basic-color;
+}
+
+.el-dialog {
+	background: $panel-bg-color !important;
 }
 
 input {

@@ -23,7 +23,7 @@
 		ref="form2"
 		:hide-required-asterisk="true">
 			<el-form-item label="类别 :" prop="category">
-				<category-picker @getCategoryValue="getCaValue($event)"></category-picker>
+				<category-picker :category="bookDetail.category" @getCategoryValue="getCaValue($event)"></category-picker>
 			</el-form-item>
 			<el-form-item label="起拍价 :"  prop="startPrice">
 				<el-input type="number" v-model="bookDetail.startPrice"></el-input>
@@ -67,7 +67,7 @@
 				<el-input type="textarea" rows="5" v-model="bookDetail.description"></el-input>
 			</el-form-item>
 			<el-form-item label="商品图片 :" prop="imgs">
-				<book-add-img-list @imgs="getImgs($event)"></book-add-img-list>
+				<book-add-img-list  :imgList="bookDetail.imgs" @imgs="getImgs($event)"></book-add-img-list>
 			</el-form-item>
 		</el-form>
 		<div class="create-btn">
@@ -151,6 +151,11 @@ export default {
 						message: rs,
 						type: 'success'
 					})
+					forms.map(form => {
+						self.$refs[form].resetFields()
+					})
+					self.bookDetail.imgs = []
+					self.bookDetail.category = ''
 				})
 				.catch(value => {
 					self.setLoading(false)

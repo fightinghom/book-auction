@@ -14,7 +14,7 @@
 					</el-rate>
 				</el-form-item>
 				<el-form-item label="交易评价:">
-					<el-input type="textarea" rows="8" v-model="publish.content" placeholder="请评价..."></el-input>
+					<el-input type="textarea" rows="8" maxlength="500" v-model="publish.content" placeholder="请评价..."></el-input>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" @click="upload()">发表评价</el-button>
@@ -48,7 +48,7 @@
 				<div class="role"><span>角色:</span>{{ detail.otherSide | getRole(detail.order)}}</div>
 			</div>
 		</div>
-		<div class="other-side" v-if="detail.ownSideUser && (user != detail.otherSide || 'manage' === type)">
+		<div class="other-side" v-if="detail.ownSideUser && (user != detail.user || 'manage' === type)">
 			<img :src="detail.ownSideUser.pic" alt="对方未添加头像"  @click="showPeople(detail.ownSideUser.id)">
 			<div class="info">
 				<div class="number"><span>用户编号:</span>{{detail.ownSideUser.id}}</div>
