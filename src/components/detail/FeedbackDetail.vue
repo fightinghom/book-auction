@@ -39,20 +39,22 @@
 			</el-form>
 		</div>
 		<!-- 对方信息 -->
-		<div class="other-side" v-if="detail.otherSideUser && user != detail.otherSide">
-			<img :src="detail.otherSideUser.pic" alt="对方未添加头像">
+		<div class="other-side" v-if="detail.otherSideUser && (user != detail.otherSide || 'manage' === type)">
+			<img :src="detail.otherSideUser.pic" alt="对方未添加头像" @click="showPeople(detail.otherSideUser.id)">
 			<div class="info">
 				<div class="number"><span>用户编号:</span>{{detail.otherSideUser.id}}</div>
 				<div class="name"><span>姓名:</span>{{detail.otherSideUser.name}}</div>
 				<div class="phone"><span>电话:</span>{{detail.otherSideUser.phone}}</div>
+				<div class="role"><span>角色:</span>{{ detail.otherSide | getRole(detail.order)}}</div>
 			</div>
 		</div>
-		<div class="other-side" v-if="detail.ownSideUser && user != detail.user">
-			<img :src="detail.ownSideUser.pic" alt="对方未添加头像">
+		<div class="other-side" v-if="detail.ownSideUser && (user != detail.otherSide || 'manage' === type)">
+			<img :src="detail.ownSideUser.pic" alt="对方未添加头像"  @click="showPeople(detail.ownSideUser.id)">
 			<div class="info">
 				<div class="number"><span>用户编号:</span>{{detail.ownSideUser.id}}</div>
 				<div class="name"><span>姓名:</span>{{detail.ownSideUser.name}}</div>
 				<div class="phone"><span>电话:</span>{{detail.ownSideUser.phone}}</div>
+				<div class="role"><span>角色:</span>{{ detail.user | getRole(detail.order)}}</div>
 			</div>
 		</div>
 		<!-- 商品信息 -->
@@ -62,20 +64,25 @@
 				<div class="number"><span>图书编号:</span>{{book.id}}</div>
 				<div class="name"><span>书名:</span>{{book.name}}</div>
 				<div class="category"><span>分类:</span>{{book.category.name}}</div>
+				<div class="category"><span>卖家:</span>{{book.ownerId}}</div>
 			</div>
 		</div>
+		<ba-show-user :showIt="showUser" :userId="showUserId" :title="'用户信息'" @handle-close="showUser = $event"></ba-show-user>
 	</div>
 </template>
 <script>
 import http from '@/utils/api/index'
 import orderStatusUtils from '@/utils/orderStatus.js'
 import {mapActions,mapGetters} from 'vuex'
+import ShowUser from '@/components/dialog/ShowUser.vue'
 export default {
 	data() {
 		return {
 			user: '',
 			detail: {},
 			book: null,
+			type: '',
+			showUserId: '',
 			params: {
 				orderNo: '',
 				userId: ''
@@ -84,6 +91,7 @@ export default {
 				rate: 0,
 				content: ''
 			},
+			showUser: false,
 			queryFeedback() {
 				let self = this
 				http.feedback.getFeedbackOne(self.params)
@@ -97,6 +105,9 @@ export default {
 				})
 			}
 		}
+	},
+	components: {
+		BaShowUser: ShowUser
 	},
 	methods: {
 		...mapActions(['setMemoryPage']),
@@ -119,10 +130,26 @@ export default {
 			.catch(value => {
 				console.log(value)
 			})
+		},
+		showPeople(id) {
+			this.showUserId = id
+			this.showUser = true
 		}
 	},
 	computed: {
 		...mapGetters(['getUserinfo'])
+	},
+	filters: {
+		getRole(id, order) {
+			let role = ''
+			if(id === order.getterId) {
+				role = '买家'
+			}
+			if(id === order.sellerId) {
+				role = '卖家'
+			}
+			return role
+		}
 	},
 	mounted() {
 		/* this.queryFeedback() */
@@ -130,6 +157,7 @@ export default {
 	created() {
 		this.setMemoryPage(this.$route.query.prevPage)
 		this.user = this.getUserinfo.id
+		this.type = this.$route.meta.type
 		this.params.orderNo = this.$route.query.oid
 		this.params.userId = this.$route.query.userId
 		this.queryFeedback()

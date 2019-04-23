@@ -19,6 +19,11 @@ const feedback = {
 		const api = 'bookAuctionServer/feedback/publish'
 		const method = 'POST'
 		return help.httpHelper2(api, method, request)
+	},
+	discardFeedback(request) {
+		const api = 'bookAuctionServer/feedback/discard'
+		const method = 'POST'
+		return help.httpHelper2(api, method, request)
 	}
 }
 

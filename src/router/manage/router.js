@@ -2,6 +2,8 @@ import ManageCheck from '@/views/manage/CheckTable'
 import ManageUser from '@/views/manage/UserTable'
 import ManageOrder from '@/views/manage/OrderTabel'
 import ManageHomeSet from '@/views/manage/HomeSetting'
+import ManageFeedback from '@/views/manage/FeedbackManage'
+import FeedbackDetail from '@/components/detail/FeedbackDetail'
 
 const manage = [
 	{
@@ -25,7 +27,7 @@ const manage = [
 		name: 'ManageOrder',
 		component: ManageOrder,
 		meta: {
-			title: '交易订单'
+			title: '订单管理'
 		}
 	},
 	{
@@ -34,6 +36,23 @@ const manage = [
 		component: ManageHomeSet,
 		meta: {
 			title: '首页设置'
+		}
+	},
+	{
+		path: 'feedback',
+		name: 'ManageFeedback',
+		component: ManageFeedback,
+		meta: {
+			title: '评价管理'
+		}
+	},
+	{
+		path: 'feedback/detail',
+		name: 'FeedbackDetail',
+		component: FeedbackDetail,
+		meta: {
+			title: '评价详情',
+			type: 'manage'
 		}
 	}
 ]

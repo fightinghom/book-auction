@@ -1,5 +1,5 @@
 import FeedBackWait from '@/views/feedback/Wait'
-import FeedBackWrite from '@/views/feedback/Write'
+import FeedBackWrite from '@/components/detail/FeedbackDetail'
 import FeedBackAboutMe from '@/views/feedback/AboutMe'
 import FeedBackSquare from '@/views/feedback/Square'
 
@@ -33,7 +33,8 @@ const feedback = [
 		name: 'FeedBackSquare',
 		component: FeedBackSquare,
 		meta: {
-			title: '评论广场'
+			title: '评论广场',
+			type: ''
 		}
 	},
 ]

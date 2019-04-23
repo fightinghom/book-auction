@@ -127,7 +127,7 @@ export default {
 							mark: 'ManageUser'
 						},
 						{
-							name: '交易订单',
+							name: '订单管理',
 							path: '/order',
 							mark: 'ManageOrder'
 						},
@@ -135,6 +135,11 @@ export default {
 							name: '首页设置',
 							path: '/homeset',
 							mark: 'ManageHomeSet'
+						},
+						{
+							name: '评价管理',
+							path: '/feedback',
+							mark: 'ManageFeedback'
 						}
 					]
 				},

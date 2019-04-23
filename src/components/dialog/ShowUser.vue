@@ -133,19 +133,26 @@ export default {
 	watch: {
 		showIt(v) {
 			this.dialogVisible = v
+			if(this.userId != '') {
+				this.id = this.userId
+				this.paginationBody.otherSide = this.userId
+				this.queryUserById()
+				this.queryFeedbackPage()
+				this.queryFeedbackList()
+			}
 		},
 		'paginationBody.nowPage' () {
 			this.queryFeedbackList()
-		}
+		},
+	},
+	computed: {
+
 	},
 	beforeMount() {
-		this.queryUserById()
-		this.queryFeedbackPage()
-		this.queryFeedbackList()
+
 	},
 	created() {
-		this.id = this.userId
-		this.paginationBody.otherSide = this.userId
+
 	},
 }
 </script>
