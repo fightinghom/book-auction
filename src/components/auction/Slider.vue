@@ -1,12 +1,12 @@
 <template>
 	<div class="slider" @mouseenter="stop()" @mouseleave="play()">
 		<ul>
-			<!-- <li style="background:red"></li>
-			<li style="background:yellow"></li>
-			<li style="background:blue"></li>
-			<li style="background:gray"></li>
-			<li style="background:green"></li> -->
-			<li v-for="(item, index) of 5" :key="item">
+			<!-- <li style="background:gray" class="img-1"></li>
+			<li style="background:gray" class="img-2"></li>
+			<li style="background:gray" class="img-3"></li>
+			<li style="background:gray" class="img-4"></li>
+			<li style="background:gray" class="img-5"></li> -->
+			<li v-for="(item, index) of 5" :key="item" style="background:gray" :class="'img-' + item">
 				<img v-if="bookList.length > 0" :src="bookList[index].img" :alt="bookList[index].name" @click="toBook(bookList[index].id)">
 			</li>
 		</ul>
@@ -17,7 +17,7 @@
 			<!-- <div class="left" @click="prev()"><i class="fas fa-chevron-left fa-3x"></i></div>
 			<div class="right" @click="next()"><i class="fas fa-chevron-right fa-3x"></i></div> -->
 		<div class="point">
-			<div class="item" v-for="(item, index) of 5" :key="item" @click="toPoint(index)"></div>
+			<div class="item" v-for="(item, index) of 5" :key="item" @click="toPoint(index)" :class="{on: item == 1 }"></div>
 		</div>
 	</div>
 </template>
@@ -73,7 +73,7 @@ export default {
 			let self = this
 			this.timer = setInterval(() => {
 				self.next()
-			}, 2000)
+			}, 3000)
 		},
 		stop() {
 			clearInterval(this.timer)
