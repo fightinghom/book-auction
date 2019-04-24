@@ -262,8 +262,11 @@ export default {
 			height: 50px;
 			z-index: 9999;
 			background: #fff;
+			box-sizing: border-box;
+			border: 1px #b9beda solid;
 			&:hover {
 				cursor: pointer;
+				border-color: $basic-color;
 			}
 			span {
 				display: block;

@@ -27,16 +27,7 @@ const feedback = [
 		meta: {
 			title: '关于我的'
 		}
-	},
-	{
-		path: 'square',
-		name: 'FeedBackSquare',
-		component: FeedBackSquare,
-		meta: {
-			title: '评论广场',
-			type: ''
-		}
-	},
+	}
 ]
 
 export default feedback

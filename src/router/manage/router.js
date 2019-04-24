@@ -3,6 +3,7 @@ import ManageUser from '@/views/manage/UserTable'
 import ManageOrder from '@/views/manage/OrderTabel'
 import ManageHomeSet from '@/views/manage/HomeSetting'
 import ManageFeedback from '@/views/manage/FeedbackManage'
+import ManageProposal from '@/views/manage/ProposalManage'
 import FeedbackDetail from '@/components/detail/FeedbackDetail'
 
 const manage = [
@@ -54,7 +55,15 @@ const manage = [
 			title: '评价详情',
 			type: 'manage'
 		}
-	}
+	},
+	{
+		path: 'proposal',
+		name: 'ManageProposal',
+		component: ManageProposal,
+		meta: {
+			title: '反馈管理'
+		}
+	},
 ]
 
 export default manage

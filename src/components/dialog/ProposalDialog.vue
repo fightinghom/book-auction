@@ -19,6 +19,7 @@
 					<el-input  v-model="proposal.content" placeholder="请输入问题描述" maxlength="500" type="textarea" rows="4"></el-input>
 				</el-form-item>
 			</el-form>
+			<p style="text-align: left; color: red">问题反馈联系QQ: 1401078599 或 发送邮件到 1401078599@qq.com!</p>
 			<div slot="footer">
 				<el-button @click="upload('proposalForm')" type="primary">提交问题</el-button>
 			</div>
@@ -74,6 +75,9 @@ export default {
 	watch: {
 		showIt(v) {
 			this.dialogVisible = v
+			if(v && this.$refs.proposalForm) {
+				this.$refs.proposalForm.resetFields()
+			}
 		},
 	},
 	mounted() {

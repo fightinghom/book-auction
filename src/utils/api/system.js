@@ -54,6 +54,16 @@ const system = {
 		const api = 'bookAuctionServer/proposal/add'
 		const method = "POST"
 		return help.httpHelper2(api, method, request)
+	},
+	selectProposalPage(request) {
+		const api = 'bookAuctionServer/proposal/page'
+		const method = "POST"
+		return help.httpHelper2(api, method, request)
+	},
+	selectProposalList(request) {
+		const api = 'bookAuctionServer/proposal/list'
+		const method = "POST"
+		return help.httpHelper2(api, method, request)
 	}
 }
 

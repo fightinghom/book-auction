@@ -102,11 +102,6 @@ export default {
 							name: '关于我的',
 							path: '/aboutme',
 							mark: 'FeedBackAboutMe'
-						},
-						{
-							name: '评价广场',
-							path: '/square',
-							mark: 'FeedBackSquare'
 						}
 					]
 				},
@@ -140,6 +135,11 @@ export default {
 							name: '评价管理',
 							path: '/feedback',
 							mark: 'ManageFeedback'
+						},
+						{
+							name: '反馈管理',
+							path: '/proposal',
+							mark: 'ManageProposal'
 						}
 					]
 				},

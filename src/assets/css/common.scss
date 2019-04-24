@@ -201,6 +201,10 @@ li {
 	background: $panel-bg-color !important;
 }
 
+.el-form-item__label {
+	text-align: left;
+}
+
 input {
 	border: none;
 	height: 30px;
