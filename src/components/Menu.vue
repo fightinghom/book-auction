@@ -7,7 +7,7 @@
 		<div class="menu-item"
 		v-for="item of menu"
 		:key="item.mark"
-		v-if="'Manage' !== item.mark ? true : (1 == getUserinfo.power ? true : false)"
+		v-if="'Manage' !== item.mark ? true : ( getUserinfo.power > 0 ? true : false)"
 		@click="item.child.length > 0 ? '' : routeTo(item.path, '')">
 			<div class="first-menu" @click="expend(item.mark)" :class="{'on': item.mark === firstMenuName}">
 				<div class="vertical-center menu-icon fl"><i class="fas" :class="item.icon"></i></div>

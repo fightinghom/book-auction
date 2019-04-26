@@ -12,6 +12,15 @@
 					<el-option :label="'交易停滞'" :value="96"></el-option>
 				</el-select>
 			</el-form-item>
+			<el-form-item :label="'创建时间 :'" label-width="80px">
+				 <el-date-picker
+					v-model="timeRange"
+					type="daterange"
+					start-placeholder="开始日期"
+					end-placeholder="结束日期"
+					:default-time="['00:00:00', '23:59:59']">
+				</el-date-picker>
+			</el-form-item>
 		</el-form>
 		<ba-table
 		:header="tableHeader"
@@ -20,7 +29,7 @@
 		:update="updatePagination"
 		@updateSuc="updatePagination = $event"
 		@setPage="getPage($event)">
-			<tr v-for="item of tableData" :key="item.id" @click="deal(item.oNumber)">
+			<tr v-for="item of tableData" :key="item.id" @click="deal(item.oNumber, item.sellerId, item.getterId)">
 				<td>{{item.oNumber}}</td>
 				<td>{{item.bookDetail.name}}</td>
 				<td>{{item.createTime.split('.')[0]}}</td>
@@ -32,7 +41,7 @@
 					{{ orderTag(item.status).text }}
 					</el-tag>
 				</td>
-				<td><el-button size="small" type="primary" @click.stop="deal(item.oNumber)">查看订单</el-button></td>
+				<td><el-button size="small" type="primary" @click.stop="deal(item.oNumber, item.sellerId, item.getterId)">查看订单</el-button></td>
 			</tr>
 			<div v-if="tableData.length === 0" slot="nodata">暂无订单</div>
 		</ba-table>
@@ -52,10 +61,12 @@ export default {
 		return {
 			tableHeader: ['订单编号','拍品名称', '创建时间', '成交价格','竞得者', '订单状态','操作'],
 			tableData: [],
+			timeRange: '',
 			paginationBody: {
 				orderStauts: 0,
 				number: 8,
-				nowPage: 1
+				nowPage: 1,
+				timeRange: ''
 			},
 			updatePagination: false,
 			queryOrderList() {
@@ -77,14 +88,39 @@ export default {
 		'paginationBody.orderStauts'(v) {
 			this.updatePagination = true
 			this.queryOrderList()
+		},
+		'timeRange'(v) {
+			if(v !== null) {
+
+				let timeRange  = v
+				let timeStr = ''
+				timeRange = timeRange.map(item => {
+					item = new Date(item).getTime()
+					/* item = item.split('T')[0] */
+					return item
+				})
+				timeStr = timeRange[0] + ',' + timeRange[1]
+				this.paginationBody.timeRange = timeStr
+			} else {
+				this.paginationBody.timeRange = ''
+			}
+			this.updatePagination = true
+			this.queryOrderList()
 		}
 	},
 	methods: {
-		deal(v) {
+		deal(v, seller, getter) {
 			let pageInfo = {}
 			pageInfo.paginationBody = this.paginationBody
 			pageInfo.componentName = this.$route.name
-			this.$router.push({path: '/sell/order/' + v, query: {prevPage: pageInfo}})
+			let str = 'manage'
+			if(this.getUserinfo.id === seller) {
+				str = 'sell'
+			}
+			if(this.getUserinfo.id === getter) {
+				str = 'purchase'
+			}
+			this.$router.push({path: '/' + str + '/order/' + v, query: {prevPage: pageInfo}})
 		},
 		getPage(val) {
 			this.paginationBody.nowPage = val
@@ -97,8 +133,15 @@ export default {
 	},
 	created() {
 		let memory = this.getMemoryPage
-		if(memory.componentName === this.$route.name) {
-			this.paginationBody = memory.paginationBody
+		if('undefined' !== typeof memory.componentName) {
+			if(memory.componentName === this.$route.name) {
+				this.paginationBody = memory.paginationBody
+				if(this.paginationBody.timeRange != '') {
+					this.timeRange = this.paginationBody.timeRange.split(',').map(item => {
+						return parseInt(item)
+					})
+				}
+			}
 		}
 		this.queryOrderList()
 	}

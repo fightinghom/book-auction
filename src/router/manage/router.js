@@ -5,6 +5,7 @@ import ManageHomeSet from '@/views/manage/HomeSetting'
 import ManageFeedback from '@/views/manage/FeedbackManage'
 import ManageProposal from '@/views/manage/ProposalManage'
 import FeedbackDetail from '@/components/detail/FeedbackDetail'
+import OrderDetail from '@/components/detail/OrderDetail'
 
 const manage = [
 	{
@@ -64,6 +65,14 @@ const manage = [
 			title: '反馈管理'
 		}
 	},
+	{
+		path: 'order/:oid',
+		name: 'ManageOrderDetail',
+		component: OrderDetail,
+		meta: {
+			title: '订单详情'
+		}
+	}
 ]
 
 export default manage

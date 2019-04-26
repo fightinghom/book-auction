@@ -1,11 +1,19 @@
 <template>
 	<!-- :style="{'height': showCategory ? 36 * (categoryList.length + 1) + 'px' : '36px'}" -->
 	<div class="auction-menu ba-basic-color-aph" :class="{'hidden-menu' : !showCategory}">
-		<div class="category" @mouseover="showCategory = !showCategory"  @mouseout="showCategory = !showCategory">
-			<div class="z fl">
+		<div class="category">
+			<div class="open"  @mouseover="showCategory = !showCategory"  @mouseout="showCategory = !showCategory">
+				<div>
 				图书分类
+				</div>
+				<div class="icon"><i class="fas fa-angle-down"></i></div>
 			</div>
-			<div class="fr"><i class="fas fa-angle-down"></i></div>
+			<div class="select">
+				<div class="select-box">
+					<input type="text" v-model="searchText" @keyup.enter="search()"/>
+				</div>
+				<div class="icon" @click="search()"><i class="fas fa-search"></i></div>
+			</div>
 		</div>
 		<div class="category-item ba-basic-color-aph"  @mouseover="showCategory = !showCategory"  @mouseout="showCategory = !showCategory">
 			<el-row v-for="item of categoryList" :key="item.id">
@@ -28,6 +36,7 @@ export default {
 	data() {
 		return {
 			categoryList: '',
+			searchText: '',
 			showCategory: false
 		}
 	},
@@ -35,6 +44,12 @@ export default {
 		toCategory(id) {
 			this.$router.push('/book_category/' + id)
 		},
+		search() {
+			let searchText = this.searchText
+			if(this.searchText != '') {
+				this.$router.push({path: '/book_category/search', query: {search: searchText}})
+			}
+		}
 		/**递归版 */
 		/* fn(data, pid) {
 			let result = [] , temp
@@ -95,10 +110,34 @@ export default {
 		height: 36px;
 		line-height: 36px;
 		.category {
-			width: 80px;
 			height: 36px;
-			line-height: 36px;
 			padding: 0 10px;
+			display: flex;
+			.open {
+				display: flex;
+				width: 80px;
+				padding: 0 10px;
+				.icon {
+					padding: 0 5px;
+				}
+			}
+			.select {
+				display: flex;
+				flex: 1 1;
+				justify-content: flex-end;
+				.select-box {
+					width: 256px;
+				}
+				.icon {
+					box-sizing: border-box;
+					width: 36px;
+					padding: 0 10px;
+					&:hover {
+						cursor: pointer;
+						background: rgba($color: #666, $alpha: 0.5);
+					}
+				}
+			}
 		}
 		.category-item {
 			width: 100%;
@@ -128,5 +167,15 @@ export default {
 				}
 			}
 		}
+	}
+	input {
+		width: inherit;
+		height: 30px;
+		box-sizing: border-box;
+		transform: translateY(-2px);
+		background: transparent;
+		color: #eaedfa;
+		border-bottom: 1px #eaedfa solid;
+		padding: 0 5px;
 	}
 </style>

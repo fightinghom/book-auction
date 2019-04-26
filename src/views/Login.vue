@@ -41,7 +41,7 @@
 								<span class="param-name-color">密 码</span>
 							</el-form-item>
 							<el-form-item prop="password">
-								<el-input type="password" v-model="loginForm.password" autocomplete="off" @keyup.enter.native="login('loginForm')"></el-input>
+								<el-input type="password" v-model="loginForm.password" autocomplete="off" @keyup.enter.native="login('loginForm', 'pc')"></el-input>
 							</el-form-item>
 							<el-form-item class="mar-top-30">
 								<el-button @click="login('loginForm', 'pc')" :loading="getLoading">登 录</el-button>
@@ -116,6 +116,7 @@
 import {validate} from '@/utils/validate.js'
 import {mapActions, mapGetters} from 'vuex'
 import http from '@/utils/api/index'
+import crypto from "crypto-js"
 export default {
 	data() {
 		return {
@@ -163,27 +164,31 @@ export default {
 			console.log(client)
 			let self = this
 			let param = 'mobile' === client ? self.loginFormM : self.loginForm
+			let password = crypto.MD5(param.password).toString()
 			self.setLoading(true)
 			self.$refs[form].validate((valid) => {
 				if (valid) {
 
 					http.system.login({
 						id: param.stuId,
-						password: param.password
+						password: password
 					})
 					.then(res => {
 						if (res == true) {
 							self.setUserinfo({
 							id: param.stuId,
 						})
-						self.setLoginStatus(true)
-						if('mobile' === client) {
-							self.$router.push('/mobile')
+							self.setLoginStatus(true)
+							if('mobile' === client) {
+								self.$router.push('/mobile')
+							} else {
+								self.$router.push('/home')
+							}
 						} else {
-							self.$router.push('/home')
-						}
-						} else {
-							console.log('账户或密码错误')
+							self.$message({
+								type: 'warning',
+								message: '账号或密码错误！'
+							})
 						}
 						self.setLoading(false)
 					})
@@ -203,9 +208,10 @@ export default {
 			self.setLoading(true)
 			self.$refs[form].validate((valid) => {
 				if (valid) {
+					let password = crypto.MD5(param.password).toString()
 					http.system.addUser({
 						id: param.stuId,
-						password: param.password,
+						password: password,
 						phone: param.mobile,
 						name: '',
 						nikename: ''

@@ -13,7 +13,7 @@
 				<td><input type="text" :disabled="editId !== item.id" class="tx-c" :class="{'on-edit': editId === item.id}" v-model="item.nikename"/></td>
 				<td><input type="text" :disabled="editId !== item.id" class="tx-c" :class="{'on-edit': editId === item.id}" v-model="item.phone"/></td>
 				<td><input type="text" :disabled="editId !== item.id" class="tx-c" :class="{'on-edit': editId === item.id}" v-model="item.power"/></td>
-				<td>
+				<td v-if="getUserinfo.power > 1">
 					<el-button
 					type="primary"
 					size="small"
@@ -35,6 +35,9 @@
 						注销
 					</el-button>
 				</td>
+				<td v-else>
+					权限不足
+				</td>
 			</tr>
 		</ba-table>
 	</div>
@@ -42,6 +45,7 @@
 <script>
 import Table from '@/components/Table.vue'
 import http from '@/utils/api/index'
+import {mapActions, mapGetters} from 'vuex'
 export default {
 	components: {
 		BaTable: Table
@@ -122,6 +126,9 @@ export default {
 			this.paginationBody.nowPage = val
 			this.queryUserList()
 		},
+	},
+	computed: {
+		...mapGetters(['getUserinfo'])
 	},
 	mounted() {
 		this.queryUserList()

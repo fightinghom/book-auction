@@ -1,7 +1,6 @@
 import FeedBackWait from '@/views/feedback/Wait'
 import FeedBackWrite from '@/components/detail/FeedbackDetail'
 import FeedBackAboutMe from '@/views/feedback/AboutMe'
-import FeedBackSquare from '@/views/feedback/Square'
 
 const feedback = [
 	{

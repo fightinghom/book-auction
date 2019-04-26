@@ -28,6 +28,7 @@ export default {
 	data() {
 		return {
 			bookCategory: '',
+			search: '',
 			bookNumber: 20,
 			nowPage: 1,
 			bookStatus: 'auctioning',
@@ -39,7 +40,8 @@ export default {
 					nowPage: self.nowPage,
 					bookNumber: self.bookNumber,
 					bookStatus: bookStatusCode.getStatusCode(self.bookStatus),
-					bookCategory: self.bookCategory
+					bookCategory: self.bookCategory,
+					search: self.search
 				})
 				.then(res => {
 					res.map(item => {
@@ -56,7 +58,8 @@ export default {
 				http.auction.getBookTotalPage({
 					bookStatus: bookStatusCode.getStatusCode(self.bookStatus),
 					bookNumber: self.bookNumber,
-					bookCategory: self.bookCategory
+					bookCategory: self.bookCategory,
+					search: self.search
 				})
 				.then(res => {
 					self.pages = res
@@ -92,14 +95,25 @@ export default {
 	 */
 	watch: {
 		'$route' (to, from) {
-			this.bookCategory = to.params.cid
+			if(to.path !== '/book_category/search') {
+				this.bookCategory = to.params.cid
+			} else {
+				this.bookCategory = 0
+				this.search = to.query.search
+			}
 			this.queryBook()
 			this.getTotalPage()
 
 		}
 	},
 	mounted() {
-		this.bookCategory = this.$route.params.cid
+		if(this.$route.path !== '/book_category/search') {
+			this.bookCategory = this.$route.params.cid
+		} else {
+			this.bookCategory = 0
+			this.search = this.$route.query.search
+		}
+
 		let memory = this.getMemoryPage
 		if(memory.componentName === this.$route.name && typeof memory.componentName !== 'undefined') {
 			if(memory.category === this.bookCategory) {

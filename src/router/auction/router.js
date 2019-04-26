@@ -14,6 +14,11 @@ const auction = [
 		component: AuctionCategory
 	},
 	{
+		path: '/book_category/search',
+		name: 'AuctionCategorySearch',
+		component: AuctionCategory
+	},
+	{
 		path: '/book_detail/:bid',
 		name: 'AuctionBook',
 		component: AuctionBook
