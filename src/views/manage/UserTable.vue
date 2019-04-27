@@ -1,5 +1,9 @@
 <template>
 	<div class="user-table">
+		<div class="search">
+			<input  type="text" v-model="paginationBody.search"  @keyup.enter="search()"/>
+			<div class="icon vertical-center" @click="search()"><i class="fas fa-search"></i></div>
+		</div>
 		<ba-table
 		:header="tableHeader"
 		:obj="'user'"
@@ -9,9 +13,9 @@
 		@updateSuc="updatePagination = $event">
 			<tr v-for="item of tableData" :key="item.id">
 				<td>{{item.id}}</td>
-				<td><input type="text" :disabled="editId !== item.id" class="tx-c" :class="{'on-edit': editId === item.id}" v-model="item.name"/></td>
-				<td><input type="text" :disabled="editId !== item.id" class="tx-c" :class="{'on-edit': editId === item.id}" v-model="item.nikename"/></td>
-				<td><input type="text" :disabled="editId !== item.id" class="tx-c" :class="{'on-edit': editId === item.id}" v-model="item.phone"/></td>
+				<td><input type="text" :disabled="true" class="tx-c" v-model="item.name"/></td>
+				<td><input type="text" :disabled="true" class="tx-c" v-model="item.nikename"/></td>
+				<td><input type="text" :disabled="true" class="tx-c" v-model="item.phone"/></td>
 				<td><input type="text" :disabled="editId !== item.id" class="tx-c" :class="{'on-edit': editId === item.id}" v-model="item.power"/></td>
 				<td v-if="getUserinfo.power > 1">
 					<el-button
@@ -60,6 +64,7 @@ export default {
 			paginationBody: {
 				userNumber: 8,
 				nowPage: 1,
+				search: '',
 			},
 			queryUserList() {
 				let self = this
@@ -115,6 +120,7 @@ export default {
 						message: '注销用户' + id + '成功',
 						type: 'success'
 					})
+					self.updatePagination = true
 					self.queryUserList()
 				}
 			})
@@ -126,6 +132,10 @@ export default {
 			this.paginationBody.nowPage = val
 			this.queryUserList()
 		},
+		search() {
+			this.updatePagination = true
+			this.queryUserList()
+		}
 	},
 	computed: {
 		...mapGetters(['getUserinfo'])
@@ -136,6 +146,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '@/assets/css/theme.scss';
 	.tx-c {
 		text-align: center;
 		border: none;
@@ -146,5 +157,20 @@ export default {
 	}
 	.on-edit {
 		border-bottom: 1px #b9beda solid;
+	}
+	input {
+		width: 300px;
+		background: #fcfcfc;
+	}
+	.search {
+		line-height: 40px;
+		.icon {
+			display: inline-block;
+			width: 40px;
+			&:hover {
+				cursor: pointer;
+				color: $basic-color;
+			}
+		}
 	}
 </style>

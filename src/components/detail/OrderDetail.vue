@@ -7,7 +7,7 @@
 				v-for="(item, index) of step"
 				:key="index"
 				:type="item.type">
-				{{item.text}}{{item.type === 'failed' ? '(' + item.reason + ')' : ''}}
+				{{item.text}}{{(item.type === 'failed' || item.type === 'warning') ? '(' + item.reason + ')' : ''}}
 				</ba-step-item>
 			</ba-step>
 		</div>
@@ -100,10 +100,10 @@
 					<div class="value">{{order.meetAddress}}</div>
 				</div>
 			</div>
-			<div class="tip focus" v-if="!(null != order.meetAddress && null != order.meetTime)  && 'getter' == role">
+			<div class="tip focus" v-if="!(null != order.meetAddress && null != order.meetTime)  && 'getter' == role && order.status === 1">
 				Tips:请尽快完善约见信息，否则将视作放弃交易。如果造成交易关闭，您的保证金将作为卖家的赔偿，并且得到信誉度惩罚!
 			</div>
-			<div class="tip focus" v-if="'seller' === role">
+			<div class="tip focus" v-if="'seller' === role && order.status === 2">
 				Tips:请先确认约见时间和地点是否合理，如不合理，联系买家进行商量,若合理，请尽快确认订单，以免超时!
 			</div>
 		</div>
@@ -117,12 +117,12 @@
 				<el-button type="primary" v-if="3 == order.status && 'getter' == role" @click="getCode()">获取收货码</el-button>
 				<el-button type="success" v-if="3 == order.status && 'getter' == role" @click="vertifyCode()">填写送货码</el-button>
 				<el-button type="success" v-if="3 == order.status && 'seller' == role" @click="vertifyCode()">填写收货码</el-button>
-				<el-button type="info" >联系管理</el-button>
-				<el-button type="danger" v-if="order.status <= 4" @click="cancelOrder()">取消订单</el-button>
-				<el-button type="primary" v-if="order.status <= 4 && 'manager' === role" @click="breakOrder('seller')">卖家违约</el-button>
-				<el-button type="warning" v-if="order.status <= 4 && 'manager' === role" @click="breakOrder('getter')">买家违约</el-button>
+				<el-button type="info" v-if="'manager' !== role">联系管理</el-button>
+				<el-button type="danger" v-if="(order.status < 4 && 'manager' !== role) || order.status == 96" @click="cancelOrder()">取消订单</el-button>
+				<el-button type="primary" v-if="order.status == 96 && 'manager' === role" @click="breakOrder('seller')">卖家违约</el-button>
+				<el-button type="warning" v-if="order.status == 96 && 'manager' === role" @click="breakOrder('getter')">买家违约</el-button>
 			</div>
-			<div class="tip focus">	Tips:如果您取消订单，您的保证金会作为卖家的赔偿!</div>
+			<div class="tip focus" v-if="order.status == 96">	Tips:如果您取消订单，您的保证金会作为卖家的赔偿!</div>
 		</div>
 		<el-dialog
 		width="90%"
