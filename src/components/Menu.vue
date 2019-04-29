@@ -140,6 +140,11 @@ export default {
 							name: '反馈管理',
 							path: '/proposal',
 							mark: 'ManageProposal'
+						},
+						{
+							name: '分类管理',
+							path: '/category',
+							mark: 'ManageCategory'
 						}
 					]
 				},

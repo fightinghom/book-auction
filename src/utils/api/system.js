@@ -64,6 +64,11 @@ const system = {
 		const api = 'bookAuctionServer/proposal/list'
 		const method = "POST"
 		return help.httpHelper2(api, method, request)
+	},
+	addCategory(request) {
+		const api = 'bookAuctionServer/bookCategoryList/add'
+		const method = "POST"
+		return help.httpHelper2(api, method, request)
 	}
 }
 

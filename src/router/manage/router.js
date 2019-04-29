@@ -4,6 +4,7 @@ import ManageOrder from '@/views/manage/OrderTabel'
 import ManageHomeSet from '@/views/manage/HomeSetting'
 import ManageFeedback from '@/views/manage/FeedbackManage'
 import ManageProposal from '@/views/manage/ProposalManage'
+import ManageCategory from '@/views/manage/CategoryManage'
 import FeedbackDetail from '@/components/detail/FeedbackDetail'
 import OrderDetail from '@/components/detail/OrderDetail'
 
@@ -63,6 +64,14 @@ const manage = [
 		component: ManageProposal,
 		meta: {
 			title: '反馈管理'
+		}
+	},
+	{
+		path: 'category',
+		name: 'ManageCategory',
+		component: ManageCategory,
+		meta: {
+			title: '分类管理'
 		}
 	},
 	{

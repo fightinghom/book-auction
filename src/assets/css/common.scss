@@ -205,6 +205,13 @@ li {
 	text-align: left;
 }
 
+.el-radio__inner {
+	border: 1px #c0c4cc solid;
+}
+.el-radio__label {
+	padding: 0;
+}
+
 input {
 	border: none;
 	height: 30px;
