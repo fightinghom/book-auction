@@ -45,7 +45,7 @@ export default {
 <style lang="scss" scoped>
 	.auction {
 		width: 70%;
-		min-width: 1006px;
+		min-width: 966px;
 		margin: 0 auto;
 		.el-header {
 			padding: 0;
@@ -56,7 +56,7 @@ export default {
 		}
 		.el-main {
 			width: 70%;
-			min-width: 1006px;
+			min-width: 966px;
 			margin: 0 auto;
 			padding: 0;
 		}

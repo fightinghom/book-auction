@@ -105,10 +105,12 @@ export default {
 		overflow: hidden;
 	}
 	.auction-menu {
-		width: 100%;
+		width: 70%;
+		min-width: 966px;
 		color: #eaedfa;
 		height: 36px;
 		line-height: 36px;
+		margin: 0 auto;
 		.category {
 			height: 36px;
 			padding: 0 10px;

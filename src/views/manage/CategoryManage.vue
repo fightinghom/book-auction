@@ -10,8 +10,8 @@
 					<el-form-item   label-width="80px" label="分类名称 :"  prop="name">
 						<el-input  v-model="addParentCa.name"></el-input>
 					</el-form-item>
-					<el-form-item>
-						<div class="space-item"></div>
+					<el-form-item   label-width="80px" label="标记名称 :"  prop="mark">
+						<el-input  v-model="addParentCa.mark" placeholder="该值用于自动生成首页和首页设置中一级分类"></el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button type="primary" @click="addCategory('addParentCaForm', addParentCa)">添加父级分类</el-button>
@@ -44,14 +44,23 @@
 				<div class="row">
 					<div class="col">分类ID</div>
 					<div class="col">分类名称</div>
-					<div class="col">仅显示该类二级分类</div>
+					<div class="col">标记名称</div>
+					<div class="col">仅显示该类子分类</div>
 				</div>
 				<div class=" row" v-for="item of categoryTree" :key="item.id">
 					<div class="col">{{item.id}}</div>
 					<div class="col">{{item.name}}</div>
+					<div class="col">{{item.mark}}</div>
 					<div class="col"><el-radio v-model="showChild" :label="item.id" @mouseup.native="showAll(item.id)">{{''}}</el-radio></div>
 				</div>
-				<div class="ca-tip">请勿添加重复的ID</div>
+				<p class="ca-tip">请勿添加重复的ID</p>
+				<p class="ca-tip">一级ID命名规则:</p>
+				<p class="ca-tip" style="text-indent:2em">分类ID: 1~98最佳</p>
+				<p class="ca-tip" style="text-indent:2em">分类名称: 6个字符以内最佳</p>
+				<p class="ca-tip" style="text-indent:2em">分类标记: 为分类名英文最佳</p>
+				<p class="ca-tip">二级ID命名规则:</p>
+				<p class="ca-tip" style="text-indent:2em">分类ID: 所选一级ID+1~99最佳</p>
+				<p class="ca-tip" style="text-indent:2em">分类名称: 6个字符以内最佳</p>
 			</div>
 			<div class="split"></div>
 			<div class="level-2">
@@ -82,7 +91,8 @@ export default {
 			type: 'addParentCaForm',
 			addParentCa: {
 				id: '',
-				name: ''
+				name: '',
+				mark: ''
 			},
 			addChildCa: {
 				id: '',
@@ -95,7 +105,9 @@ export default {
 				],
 				name: [
 					{ required: true, message: '请输入名称', trigger: 'blur'},
-				]
+				],
+				mark: [{required: true, message: '请输入标记', trigger: 'blur'},
+						{pattern: /^[a-zA-Z]*$/, message: '只能输入字母', trigger: 'blur'}]
 			},
 			addChildCaRule: {
 				id: [
@@ -153,7 +165,6 @@ export default {
 				data.children = []
 				data.pid = 0
 				this.categoryTree.push(data)
-				this.setBookCategory(this.categoryTree)
 			}
 			if( 'addChildCaForm' === form) {
 				let data = JSON.parse(JSON.stringify(this.addChildCa))
@@ -163,9 +174,9 @@ export default {
 					}
 					return item
 				})
-				this.updateCategoryChildList()
-				this.setBookCategory(this.categoryTree)
 			}
+			this.updateCategoryChildList()
+			this.setBookCategory(this.categoryTree)
 			this.$refs[form].resetFields()
 		},
 		updateCategoryChildList() {
@@ -229,7 +240,8 @@ export default {
 				 }
 			 }
 			 .ca-tip {
-				 padding: 10px 0;
+				 text-align: left;
+				 padding: 5px 0;
 				 font-size: 20px;
 				 color: red;
 			 }

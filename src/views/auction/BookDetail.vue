@@ -341,6 +341,7 @@ export default {
 		margin: 0 auto;
 		padding: 20px 20px;
 		background: #fff;
+		box-sizing: border-box;
 		.back {
 			color: #b9beda;
 			text-align: left;
@@ -355,7 +356,7 @@ export default {
 				flex:1 1 auto;
 				text-align: left;
 				padding: 0 0 20px 20px;
-				min-width: 614px;
+				//min-width: 614px;
 				box-sizing: border-box;
 				display: flex;
 				flex-flow: column;

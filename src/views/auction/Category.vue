@@ -130,6 +130,12 @@ export default {
 		width: 966px;
 		margin: 0 auto;
 		padding: 20px 0;
+		.ca-book {
+			.book {
+				width: 20%;
+				height: 100%;
+			}
+		}
 		.ca-pagination {
 			width: 100%;
 			margin-top: 20px;

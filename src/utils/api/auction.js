@@ -44,6 +44,11 @@ const auction = {
 		const api = "bookAuctionServer/getRecordsOfPage"
 		const method = "POST"
 		return help.httpHelper2(api, method, request)
+	},
+	getTopOfBooks(request) {
+		const api = "bookAuctionServer/getbookList/top"
+		const method = "POST"
+		return help.httpHelper2(api, method, request)
 	}
 }
 

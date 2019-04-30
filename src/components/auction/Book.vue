@@ -45,42 +45,36 @@ export default {
 </script>
 <style lang="scss" scoped>
 	.book {
-		//width: calc(20% - 1px);
-		width: 20%;
-		height: 100%;
-		//border-right: 1px #99a9bf solid;
 		transition: all 0.3s;
+		padding: 20px 0;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 		&:hover {
 			box-shadow: 0 0 20px 2px #5c6783a3;
 			cursor: pointer;
 			position: relative;
 		}
 		.book-img {
-			width: 150px;
-			height: 150px;
-			background: #666;
-			margin: 20px auto;
+			width: 100%;
 			img {
-				width: 100%;
-				height: 100%;
+				width: 75%;
 				border: 1px #b9beda solid;
 			}
 		}
 		.book-name {
-			padding: 0 20px;
-			margin-bottom: 10px;
-			word-break:keep-all;
-			white-space:nowrap;
+			width: 75%;
+			height: 40px;
+			line-height: 20px;
 			overflow:hidden;
-			text-overflow:ellipsis;
-			text-align: center;
+			margin: 0 auto;
 		}
 		.book-price {
-			padding: 0 20px;
-			margin-bottom: 10px;
 		}
 		.timer {
 			height: 25px;
+			line-height: 25px;
 		}
 
 	}
