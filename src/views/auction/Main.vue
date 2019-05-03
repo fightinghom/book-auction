@@ -6,7 +6,7 @@
 		<div class="recommend-wapper">
 			<div class="hot-new">
 				<div class="hot">
-					<div class="title">热门推荐<span>HOT</span></div>
+					<div class="title">热门推荐<span>HOT TOP 3</span></div>
 					<div class="hot-book" v-for="item of hotList" :key="item.id" @click="toBook(item.id)">
 						<img :src="item.img" :alt="item.id">
 						<div class="book-name vertical-center">
@@ -15,7 +15,7 @@
 					</div>
 				</div>
 				<div class="new">
-					<div class="title">最新上架<span>NEW</span></div>
+					<div class="title">最新上架<span>NEW TOP 3</span></div>
 					<div class="new-book"  v-for="item of newList" :key="item.id" @click="toBook(item.id)">
 						<img :src="item.img" :alt="item.id">
 						<div class="book-name vertical-center">
@@ -24,7 +24,8 @@
 					</div>
 				</div>
 				<div class="need">
-					<div class="title">买家需求<span>NEED</span></div>
+					<div class="title">买家需求<span>NEED  !!!</span></div>
+					<ba-show-need></ba-show-need>
 				</div>
 			</div>
 			<div class="ca-recommend">
@@ -47,6 +48,7 @@
 import { list } from '@/utils/category.js'
 import Slider from '@/components/auction/Slider'
 import Book from '@/components/auction/Book'
+import ShowNeed from '@/components/auction/ShowNeed'
 import http from '@/utils/api/index'
 import {mapActions, mapGetters} from 'vuex'
 export default {
@@ -121,7 +123,8 @@ export default {
 	},
 	components: {
 		BaSlider: Slider,
-		BaBook: Book
+		BaBook: Book,
+		BaShowNeed: ShowNeed
 	},
 	computed: {
 		...mapGetters(['getBookCategory'])
@@ -140,15 +143,17 @@ export default {
 			return name
 		}
 	},
-	created() {
+	mounted() {
 		let home = {
-			slider: []
-		}
+				slider: []
+			}
 		this.getBookCategory.map(ca => {
 			home[ca.mark] = []
 		})
 		this.home = home
 		this.querySetting()
+	},
+	created() {
 		this.queryNewBook()
 		this.qeuryHotBooks()
 	}
@@ -167,7 +172,7 @@ export default {
 				.hot, .new, .need {
 					padding: 0 10px;
 					.title {
-						font-size: 25px;
+						font-size: 20px;
 						text-align: left;
 						padding: 5px 0 5px 0;
 						span {

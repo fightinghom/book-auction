@@ -10,7 +10,7 @@
 			</div>
 			<div class="select">
 				<div class="select-box">
-					<input type="text" v-model="searchText" @keyup.enter="search()"/>
+					<input type="text" placeholder="请输入关键字" v-model="searchText" @keyup.enter="search()"/>
 				</div>
 				<div class="icon" @click="search()"><i class="fas fa-search"></i></div>
 			</div>
@@ -180,4 +180,17 @@ export default {
 		border-bottom: 1px #eaedfa solid;
 		padding: 0 5px;
 	}
+
+	input::-webkit-input-placeholder{
+            color:#eaedfa;
+        }
+        input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+            color:#eaedfa;
+        }
+        input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+            color:#eaedfa;
+        }
+        input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
+            color:#eaedfa;
+        }
 </style>

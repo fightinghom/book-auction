@@ -6,6 +6,7 @@
 					<el-option :value="0" label="全部"></el-option>
 					<el-option :value="1" label="BUG"></el-option>
 					<el-option :value="2" label="改进意见"></el-option>
+					<el-option :value="3" label="需求书籍"></el-option>
 				</el-select>
 			</el-form-item>
 		</el-form>
@@ -17,8 +18,8 @@
 		<div class="item" v-for="item of proposalList" :key="item.id">
 			<div class="type">
 				<el-tag
-				:type="1 === item.type ? 'danger' : 'primary'">
-				{{ 1 === item.type ? 'BUG' : '改进意见' }}
+				:type="1 === item.type ? 'danger' : (2 === item.type ? 'primary' : 'success')">
+				{{ 1 === item.type ? 'BUG' : (2 === item.type ? '改进意见': '需求书籍') }}
 				</el-tag></div>
 			<div class="content">{{item.content}}</div>
 			<div class="people">{{item.userId}}</div>

@@ -13,6 +13,7 @@
 					<el-select v-model="proposal.type" placeholder="请选择">
 						<el-option :label="'BUG'" :value="1"></el-option>
 						<el-option :label="'改进意见'" :value="2"></el-option>
+						<el-option :label="'需求书籍'" :value="3"></el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="问题描述: " prop="content">

@@ -70,8 +70,6 @@ export default {
 			overflow:hidden;
 			margin: 0 auto;
 		}
-		.book-price {
-		}
 		.timer {
 			height: 25px;
 			line-height: 25px;

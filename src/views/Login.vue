@@ -148,6 +148,17 @@ export default {
 				mobile: validate.register.mobile,
 				password: validate.password,
 				comfirmPwd: validate.register.comfirmPwd
+			},
+			//预先加载平台分类
+			queryBookCaList() {
+				let self = this
+				http.auction.getBookCategoryList({})
+				.then(res => {
+					self.setBookCategory(self.fn(res, 0))
+				})
+				.catch(value => {
+					console.log(value)
+				})
 			}
 		}
 	},
@@ -155,7 +166,7 @@ export default {
 		...mapGetters(['getUserinfo', 'getLoginStatus', 'getLoading']),
 	},
 	methods: {
-		...mapActions(['setUserinfo', 'setLoginStatus', 'setLoading']),
+		...mapActions(['setUserinfo', 'setLoginStatus', 'setLoading' , 'setBookCategory']),
 		change(form) {
 			this.isLogin = !this.isLogin
 			this.$refs[form].resetFields()
@@ -240,9 +251,26 @@ export default {
 					console.log('注册失败')
 				}
 			})
-		}
+		},
+		fn(data, pid) {
+			let result = [] , temp
+			data.forEach(item => {
+				if (item.pid == pid) {
+					result.push(item)
+					temp = this.fn(data, item.id)
+					if(temp.length > 0) {
+						item.children=temp
+					} else {
+						item.children = []
+					}
+				}
+			})
+			return result
+
+		},
 	},
 	created() {
+		this.queryBookCaList()
 		this.setLoading(false)
 	}
 }
