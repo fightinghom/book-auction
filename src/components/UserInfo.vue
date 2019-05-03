@@ -222,7 +222,4 @@ export default {
 			background: #647bec;
 		}
 	}
-	.el-input__inner {
-		/* background-color: #fcfcfc !important; */
-	}
 </style>
