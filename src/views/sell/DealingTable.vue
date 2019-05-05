@@ -148,11 +148,11 @@ export default {
 		width: 300px;
 	}
 	td {
-		width: 12%;
+		width: 13%;
 		word-wrap:break-word;
 		word-break: break-all;
 		&:first-child {
-			width: 26%;
+			width: 22%;
 		}
 	}
 </style>

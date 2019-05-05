@@ -40,7 +40,7 @@
 		</div>
 		<!-- 对方信息 -->
 		<div class="other-side" v-if="detail.otherSideUser && (user != detail.otherSide || 'manage' === type)">
-			<img :src="detail.otherSideUser.pic" alt="对方未添加头像" @click="showPeople(detail.otherSideUser.id)">
+			<img :src="detail.otherSideUser.pic ? detail.otherSideUser.pic : defaultPic" alt="对方未添加头像" @click="showPeople(detail.otherSideUser.id)">
 			<div class="info">
 				<div class="number"><span>用户编号:</span>{{detail.otherSideUser.id}}</div>
 				<div class="name"><span>姓名:</span>{{detail.otherSideUser.name}}</div>
@@ -49,7 +49,7 @@
 			</div>
 		</div>
 		<div class="other-side" v-if="detail.ownSideUser && (user != detail.user || 'manage' === type)">
-			<img :src="detail.ownSideUser.pic" alt="对方未添加头像"  @click="showPeople(detail.ownSideUser.id)">
+			<img :src="detail.ownSideUser.pic ? detail.ownSideUser.pic : defaultPic" alt="对方未添加头像"  @click="showPeople(detail.ownSideUser.id)">
 			<div class="info">
 				<div class="number"><span>用户编号:</span>{{detail.ownSideUser.id}}</div>
 				<div class="name"><span>姓名:</span>{{detail.ownSideUser.name}}</div>
@@ -78,6 +78,7 @@ import ShowUser from '@/components/dialog/ShowUser.vue'
 export default {
 	data() {
 		return {
+			defaultPic: 'http://39.105.84.24/image/yanghao/201510801007_1551598400466.jpg',
 			user: '',
 			detail: {},
 			book: null,

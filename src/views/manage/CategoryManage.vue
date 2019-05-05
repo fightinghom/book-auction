@@ -48,9 +48,9 @@
 					<div class="col">仅显示该类子分类</div>
 				</div>
 				<div class=" row" v-for="item of categoryTree" :key="item.id">
-					<div class="col">{{item.id}}</div>
-					<div class="col">{{item.name}}</div>
-					<div class="col">{{item.mark}}</div>
+					<div class="col" @click="editCa(item.id,item.name)">{{item.id}}</div>
+					<div class="col" @click="editCa(item.id,item.name)">{{item.name}}</div>
+					<div class="col" @click="editCa(item.id,item.name)">{{item.mark}}</div>
 					<div class="col"><el-radio v-model="showChild" :label="item.id" @mouseup.native="showAll(item.id)">{{''}}</el-radio></div>
 				</div>
 				<p class="ca-tip">请勿添加重复的ID</p>
@@ -70,13 +70,33 @@
 					<div class="col">父类ID</div>
 					<div class="col">分类名称</div>
 				</div>
-				<div class=" row" v-for="citem of categoryChildList" :key="citem.id" v-if="showChild === citem.pid || showChild === ''">
+				<div
+				class=" row"
+				v-for="citem of categoryChildList"
+				:key="citem.id" v-if="showChild === citem.pid || showChild === ''"
+				 @click="editCa(citem.id,citem.name)">
 					<div class="col">{{citem.id}}</div>
 					<div class="col">{{citem.pid}}</div>
 					<div class="col">{{citem.name}}</div>
 				</div>
 			</div>
 		</div>
+		<el-dialog
+		:title="'分类名称修改'"
+		:visible.sync="dialogVisible"
+		width="600px">
+			<el-form  label-width="100px">
+				<el-form-item label="分类ID  :">
+					{{editCategory.id}}
+				</el-form-item>
+				<el-form-item label="分类名称:">
+					<el-input v-model="editCategory.name"></el-input>
+				</el-form-item>
+			</el-form>
+			<div slot="footer">
+				<el-button type="primary" @click="uploadChange()">确定</el-button>
+			</div>
+		</el-dialog>
 	</div>
 </template>
 <script>
@@ -88,7 +108,12 @@ export default {
 			categoryTree: [],
 			categoryChildList: [],
 			showChild: '',
+			dialogVisible: false,
 			type: 'addParentCaForm',
+			editCategory: {
+				id: '',
+				name: ''
+			},
 			addParentCa: {
 				id: '',
 				name: '',
@@ -187,6 +212,50 @@ export default {
 				})
 			})
 			this.categoryChildList = list
+		},
+		editCa(id,name) {
+			this.editCategory.id = id
+			this.editCategory.name = name
+			this.dialogVisible = true
+		},
+		uploadChange() {
+			let self = this
+			if(self.editCategory.name.trim() === '') {
+				alert('请输入分类名称！')
+			} else {
+				http.manage.categoryUpdate(self.editCategory)
+					.then(rs => {
+						if(rs) {
+							self.$message({
+								message: '添加成功!',
+								type: 'success'
+							})
+							self.dialogVisible = false
+							//更新下树
+							for(let item of self.categoryTree) {
+								if(item.id === self.editCategory.id) {
+									item.name = self.editCategory.name
+									return ;
+								} else {
+									for (let citem of item.children) {
+										if(citem.id === self.editCategory.id) {
+											citem.name = self.editCategory.name
+											return ;
+										}
+									}
+								}
+							}
+						} else {
+							self.$message({
+								message: '添加失败!',
+								type: 'error'
+							})
+						}
+					})
+					.catch(value => {
+						console.log(value)
+					})
+			}
 		}
 	},
 	computed: {

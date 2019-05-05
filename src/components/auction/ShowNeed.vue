@@ -22,7 +22,8 @@ export default {
 			paginationBody: {
 				type: 3,
 				nowPage: 1,
-				number: 8
+				number: 8,
+				status: 1
 			},
 			proposalList: [],
 			queryList() {

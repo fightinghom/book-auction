@@ -7,7 +7,7 @@
 		<div class="info-wapper">
 			<!-- 用户基本信息 -->
 			<div class="user">
-				<img :src="user.img" :alt="user.nikename">
+				<img :src="user.img ? user.img : defaultPic" :alt="user.nikename">
 				<div class="info">
 					<div>用户编号:  {{user.id}}</div>
 					<div>用户姓名:  {{user.name}}</div>
@@ -74,6 +74,7 @@ export default {
 	data() {
 		return {
 			dialogVisible: false,
+			defaultPic: 'http://39.105.84.24/image/yanghao/201510801007_1551598400466.jpg',
 			id: '',
 			user: {},
 			evaluations: [],
@@ -210,9 +211,6 @@ export default {
 						padding: 0 5px;
 						box-sizing: border-box;
 						flex-grow: 1;
-						.param {
-
-						}
 					}
 				}
 				.footer {

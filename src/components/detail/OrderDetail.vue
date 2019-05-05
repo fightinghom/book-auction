@@ -109,6 +109,7 @@
 		</div>
 		<!-- 操作按钮 -->
 		<div class="item item-shadow animated" v-if="order.status != 6 && order.status != 7">
+			<div class="title">订单操作</div>
 			<div class="btn" >
 				<el-button type="warning" v-if="96 == order.status && 'manager' == role" @click="resolveOrder()">恢复订单</el-button>
 				<el-button type="primary" v-if="1 == order.status && 'getter' == role" @click="meetInfo = true">完善订单</el-button>

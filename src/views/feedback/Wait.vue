@@ -32,10 +32,10 @@
 				</td>
 				<td>{{item.order.actualPrice}}</td>
 				<td>{{item.otherSide}}</td>
-				<td v-if="item.order.status">
+				<td v-if="item.status">
 					<el-tag
-					:type="orderTag(item.order.status).type">
-					{{ orderTag(item.order.status).text }}
+					:type="item.status === 1 ? 'primary' : (item.status === 2 ? 'success' : 'warning')">
+					{{ item.status === 1 ? '待评价' : (item.status === 2 ? '已评价' : '已作废') }}
 					</el-tag>
 				</td>
 				<td>
@@ -55,7 +55,7 @@ import orderStatusUtils from '@/utils/orderStatus.js'
 export default {
 	data() {
 		return {
-			tableHeader: ['图书', '成交价格', '交易对象','交易状态', '操作'],
+			tableHeader: ['图书', '成交价格', '交易对象','评论状态', '操作'],
 			tableData: [],
 			paginationBody: {
 				user: '',

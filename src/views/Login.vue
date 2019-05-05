@@ -119,6 +119,15 @@ import http from '@/utils/api/index'
 import crypto from "crypto-js"
 export default {
 	data() {
+		var validatePass2 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.registerForm.password) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      };
 		return {
 			isLogin: true,
 			loginForm: {
@@ -147,7 +156,9 @@ export default {
 				stuId: validate.userId,
 				mobile: validate.register.mobile,
 				password: validate.password,
-				comfirmPwd: validate.register.comfirmPwd
+				comfirmPwd: [
+					 { validator: validatePass2, trigger: 'blur' }
+				]
 			},
 			//预先加载平台分类
 			queryBookCaList() {

@@ -8,6 +8,9 @@
 				</div>
 				<div class="icon"><i class="fas fa-angle-down"></i></div>
 			</div>
+			<div class="ca-name">
+				{{categoryName}}
+			</div>
 			<div class="select">
 				<div class="select-box">
 					<input type="text" placeholder="请输入关键字" v-model="searchText" @keyup.enter="search()"/>
@@ -23,7 +26,7 @@
 					</div>
 					<div class="fr"><i class="fas fa-angle-right"></i></div>
 				</div>
-				<div class="level-2 fl"><div class="fl child-link" v-for="child of item.children" :key="child.id"><span @click="toCategory(child.id)">{{child.name}}</span></div></div>
+				<div class="level-2 fl"><div class="fl child-link" v-for="child of item.children" :key="child.id"><span @click="toCategory(child.id, child.name)">{{child.name}}</span></div></div>
 			</el-row>
 		</div>
 	</div>
@@ -37,16 +40,19 @@ export default {
 		return {
 			categoryList: '',
 			searchText: '',
-			showCategory: false
+			showCategory: false,
+			categoryName: ''
 		}
 	},
 	methods: {
-		toCategory(id) {
+		toCategory(id,name) {
+			this.categoryName = name
 			this.$router.push('/book_category/' + id)
 		},
 		search() {
 			let searchText = this.searchText
 			if(this.searchText != '') {
+				this.categoryName = searchText
 				this.$router.push({path: '/book_category/search', query: {search: searchText}})
 			}
 		}
@@ -83,6 +89,12 @@ export default {
 					})
 				})
 				this.categoryList = list
+			}
+		},
+		'$route' (to, from) {
+			console.log(to.name)
+			if (to.name === 'AuctionMain') {
+				this.categoryName = ''
 			}
 		}
 	},

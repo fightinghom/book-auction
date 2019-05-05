@@ -37,7 +37,7 @@
 		</div>
 		<!-- 卖家信息 -->
 		<div class="seller-info" v-if="book.owner">
-			<img :src="book.owner.pic" :alt="book.owner.id" @click="showUser = true">
+			<img :src="book.owner.pic ? book.owner.pic : defaultPic" :alt="book.owner.id" @click="showUser = true">
 			<div class="info">
 				<div class="item">
 					<el-rate
@@ -89,6 +89,7 @@ import {mapActions, mapGetters} from 'vuex'
 export default {
 	data() {
 		return {
+			defaultPic: 'http://39.105.84.24/image/yanghao/201510801007_1551598400466.jpg',
 			bookId: '',
 			record: [],
 			book: {},

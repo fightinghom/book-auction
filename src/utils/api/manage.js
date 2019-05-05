@@ -20,6 +20,21 @@ const manage = {
 		const method = 'POST'
 		return help.httpHelper2(api, method, request)
 	},
+	proposalPublish(request) {
+		const api = 'bookAuctionServer/proposal/publish'
+		const method = 'POST'
+		return help.httpHelper2(api, method, request)
+	},
+	proposalNoPublish(request) {
+		const api = 'bookAuctionServer/proposal/nopublish'
+		const method = 'POST'
+		return help.httpHelper2(api, method, request)
+	},
+	categoryUpdate(request) {
+		const api = 'bookAuctionServer/bookCategoryList/update'
+		const method = 'POST'
+		return help.httpHelper2(api, method, request)
+	},
 }
 
 export default manage

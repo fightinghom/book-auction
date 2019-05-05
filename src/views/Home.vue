@@ -4,7 +4,7 @@
 		<div class="header ba-basic-color-aph">
 			<div class="vertical-center icon"><i class="fas fa-book-open fa-2x"></i></div>
 			<div class="plafrom-title">攀枝花学院二手图书拍卖平台</div>
-			<div class="vallet" @click="updateMoney()">可用余额: {{user.balance}} ￥</div>
+			<div class="vallet" @click="updateMoney()">余额: {{user.balance}} ￥</div>
 			<div class="fr personal-info" @mouseout="userFunc = !userFunc"  @mouseover="userFunc = !userFunc" :style="{'height': userFunc ? '150px' : '50px'}">
 				<div class="user-account">
 					<div class="user-name fl">{{displayName}}</div>

@@ -63,7 +63,7 @@ import imgUtil from '@/utils/imgHelper'
 export default {
 	data() {
 		return {
-			defaultImg: require('@/assets/image/default.gif'),
+			defaultImg: 'http://39.105.84.24/image/yanghao/201510801007_1551598400466.jpg',
 			userinfo: {},
 			editInfo: false,
 			cropperStatus: false,

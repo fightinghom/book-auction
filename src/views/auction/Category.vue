@@ -95,6 +95,7 @@ export default {
 	 */
 	watch: {
 		'$route' (to, from) {
+			this.search = ''
 			if(to.path !== '/book_category/search') {
 				this.bookCategory = to.params.cid
 			} else {
@@ -107,6 +108,7 @@ export default {
 		}
 	},
 	mounted() {
+		this.search = ''
 		if(this.$route.path !== '/book_category/search') {
 			this.bookCategory = this.$route.params.cid
 		} else {
