@@ -14,7 +14,8 @@ const store = new Vuex.Store({
 		loading: false /* sessionStorage.getItem('loading') */,
 		memroyPage: {
 			componentName: ''
-		}
+		},
+		infoComplete: false
 	},
 
 
@@ -34,6 +35,9 @@ const store = new Vuex.Store({
 		},
 		getMemoryPage: ({memroyPage}) => {
 			return memroyPage
+		},
+		getInfoComplete: ({infoComplete}) => {
+			return infoComplete
 		}
 	},
 
@@ -58,6 +62,9 @@ const store = new Vuex.Store({
 		},
 		[types.Memory_Page](state, memroyPage) {
 			state.memroyPage = memroyPage
+		},
+		[types.Info_Complete](state, infoComplete) {
+			state.infoComplete = infoComplete
 		}
 	},
 
@@ -78,6 +85,9 @@ const store = new Vuex.Store({
 		},
 		setMemoryPage: ({commit}, memoryPage) => {
 			return commit(types.Memory_Page, memoryPage)
+		},
+		setInfoComplete: ({commit}, infoComplete) => {
+			return  commit(types.Info_Complete, infoComplete)
 		}
 	}
 

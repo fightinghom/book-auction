@@ -99,17 +99,25 @@ export default {
 				orderNo: v,
 				userId: u
 			}
-			http.feedback.discardFeedback(params)
-			.then(rs => {
-				self.$message({
-					type: rs.type,
-					message: rs.message
+			self.$confirm(`你确定要删除该评论吗?`, '删除评论', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(() => {
+				http.feedback.discardFeedback(params)
+				.then(rs => {
+					self.$message({
+						type: rs.type,
+						message: rs.message
+					})
+					self.queryFeedbackList()
 				})
-				self.queryFeedbackList()
-			})
-			.catch(value => {
-				console.log(value)
-			})
+				.catch(value => {
+					console.log(value)
+				})
+			}).catch(() => {
+
+			});
 		}
 	},
 	watch: {
@@ -120,7 +128,7 @@ export default {
 	},
 	created() {
 		let memory = this.getMemoryPage
-		if( 'undefined' !== typeof memory.componentName ){
+		if( 'undefined' !== typeof memory ){
 			if(memory.componentName === this.$route.name) {
 				this.paginationBody = memory.paginationBody
 			}

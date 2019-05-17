@@ -69,6 +69,21 @@ const system = {
 		const api = 'bookAuctionServer/bookCategoryList/add'
 		const method = "POST"
 		return help.httpHelper2(api, method, request)
+	},
+	updateMoney(request) {
+		const api = 'bookAuctionServer/money/update'
+		const method = "POST"
+		return help.httpHelper2(api, method, request)
+	},
+	updatePwd(request) {
+		const api = 'bookAuctionServer/pwd/update'
+		const method = "POST"
+		return help.httpHelper2(api, method, request)
+	},
+	resetPwd(request) {
+		const api = 'bookAuctionServer/pwd/reset'
+		const method = "POST"
+		return help.httpHelper2(api, method, request)
 	}
 }
 

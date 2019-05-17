@@ -17,7 +17,7 @@
 				<td><input type="text" :disabled="true" class="tx-c" v-model="item.nikename"/></td>
 				<td><input type="text" :disabled="true" class="tx-c" v-model="item.phone"/></td>
 				<td><input type="text" :disabled="editId !== item.id" class="tx-c" :class="{'on-edit': editId === item.id}" v-model="item.power"/></td>
-				<td v-if="getUserinfo.power > 1">
+				<td v-if="getUserinfo.power > 1 && item.power < 2">
 					<el-button
 					type="primary"
 					size="small"
@@ -31,12 +31,19 @@
 					v-if="editId === item.id">
 						取消
 					</el-button>
-					<el-button
+					<!-- <el-button
 					size="small"
 					type="danger"
 					@click="remove(item.id)"
 					v-if="editId !== item.id">
 						注销
+					</el-button> -->
+					<el-button
+					size="small"
+					type="danger"
+					@click="resetPwd(item.id)"
+					v-if="editId !== item.id">
+						密码重置
 					</el-button>
 				</td>
 				<td v-else>
@@ -50,6 +57,7 @@
 import Table from '@/components/Table.vue'
 import http from '@/utils/api/index'
 import {mapActions, mapGetters} from 'vuex'
+import crypto from "crypto-js"
 export default {
 	components: {
 		BaTable: Table
@@ -135,6 +143,31 @@ export default {
 		search() {
 			this.updatePagination = true
 			this.queryUserList()
+		},
+		resetPwd(id) {
+			let self = this
+			let resetPwd = crypto.MD5('123456').toString()
+			self.$confirm(`你确定要重置用户${id}的密码吗?`, '密码重置', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(() => {
+				http.system.resetPwd({
+					userId: id,
+					resetPwd: resetPwd
+				})
+				.then(rs => {
+					self.$message({
+						type: rs.type,
+						message: rs.message
+					})
+				})
+				.catch(value => {
+					console.log(value)
+				})
+			}).catch(() => {
+
+			});
 		}
 	},
 	computed: {

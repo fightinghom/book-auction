@@ -17,7 +17,7 @@
 			<!-- <div class="left" @click="prev()"><i class="fas fa-chevron-left fa-3x"></i></div>
 			<div class="right" @click="next()"><i class="fas fa-chevron-right fa-3x"></i></div> -->
 		<div class="point">
-			<div class="item" v-for="(item, index) of 5" :key="item" @click="toPoint(index)" :class="{on: item == 1 }"></div>
+			<div class="item" v-for="(item, index) of 5" :key="item" @mousemove="toPoint(index)" :class="{on: item == 1 }"></div>
 		</div>
 	</div>
 </template>
@@ -160,6 +160,8 @@ export default {
 			li {
 				transition: all 0.5s;
 				img {
+					box-sizing: border-box;
+					box-shadow: 0 0 20px 2px #5c6783a3;
 					transition: all 0.5s;
 					&:hover{
 						cursor: pointer;
@@ -221,7 +223,7 @@ export default {
 			transform: translate(-50% - 100, -50%);
 			img {
 				width: 250px;
-			height: 250px;
+				height: 250px;
 			}
 		}
 		.img-3 {
@@ -234,7 +236,7 @@ export default {
 			transform: translate(-50% + 270, -50%);
 			img {
 				width: 150px;
-			height: 150px;
+				height: 150px;
 			}
 		}
 		.img-4 {
@@ -247,7 +249,7 @@ export default {
 			transform: translate(-50% - 270, -50%);
 			img {
 				width: 150px;
-			height: 150px;
+				height: 150px;
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 <template>
 	<div class="list">
-		<div class="type">
+		<div class="type-wapper">
 			<div class="item" @click="changeType('purchase')">
 				<span :class="{'on': 'purchase' === type}">竞购</span>
 			</div>
@@ -24,8 +24,8 @@
 		</div>
 		<div class="data-list" v-loading="getLoading">
 			<div class="item item-shadow"
-			v-if="'manage' === type ? ((item.sellerId == paginationBody.userId || item.getterId == paginationBody.userId) ? false : true) : true"
 			v-for="item of orderList"
+			v-if="'manage' === type ? ((item.sellerId == paginationBody.userId || item.getterId == paginationBody.userId) ? false : true) : true"
 			:key="item.oNumber"
 			@click="toOrder(item.oNumber)">
 				<div class="time">{{item.createTime.split(' ')[0]}}</div>
@@ -39,7 +39,8 @@
 				<div class="btn" v-if="'manage' != type">
 					<el-button  v-if="item.status == 3" type="info" size="mini" @click.stop="getCode(item.oNumber, 'get')">获取交易码</el-button>
 					<el-button  v-if="item.status == 3" type="primary" size="mini" @click.stop="vertifyCode(item.oNumber, 'vertify')">填写交易码</el-button>
-					<el-button  v-if="item.status != 6 && item.status != 7" type="warning" size="mini">联系管理</el-button>
+					<!-- item.status != 6 && item.status != 7 -->
+					<el-button  v-if="false" type="warning" size="mini">联系管理</el-button>
 				</div>
 				<div class="code" :class="{'code-open': item.oNumber === codeOp.oNumber}" @click.stop="'#'">
 					<div class="header-bar">
@@ -134,7 +135,6 @@ export default {
 			this.nomore = false
 			this.type = v
 			this.role = 'purchase' === v ? 'getter' : ('sell' === v ? 'seller' : 'manager')
-			console.log(v)
 			this.paginationBody.orderStauts = 0
 			this.paginationBody.nowPage = 1
 			this.mode = 'newList'
@@ -226,6 +226,7 @@ export default {
 		let memory = this.getMemoryPage
 		this.nomore = false
 		if(this.$route.name == memory.componentName) {
+			console.log(memory)
 			this.mode = memory.mode
 			this.type = memory.type
 			this.role = memory.role
@@ -239,7 +240,6 @@ export default {
 			} else {
 				this.queryOrderList()
 			}
-			return ;
 		} else {
 			this.paginationBody.userId = this.getUserinfo.id
 			this.queryOrderList()
@@ -251,20 +251,20 @@ export default {
 @import '@/assets/css/theme.scss';
 	.list {
 		display: flex;
-		width: 100%;
-		height: 100%;
+		width: 100vw;
 		box-sizing: border-box;
 		flex-direction: column;
 		position: relative;
 
-		.type {
+		.type-wapper {
 			height: 10.66vw;
 			width: inherit;
 			display: flex;
 			color: #b9beda;
 			line-height:10.66vw;
 			.item {
-				flex: 1;
+				box-sizing: border-box;
+				flex: 1 1;
 				font-size: 5.33vw;
 				border-bottom: 1px #b9beda solid;
 				border-left: 1px #b9beda solid;
@@ -276,7 +276,7 @@ export default {
 		.data-list {
 			flex: 1 1;
 			.loadmore {
-				padding: 2.66vw;
+				/* padding: 2.66vw; */
 				font-size: 5.33vw;
 			}
 			.can-click {

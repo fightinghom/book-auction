@@ -7,10 +7,10 @@
 		ref="form1"
 		:hide-required-asterisk="true">
 			<el-form-item label="书名 :" prop="name">
-				<el-input v-model="bookDetail.name"></el-input>
+				<el-input v-model.trim="bookDetail.name" maxlength="50"></el-input>
 			</el-form-item>
 			<el-form-item label="作者 :" prop="author">
-				<el-input v-model="bookDetail.author"></el-input>
+				<el-input v-model.trim="bookDetail.author"  maxlength="50"></el-input>
 			</el-form-item>
 			<el-form-item label="保证金 :" prop="deposit">
 				<el-input type="number" v-model="bookDetail.deposit"></el-input>
@@ -45,7 +45,7 @@
 				</el-radio-group>
 			</el-form-item> -->
 			 <!-- v-if="auctionTimeModel == 0" -->
-			<el-form-item label="拍卖时间 :" prop="endTime">
+			<el-form-item label="结束时间 :" prop="endTime">
 				<el-date-picker
 				v-model="bookDetail.endTime"
 				type="datetime"
@@ -64,14 +64,15 @@
 		ref="form4"
 		:hide-required-asterisk="true">
 			<el-form-item label="描述 :" prop="description">
-				<el-input type="textarea" rows="5" v-model="bookDetail.description"></el-input>
+				<el-input type="textarea" rows="5" v-model.trim="bookDetail.description"></el-input>
 			</el-form-item>
 			<el-form-item label="商品图片 :" prop="imgs">
 				<book-add-img-list  :imgList="bookDetail.imgs" @imgs="getImgs($event)"></book-add-img-list>
 			</el-form-item>
 		</el-form>
 		<div class="create-btn">
-			<el-button @click="upload(['form1', 'form2', 'form3', 'form4'])" type="primary">创建拍品</el-button>
+			<el-button @click="upload(['form1', 'form2', 'form3', 'form4'])" type="primary" :disabled="!getInfoComplete">创建拍品</el-button>
+			<div class="comp-info" v-if="!getInfoComplete">请先完善个人信息</div>
 		</div>
 	</div>
 </template>
@@ -120,7 +121,7 @@ export default {
 		CategoryPicker
 	},
 	computed: {
-		...mapGetters(['getUserinfo', 'getLoading'])
+		...mapGetters(['getUserinfo', 'getLoading', 'getInfoComplete'])
 	},
 	methods: {
 		...mapActions(['setLoading']),
@@ -148,15 +149,17 @@ export default {
 				.then(rs => {
 					self.setLoading(false)
 					self.$message({
-						message: rs,
-						type: 'success'
+						message: rs.message,
+						type: rs.type
 					})
-					forms.map(form => {
+					if(rs.type === 'success'){
+						forms.map(form => {
 						self.$refs[form].resetFields()
 					})
-					self.bookDetail.imgs = []
-					self.bookDetail.category = ''
-				})
+						self.bookDetail.imgs = []
+						self.bookDetail.category = ''
+						}
+					})
 				.catch(value => {
 					self.setLoading(false)
 					console.log(value)
@@ -218,5 +221,10 @@ export default {
 		padding-left: 20px;
 	}
 
+}
+
+.comp-info {
+	padding: 10px 0;
+	color: red;
 }
 </style>

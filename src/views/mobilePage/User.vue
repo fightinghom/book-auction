@@ -3,7 +3,7 @@
 		<div class="photo-wapper vertical-center">
 			<div class="photo">
 				<div class="uid">{{user.id}}</div>
-				<img v-if="user" :src="user.img" :alt="user.id">
+				<img v-if="user" :src="user.img ? user.img : defaultPic" :alt="user.id">
 				<div class="name">{{user.nikename}}</div>
 			</div>
 			<div class="wallet">
@@ -41,6 +41,7 @@ import {mapActions, mapGetters} from 'vuex'
 export default {
 	data() {
 		return {
+			defaultPic: 'http://39.105.84.24/image/yanghao/201510801007_1551598400466.jpg',
 			user: {}
 		}
 	},

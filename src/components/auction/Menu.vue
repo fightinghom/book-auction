@@ -13,7 +13,7 @@
 			</div>
 			<div class="select">
 				<div class="select-box">
-					<input type="text" placeholder="请输入关键字" v-model="searchText" @keyup.enter="search()"/>
+					<input type="text" placeholder="请输入关键字" v-model.trim="searchText" @keyup.enter="search()"/>
 				</div>
 				<div class="icon" @click="search()"><i class="fas fa-search"></i></div>
 			</div>

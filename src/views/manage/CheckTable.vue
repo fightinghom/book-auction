@@ -122,7 +122,7 @@ export default {
 	},
 	mounted() {
 		let memory = this.getMemoryPage
-		if(typeof memory.componentName != 'undefined'){
+		if(typeof memory != 'undefined'){
 			if(memory.componentName === this.$route.name) {
 				this.paginationBody = memory.paginationBody
 			}

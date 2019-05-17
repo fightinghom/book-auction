@@ -35,13 +35,22 @@
 								<span class="param-name-color">学 号</span>
 							</el-form-item>
 							<el-form-item prop="stuId">
-								<el-input type="text" v-model="loginForm.stuId" autocomplete="off"></el-input>
+								<el-input type="text" v-model.trim="loginForm.stuId" autocomplete="off"></el-input>
 							</el-form-item>
 							<el-form-item class="mar-top-20">
 								<span class="param-name-color">密 码</span>
 							</el-form-item>
 							<el-form-item prop="password">
-								<el-input type="password" v-model="loginForm.password" autocomplete="off" @keyup.enter.native="login('loginForm', 'pc')"></el-input>
+								<el-input type="password" v-model.trim="loginForm.password" autocomplete="off" @keyup.enter.native="login('loginForm', 'pc')"></el-input>
+							</el-form-item>
+							<el-form-item class="mar-top-20 param-name-color">
+								<span class="param-name-color">验证码</span>
+							</el-form-item>
+							<el-form-item  prop="vertifyCode">
+								<div class="vertify-item">
+									<el-input type="text"  @keyup.enter.native="login('loginForm', 'pc')" v-model.trim="loginForm.vertifyCode" auto-complete="off"></el-input>
+									<ba-vertify-code @getCode="getCode($event)"></ba-vertify-code>
+								</div>
 							</el-form-item>
 							<el-form-item class="mar-top-30">
 								<el-button @click="login('loginForm', 'pc')" :loading="getLoading">登 录</el-button>
@@ -59,25 +68,25 @@
 								<span class="param-name-color">学 号</span>
 							</el-form-item>
 							<el-form-item prop="stuId">
-								<el-input v-model="registerForm.stuId" autocomplete="off"></el-input>
+								<el-input v-model.trim="registerForm.stuId" autocomplete="off"></el-input>
 							</el-form-item>
 							<el-form-item class="mar-top-20">
 								<span class="param-name-color">手 机</span>
 							</el-form-item>
 							<el-form-item prop="mobile">
-								<el-input v-model="registerForm.mobile" autocomplete="off"></el-input>
+								<el-input v-model.trim="registerForm.mobile" autocomplete="off"></el-input>
 							</el-form-item>
 							<el-form-item class="mar-top-20">
 								<span class="param-name-color">密 码</span>
 							</el-form-item>
 							<el-form-item prop="password">
-								<el-input type="password" v-model="registerForm.password" autocomplete="off"></el-input>
+								<el-input type="password" v-model.trim="registerForm.password" autocomplete="off"></el-input>
 							</el-form-item>
 							<el-form-item class="mar-top-20">
 								<span class="param-name-color">确认密码</span>
 							</el-form-item>
 							<el-form-item prop="comfirmPwd">
-								<el-input type="password" v-model="registerForm.comfirmPwd" autocomplete="off" @keyup.enter.native="register('registerForm')"></el-input>
+								<el-input type="password" v-model.trim="registerForm.comfirmPwd" autocomplete="off" @keyup.enter.native="register('registerForm')"></el-input>
 							</el-form-item>
 							<el-form-item class="mar-top-30">
 								<el-button @click="register('registerForm')" :loading="getLoading">注 册</el-button>
@@ -97,13 +106,13 @@
 					<span class="param-name-color">学 号</span>
 				</el-form-item>
 				<el-form-item prop="stuId">
-					<el-input type="text" v-model="loginFormM.stuId" autocomplete="off"></el-input>
+					<el-input type="text" v-model.trim="loginFormM.stuId" autocomplete="off"></el-input>
 				</el-form-item>
 				<el-form-item class="mar-top-20">
 					<span class="param-name-color">密 码</span>
 				</el-form-item>
 				<el-form-item prop="password">
-					<el-input type="password" v-model="loginFormM.password" autocomplete="off" @keyup.enter.native="login('loginFormM', 'mobile')"></el-input>
+					<el-input type="password" v-model.trim="loginFormM.password" autocomplete="off" @keyup.enter.native="login('loginFormM', 'mobile')"></el-input>
 				</el-form-item>
 				<el-form-item class="mar-top-30">
 					<el-button @click="login('loginFormM', 'mobile')" :loading="getLoading" type="primary">登 录</el-button>
@@ -117,22 +126,37 @@ import {validate} from '@/utils/validate.js'
 import {mapActions, mapGetters} from 'vuex'
 import http from '@/utils/api/index'
 import crypto from "crypto-js"
+import BaVertifyCode from '@/components/code/VertifyCode.vue'
 export default {
 	data() {
 		var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.registerForm.password) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
+			if (value === '') {
+			callback(new Error('请再次输入密码'));
+			} else if (value !== this.registerForm.password) {
+			callback(new Error('两次输入密码不一致!'));
+			} else {
+			callback();
+			}
+		 };
+		 var vertifyCodeCurrent = (rule, value, callback) => {
+			let v = value.trim()
+			if (v == '') {
+				callback(new Error('请输入验证码'));
+			} else if (v.length !== 6) {
+				callback(new Error('验证码为6位数'));
+			} else if (v !== this.nowCode) {
+				callback(new Error('验证码不正确'));
+			} else {
+				callback()
+			}
+		};
 		return {
 			isLogin: true,
+			nowCode: '',
 			loginForm: {
 				stuId: '',
-				password: ''
+				password: '',
+				vertifyCode: ''
 			},
 			loginFormM: {
 				stuId: '',
@@ -146,7 +170,10 @@ export default {
 			},
 			loginRule: {
 				stuId: validate.userId,
-				password: validate.password
+				password: validate.password,
+				vertifyCode: [
+					{validator: vertifyCodeCurrent, trigger: 'blur'}
+				]
 			},
 			loginRuleM: {
 				stuId: validate.userId,
@@ -172,6 +199,9 @@ export default {
 				})
 			}
 		}
+	},
+	components: {
+		BaVertifyCode
 	},
 	computed: {
 		...mapGetters(['getUserinfo', 'getLoginStatus', 'getLoading']),
@@ -245,6 +275,7 @@ export default {
 								message: '注册成功!'
 							})
 							self.setLoading(false)
+							self.isLogin = true
 						} else {
 							self.$message({
 								type: 'warning',
@@ -279,6 +310,9 @@ export default {
 			return result
 
 		},
+		getCode(v) {
+			this.nowCode = v
+		}
 	},
 	created() {
 		this.queryBookCaList()
@@ -405,6 +439,10 @@ export default {
 								margin-bottom: 0;
 								text-align: left;
 								padding: 0 20px;
+							}
+							.vertify-item {
+								display: flex;
+								justify-content: center;
 							}
 						}
 					}

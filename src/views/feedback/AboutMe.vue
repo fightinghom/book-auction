@@ -107,9 +107,10 @@ export default {
 	},
 	created() {
 		let memory = this.getMemoryPage
-		if(memory.componentName === this.$route.name) {
-			console.log(memory)
-			this.paginationBody = memory.paginationBody
+		if(typeof memory !== 'undefined'){
+			if(memory.componentName === this.$route.name) {
+				this.paginationBody = memory.paginationBody
+			}
 		}
 		this.paginationBody.otherSide = this.getUserinfo.id
 		this.queryFeedbackList()

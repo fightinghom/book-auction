@@ -5,7 +5,7 @@
 			<div class="vertical-center icon"><i class="fas fa-book-open fa-2x"></i></div>
 			<div class="plafrom-title">攀枝花学院二手图书拍卖平台</div>
 			<div class="vallet" @click="updateMoney()">余额: {{user.balance}} ￥</div>
-			<div class="fr personal-info" @mouseout="userFunc = !userFunc"  @mouseover="userFunc = !userFunc" :style="{'height': userFunc ? '150px' : '50px'}">
+			<div class="fr personal-info" @mouseout="userFunc = !userFunc"  @mouseover="userFunc = !userFunc" :style="{'height': userFunc ? '250px' : '50px'}">
 				<div class="user-account">
 					<div class="user-name fl">{{displayName}}</div>
 					<div class="user-image fl">
@@ -13,6 +13,8 @@
 					</div>
 				</div>
 				<div class="user-account ba-basic-color-aph" @click="userInfo = true">个人资料</div>
+				<div class="user-account ba-basic-color-aph" @click="rechargeAndWithdraw = true">充值提现</div>
+				<div class="user-account ba-basic-color-aph" @click="changePwd = true">修改密码</div>
 				<div class="user-account ba-basic-color-aph" @click="logout">注销登录</div>
 			</div>
 		</div>
@@ -34,24 +36,30 @@
 		custom-class="ba-bg-color max-w-600">
 			<ba-user-info @closeDialog="closeDialog"></ba-user-info>
 		</el-dialog>
-		<div class="proposal vertical-center" @click.stop="open()" v-if="!showProposal">
+		<div class="proposal vertical-center" @click.stop="open()" v-if="!showProposal && !userInfo && !rechargeAndWithdraw && !changePwd">
 			<span>意见反馈</span>
 		</div>
 		<ba-proposal-dialog :showIt="showProposal" @handle-close="showProposal = $event"></ba-proposal-dialog>
+		<ba-money-dialog :showIt="rechargeAndWithdraw" @handle-close="rechargeAndWithdraw = $event"></ba-money-dialog>
+		<ba-pwd-dialog  :showIt="changePwd" @handle-close="changePwd = $event"></ba-pwd-dialog>
 	</div>
 </template>
 <script>
 import Menu from '@/components/Menu.vue'
 import UserInfo from '@/components/UserInfo.vue'
 import BaProposalDialog from '@/components/dialog/ProposalDialog.vue'
+import BaMoneyDialog from '@/components/dialog/RechargeAndWithdraw.vue'
+import BaPwdDialog from '@/components/dialog/ChangePwd.vue'
 import {mapActions, mapGetters} from 'vuex'
 import http from '@/utils/api/index'
 export default {
 	data() {
 		return {
 			userFunc: false,
-			defaultImg: require('@/assets/image/default.gif'),
+			defaultImg: 'http://39.105.84.24/image/yanghao/201510801007_1551598400466.jpg',
 			userInfo: false,
+			rechargeAndWithdraw: false,
+			changePwd: false,
 			user: {},
 			showProposal: false,
 			queryUserById(stuId) {
@@ -62,6 +70,9 @@ export default {
 				.then((res) => {
 					self.user = res
 					self.setUserinfo(self.user)
+					if(res.name != null && res.name != '') {
+						self.setInfoComplete(true)
+					}
 				})
 				.catch((value) => {
 					console.log(value)
@@ -82,7 +93,9 @@ export default {
 	components: {
 		BaMenu: Menu,
 		BaUserInfo: UserInfo,
-		BaProposalDialog
+		BaProposalDialog,
+		BaMoneyDialog,
+		BaPwdDialog
 	},
 	computed: {
 		...mapGetters(['getUserinfo']),
@@ -109,7 +122,7 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(['setUserinfo', 'setLoginStatus', 'setBookCategory']),
+		...mapActions(['setUserinfo', 'setLoginStatus', 'setBookCategory', 'setInfoComplete']),
 		logout() {
 			this.setUserinfo({})
 			this.setLoginStatus(false)

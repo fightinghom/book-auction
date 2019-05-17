@@ -117,9 +117,11 @@ export default {
 		}
 
 		let memory = this.getMemoryPage
-		if(memory.componentName === this.$route.name && typeof memory.componentName !== 'undefined') {
-			if(memory.category === this.bookCategory) {
-				this.nowPage = memory.nowPage
+		if(typeof memory !== 'undefined'){
+			if( typeof memory.componentName !== 'undefined' && memory.componentName === this.$route.name  ) {
+				if(memory.category === this.bookCategory) {
+					this.nowPage = memory.nowPage
+				}
 			}
 		}
 		this.queryBook()

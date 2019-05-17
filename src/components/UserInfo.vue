@@ -13,18 +13,22 @@
 			<div class="change-photo">
 				<a href="javascript:void(0)" @click="imageChoice()" v-if="editInfo">更改头像</a>
 			</div>
-			<el-form label-width="80px">
+			<el-form label-width="80px"
+			ref="userinfo"
+			:model="userinfo"
+			:rules="userinfoRule"
+			:hide-required-asterisk="true">
 				<el-form-item label="学号:">
 					<div>{{userinfo.id}}</div>
 				</el-form-item>
-				<el-form-item label="姓名:">
-					<el-input v-model="userinfo.name" :disabled="!editInfo"></el-input>
+				<el-form-item label="姓名:" prop="name">
+					<el-input v-model.trim="userinfo.name" :disabled="!editInfo"></el-input>
 				</el-form-item>
-				<el-form-item label="昵称:">
-					<el-input v-model="userinfo.nikename" :disabled="!editInfo"></el-input>
+				<el-form-item label="昵称:" prop="nikename">
+					<el-input v-model.trim="userinfo.nikename" :disabled="!editInfo"></el-input>
 				</el-form-item>
-				<el-form-item label="手机:">
-					<el-input v-model="userinfo.phone" :disabled="!editInfo"></el-input>
+				<el-form-item label="手机:" prop="phone">
+					<el-input v-model.trim="userinfo.phone" :disabled="!editInfo"></el-input>
 				</el-form-item>
 			</el-form>
 			<el-form>
@@ -60,11 +64,17 @@ import {mapActions, mapGetters} from 'vuex'
 import {VueCropper} from 'vue-cropper'
 import http from '@/utils/api/index'
 import imgUtil from '@/utils/imgHelper'
+import {validate} from '@/utils/validate.js'
 export default {
 	data() {
 		return {
 			defaultImg: 'http://39.105.84.24/image/yanghao/201510801007_1551598400466.jpg',
 			userinfo: {},
+			userinfoRule: {
+				name: validate.userInfo.name,
+				nikename: validate.userInfo.nikename,
+				phone: validate.userInfo.mobile
+			},
 			editInfo: false,
 			cropperStatus: false,
 			preImg: '',
@@ -92,7 +102,7 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(['setUserinfo']),
+		...mapActions(['setUserinfo', 'setInfoComplete']),
 		imageChoice() {
 			this.$refs.imgInput.click()
 		},
@@ -105,15 +115,20 @@ export default {
 		},
 		saveInfo() {
 			let self = this
-			http.system.saveUser(self.userinfo)
-			.then(res => {
-				if (res) {
-					self.setUserinfo(self.userinfo)
-					self.editInfo = false
+			self.$refs.userinfo.validate(valid => {
+				if (valid) {
+					http.system.saveUser(self.userinfo)
+					.then(res => {
+						if (res === 1) {
+							self.setUserinfo(self.userinfo)
+							self.setInfoComplete(true)
+							self.editInfo = false
+						}
+					})
+					.catch(value => {
+						console.log(value)
+					})
 				}
-			})
-			.catch(value => {
-				console.log(value)
 			})
 		},
 		cancelEdit() {

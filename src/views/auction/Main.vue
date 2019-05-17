@@ -97,7 +97,8 @@ export default {
 			queryNewBook() {
 				let self = this
 				http.auction.getTopOfBooks({
-					type: 'startTime'
+					type: 'startTime',
+					number: 3
 				})
 				.then(rs => {
 					rs = rs.map(book => {

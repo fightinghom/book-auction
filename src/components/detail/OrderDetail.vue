@@ -118,7 +118,7 @@
 				<el-button type="primary" v-if="3 == order.status && 'getter' == role" @click="getCode()">获取收货码</el-button>
 				<el-button type="success" v-if="3 == order.status && 'getter' == role" @click="vertifyCode()">填写送货码</el-button>
 				<el-button type="success" v-if="3 == order.status && 'seller' == role" @click="vertifyCode()">填写收货码</el-button>
-				<el-button type="info" v-if="'manager' !== role">联系管理</el-button>
+				<el-button type="info" v-if="false">联系管理</el-button>
 				<el-button type="danger" v-if="(order.status < 4 && 'manager' !== role) || order.status == 96" @click="cancelOrder()">取消订单</el-button>
 				<el-button type="primary" v-if="order.status == 96 && 'manager' === role" @click="breakOrder('seller')">卖家违约</el-button>
 				<el-button type="warning" v-if="order.status == 96 && 'manager' === role" @click="breakOrder('getter')">买家违约</el-button>

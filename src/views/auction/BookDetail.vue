@@ -19,6 +19,7 @@
 						<ba-timer v-if="undefined != book.endTime" :type="'bookDetail'" :end="book.endTime" @timeover="timeover($event)">距离结束&nbsp;</ba-timer>
 					</div>
 					<div class="pad-top-10  mar-btm-5 book-test"><span>起始价格</span>￥<span>{{book.startPrice}}</span></div>
+					<div class="pad-top-10  mar-btm-5 book-test"><span>需保证金</span>￥<span>{{book.deposit}}</span></div>
 					<div class="pad-top-10  mar-btm-5 book-test"><span>加价幅度</span>￥<span>{{book.increaseRange}}</span></div>
 					<div class="pad-top-10  mar-btm-5 book-test"><span>当前价格</span>￥<span>{{bid.showMaxPrice}}</span></div>
 					<div class="pad-top-10  mar-btm-5 book-test" v-if="1 === btnStatus"><span>我的出价</span>￥<span>{{myPrice}}</span></div>
@@ -30,8 +31,9 @@
 					<div class="tips">您可以选择自主输入价格，也可以选择增减加价幅度值的倍数</div>
 				</div>
 				<el-button v-if="1 === btnStatus" type="primary" @click="uploadBid()">我要出价</el-button>
-				<el-button v-if="0 === btnStatus && 1 === book.status" type="primary" @click="enroll()">我要报名</el-button>
+				<el-button v-if="0 === btnStatus && 1 === book.status" type="primary" @click="enroll()" :disabled="!getInfoComplete">我要报名</el-button>
 				<div class="pad-top-10" v-if="2 === btnStatus">您是出售者，不能进行报名和出价</div>
+				<div class="pad-top-10" v-if="!getInfoComplete">请先完善信息才能进行报名！</div>
 				<div class="pad-top-10" v-if="3 === btnStatus">拍卖已结束</div>
 			</div>
 		</div>
@@ -182,7 +184,7 @@ export default {
 		BaShowUser: ShowUser
 	},
 	computed: {
-		...mapGetters(['getUserinfo']),
+		...mapGetters(['getUserinfo','getInfoComplete']),
 	},
 	watch: {
 		record(v) {
